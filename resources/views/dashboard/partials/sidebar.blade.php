@@ -5,7 +5,7 @@
              <li class="nav-item dropdown">
                  <a href="{{ url('dashboard') }}">
                      <span class="icon-holder">
-                         <i class="anticon anticon-dashboard"></i>
+                         <i class="anticon anticon-home"></i>
                      </span>
                      <span class="title">Dahboard</span>
                  </a>
@@ -25,9 +25,17 @@
                          <a href="{{ url('categories') }}">Categories</a>
                      </li>
                      <li>
-                         <a href="">Dropdown 2</a>
+                         <a href="{{ url('tags') }}">Tags</a>
                      </li>
                  </ul>
+             </li>
+             <li class="nav-item dropdown">
+                 <a href="{{ url('products') }}">
+                     <span class="icon-holder">
+                         <i class="anticon anticon-dashboard"></i>
+                     </span>
+                     <span class="title">Products</span>
+                 </a>
              </li>
          </ul>
      </div>

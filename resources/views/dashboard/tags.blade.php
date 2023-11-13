@@ -16,7 +16,6 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Slug</th>
                             <th>Created At</th>
                             <th>Details</th>
                         </tr>
@@ -25,15 +24,14 @@
                         @foreach ($table as $t)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $t->category_name }}</td>
-                                <td>{{ $t->category_slug }}</td>
+                                <td>{{ $t->tag_name }}</td>
                                 <td>{{ $t->created_at->diffForHumans() }}</td>
                                 <td class="text-center">
-                                    <form action="/categories/{{ $t->id }}" method="POST">
+                                    <form action="/tags/{{ $t->id }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-warning btn-sm mr-2 btnEdit" data-id="{{ $t->id }}"
-                                            data-name="{{ $t->category_name }}"><i class="anticon anticon-edit"></i>
+                                            data-name="{{ $t->tag_name }}"><i class="anticon anticon-edit"></i>
                                             Edit</button>
                                         <button type="submit" class="btn btn-danger btn-sm mr-2"><i
                                                 class="anticon anticon-delete"></i>Delete</button>
@@ -63,7 +61,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="category_name" placeholder="category name">
+                                <input type="text" class="form-control" name="name" placeholder="tags name">
                             </div>
                         </div>
                     </div>
@@ -92,7 +90,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" name="category_name"
+                                <input type="text" class="form-control" id="name" name="name"
                                     placeholder="category name">
                             </div>
                         </div>
@@ -119,7 +117,7 @@
 
             $('#modalEdit').modal('show');
             $('#name').val(name);
-            $('#updateForm').attr('action', `/categories/${id}`);
+            $('#updateForm').attr('action', `/tags/${id}`);
         })
     </script>
 @endpush
