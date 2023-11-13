@@ -45,7 +45,7 @@
     <div class="container header-middle-cont">
         <div class="toplogo">
             <a href="index.html">
-                <img src="img/logo.png" alt="AllStore - MultiConcept eCommerce Template">
+                <img src="{{ asset('assets') }}/img/logo.png" alt="AllStore - MultiConcept eCommerce Template">
             </a>
         </div>
         <div class="shop-menu">

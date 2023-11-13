@@ -18,8 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
-        Product::factory(25)->create();
-
+      
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
@@ -40,5 +39,8 @@ class DatabaseSeeder extends Seeder
             'category_name' => 'Portofolio',
             'category_slug' => Str::slug('Portofolio')
         ]);
+
+        Product::factory(25)->create();
+
     }
 }

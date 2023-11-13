@@ -25,7 +25,7 @@ class ProductFactory extends Factory
         return [
             'product_name'  => $nameString,
             'product_slug'  => Str::slug($nameString),
-            'id_categories' => rand(1,4),
+            'id_category' => rand(1,4),
             'price'         => rand(10000,1000000),
             'description'   => fake()->paragraph(),
             'tags'          => ''

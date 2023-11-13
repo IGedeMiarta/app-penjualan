@@ -53,7 +53,7 @@
             </p>
             <div class="flexslider prod-items fr-pop-tab" id="{{ $item->category_slug }}">
                 @php
-                    $product = App\Models\Product::where('id_categories', $item->id)->get();
+                    $product = App\Models\Product::where('id_category', $item->id)->get();
                 @endphp
                 <ul class="slides">
                     @foreach ($product as $p)

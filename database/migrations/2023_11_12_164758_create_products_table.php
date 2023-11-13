@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->string('product_slug')->unique();
-            $table->unsignedBigInteger('id_categories');
-            $table->double('price');
+            $table->unsignedBigInteger('id_category');
+            $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
+            $table->float('price');
             $table->text('description');
-            $table->string('tags');
+            $table->string('tags')->nullable();
+            $table->unsignedBigInteger('images')->nullable();
+            $table->foreign('images')->references('id')->on('media')->onDelete('cascade');
+            $table->boolean('status')->default(1);
             $table->timestamps();
 
             // $table->foreign('id_categories')->references('id')->on('categories')->onDelete('cascade');

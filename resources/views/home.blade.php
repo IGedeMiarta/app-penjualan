@@ -43,7 +43,7 @@
             @include('home.populars')
 
 
-            @include('home.banner')
+            {{-- @include('home.banner') --}}
 
 
             @include('home.special')
