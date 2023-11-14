@@ -34,4 +34,7 @@ class Product extends Model
             return 'http://placehold.it/250x350';
         }
     }
+    public function special(){
+        return $this->hasMany(SpecialProduct::class);
+    }
 }

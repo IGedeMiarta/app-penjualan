@@ -37,7 +37,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $t->product_name }}</td>
                                     <td>{{ $t->category->category_name }}</td>
-                                    <td>Rp {{ number_format($t->price, 0, '.', ',') }}</td>
+                                    <td>{{ number_format($t->price, 0, '.', ',') }}</td>
                                     <td>{!! $t->tags() !!}</td>
                                     <td>{{ $t->created_at->diffForHumans() }}</td>
                                     <td class="text-end">
@@ -53,11 +53,11 @@
                                                 <i class="anticon anticon-eye  mr-2"></i>
                                                 See
                                             </button>
-                                            <button class="btn btn-warning btn-sm btnEdit mb-2"
+                                            <button class="btn btn-warning btn-sm btnEdit mb-2" disabled
                                                 data-id="{{ $t->id }}" data-name="{{ $t->tag_name }}"><i
                                                     class="anticon anticon-edit mr-2"></i>
                                                 Edit</button>
-                                            <button type="submit" class="btn btn-danger btn-sm mb-2"><i
+                                            <button type="submit" class="btn btn-danger btn-sm mb-2" disabled><i
                                                     class="anticon anticon-delete mr-2"></i>Delete</button>
                                         </form>
                                     </td>
@@ -238,31 +238,7 @@
 
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            // Function to add commas as a separator to the input value
-            function addCommas(input) {
-                return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
 
-            // Function to remove commas from the input value
-            function removeCommas(input) {
-                return input.replace(/,/g, '');
-            }
-
-            // Event listener for input changes
-            $('.inpNumber').on('input', function() {
-                // Get the input value without commas
-                var inputValue = removeCommas($(this).val());
-
-                // Add commas to the input value
-                var formattedValue = addCommas(inputValue);
-
-                // Set the formatted value back to the input
-                $(this).val(formattedValue);
-            });
-        });
-    </script>
     <script>
         $('#data-table').DataTable();
         $('.btnEdit').on('click', function(e) {

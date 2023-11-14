@@ -28,7 +28,8 @@ class ProductFactory extends Factory
             'id_category' => rand(1,4),
             'price'         => rand(10000,1000000),
             'description'   => fake()->paragraph(),
-            'tags'          => ''
+            'tags'          => '',
+            'images'        => 'http://placehold.it/250x350'
         ];
     }
 }

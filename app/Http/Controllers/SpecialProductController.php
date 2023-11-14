@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\SpecialProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SpecialProductController extends Controller
 {
@@ -12,7 +14,14 @@ class SpecialProductController extends Controller
      */
     public function index()
     {
-        //
+        $data['title'] = 'Special Produk';
+        $data['products'] = DB::table('products')
+                ->leftJoin('special_products', 'products.id', '=', 'special_products.id_product')
+                ->whereNull('special_products.id_product')
+                ->select('products.*')
+                ->get();
+        $data['table'] = SpecialProduct::with('product')->orderByDesc('id')->get();
+        return view('dashboard.special',$data);
     }
 
     /**
@@ -28,7 +37,23 @@ class SpecialProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+            $disc =  intval(preg_replace('/[^\d.]/', '', $request->disc));
+            $finn =  intval(preg_replace('/[^\d.]/', '', $request->final));
+            SpecialProduct::create([
+                'id_product'    => $request->product,
+                'disc'          => $disc,
+                'final_amount'  => $finn
+            ]);
+            DB::commit();
+            return redirect()->back()->with('success','Special Product Created');
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            dd($th->getMessage());
+        }
     }
 
     /**
@@ -52,7 +77,12 @@ class SpecialProductController extends Controller
      */
     public function update(Request $request, SpecialProduct $specialProduct)
     {
-        //
+        $specialProduct->update([
+            'disc'          => $request->disc,
+            'final_amount'  => intval(preg_replace('/[^\d.]/', '', $request->final)),
+            'status'        => $request->status
+        ]);
+        return redirect()->back()->with('success','Special Product Created');
     }
 
     /**
@@ -60,6 +90,8 @@ class SpecialProductController extends Controller
      */
     public function destroy(SpecialProduct $specialProduct)
     {
-        //
+        $specialProduct->delete();
+        return redirect()->back()->with('success','Special Product Deleted');
+
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
             $table->integer('disc');
             $table->float('final_amount');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

@@ -3,7 +3,8 @@
      <div class="fr-slider">
          <ul class="slides">
              <li>
-                 <img src="{{ asset('assets') }}/img/slider/slide1.jpg" alt="slider-img">
+                 <img src="{{ asset('images/product/protem-product-landing-page-template-1.avif') }}" alt="slider-img"
+                     width="40%">
                  <div class="fr-slider-cont">
                      <h3>MEGA SALE -30%</h3>
                      <p>Winter collection for women's. <br>We all have choices for you. Check it out!</p>

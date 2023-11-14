@@ -22,11 +22,8 @@
                     <li class="prod-i">
                         <div class="prod-i-top">
                             <a href="product.html" class="prod-i-img"><!-- NO SPACE --><img src="{{ $pal->images() }}"
-                                    alt="Aspernatur excepturi rem" width="250" height="350"><!-- NO SPACE --></a>
-                            {{-- <p class="prod-i-info text-center">
-                                <a href="#" class="prod-i-favorites"><span>Wishlist</span><i
-                                        class="fa fa-heart"></i></a>
-                            </p> --}}
+                                    alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
+
                             <p class="prod-i-addwrap">
                                 <a href="#" class="prod-i-add qview-btn btnDetails" data-id="{{ $pal->id }}"
                                     data-name="{{ $pal->product_name }}" data-price="{{ $pal->price }}"
@@ -41,7 +38,7 @@
                             <a href="product.html">{{ $pal->product_name }}</a>
                         </h3>
                         <p class="prod-i-price">
-                            <b class="text-success">{{ 'Rp ' . number_format($pal->price, 0, '.', ',') }}</b>
+                            <b class="text-primary">{{ 'Rp ' . number_format($pal->price, 0, '.', ',') }}</b>
                         </p>
                     </li>
                 @endforeach
@@ -64,8 +61,7 @@
                         <li class="prod-i">
                             <div class="prod-i-top">
                                 <a href="product.html" class="prod-i-img"><!-- NO SPACE --><img
-                                        src="{{ $p->images() }}" alt="Aspernatur excepturi rem" width="250"
-                                        height="350"><!-- NO SPACE --></a>
+                                        src="{{ $p->images() }}" alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
                                 {{-- <p class="prod-i-info text-center">
                                 <a href="#" class="prod-i-favorites"><span>Wishlist</span><i
                                         class="fa fa-heart"></i></a>
@@ -84,7 +80,7 @@
                                 <a href="product.html">{{ $pal->product_name }}</a>
                             </h3>
                             <p class="prod-i-price">
-                                <b class="text-success">{{ 'Rp ' . number_format($pal->price, 0, '.', ',') }}</b>
+                                <b class="text-primary">{{ 'Rp ' . number_format($pal->price, 0, '.', ',') }}</b>
                             </p>
                         </li>
                     @endforeach

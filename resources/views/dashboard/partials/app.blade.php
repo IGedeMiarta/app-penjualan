@@ -70,6 +70,31 @@
 
     <!-- Core JS -->
     <script src="{{ asset('app') }}/assets/js/app.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to add commas as a separator to the input value
+            function addCommas(input) {
+                return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            // Function to remove commas from the input value
+            function removeCommas(input) {
+                return input.replace(/,/g, '');
+            }
+
+            // Event listener for input changes
+            $('.inpNumber').on('input', function() {
+                // Get the input value without commas
+                var inputValue = removeCommas($(this).val());
+
+                // Add commas to the input value
+                var formattedValue = addCommas(inputValue);
+
+                // Set the formatted value back to the input
+                $(this).val(formattedValue);
+            });
+        });
+    </script>
     @stack('script');
 
 </body>

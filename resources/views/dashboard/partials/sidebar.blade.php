@@ -30,13 +30,32 @@
                  </ul>
              </li>
              <li class="nav-item dropdown">
+                 <a class="dropdown-toggle" href="javascript:void(0);">
+                     <span class="icon-holder">
+                         <i class="anticon anticon-dashboard"></i>
+                     </span>
+                     <span class="title">Product</span>
+                     <span class="arrow">
+                         <i class="arrow-icon"></i>
+                     </span>
+                 </a>
+                 <ul class="dropdown-menu">
+                     <li>
+                         <a href="{{ url('products') }}">Products</a>
+                     </li>
+                     <li>
+                         <a href="{{ url('special-products') }}">Special Product</a>
+                     </li>
+                 </ul>
+             </li>
+             {{-- <li class="nav-item dropdown">
                  <a href="{{ url('products') }}">
                      <span class="icon-holder">
                          <i class="anticon anticon-dashboard"></i>
                      </span>
                      <span class="title">Products</span>
                  </a>
-             </li>
+             </li> --}}
          </ul>
      </div>
  </div>
