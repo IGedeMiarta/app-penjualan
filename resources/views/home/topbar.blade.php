@@ -51,21 +51,6 @@
         <div class="shop-menu">
             <ul>
 
-                <li>
-                    <a href="wishlist.html">
-                        <i class="fa fa-heart"></i>
-                        <span class="shop-menu-ttl">Wishlist</span>
-                        (<span id="topbar-favorites">1</span>)
-                    </a>
-                </li>
-
-                <li>
-                    <a href="compare.html">
-                        <i class="fa fa-bar-chart"></i>
-                        <span class="shop-menu-ttl">Compare</span> (5)
-                    </a>
-                </li>
-
                 <li class="topauth">
                     <a href="auth.html">
                         <i class="fa fa-lock"></i>

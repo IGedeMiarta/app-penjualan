@@ -12,7 +12,7 @@ class HomeController extends Controller
         $data['title'] = '';
         $category = Categories::all();
         $data['category_all'] = $category;
-        $data['product_all'] = Product::all();
+        $data['product_all'] = Product::with(['category'])->orderByDesc('id')->get();
         return view('home',$data);
     }
 }

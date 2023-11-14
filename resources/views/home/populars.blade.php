@@ -21,19 +21,20 @@
                 @foreach ($product_all as $pal)
                     <li class="prod-i">
                         <div class="prod-i-top">
-                            <a href="product.html" class="prod-i-img"><!-- NO SPACE --><img
-                                    src="http://placehold.it/250x350"
-                                    alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
-                            <p class="prod-i-info">
+                            <a href="product.html" class="prod-i-img"><!-- NO SPACE --><img src="{{ $pal->images() }}"
+                                    alt="Aspernatur excepturi rem" width="250" height="350"><!-- NO SPACE --></a>
+                            {{-- <p class="prod-i-info text-center">
                                 <a href="#" class="prod-i-favorites"><span>Wishlist</span><i
                                         class="fa fa-heart"></i></a>
-                                <a href="#" class="qview-btn prod-i-qview"><span>Quick View</span><i
-                                        class="fa fa-search"></i></a>
-                                <a class="prod-i-compare" href="#"><span>Compare</span><i
-                                        class="fa fa-bar-chart"></i></a>
-                            </p>
+                            </p> --}}
                             <p class="prod-i-addwrap">
-                                <a href="#" class="prod-i-add">Go to detail</a>
+                                <a href="#" class="prod-i-add qview-btn btnDetails" data-id="{{ $pal->id }}"
+                                    data-name="{{ $pal->product_name }}" data-price="{{ $pal->price }}"
+                                    data-slug="{{ $pal->product_slug }}"
+                                    data-category="{{ $pal->category->category_name }}"
+                                    data-id_category="{{ $pal->id_category }}" data-tags="{{ $pal->tags() }}"
+                                    data-desc="{{ $pal->description }}">Go to
+                                    detail</a>
                             </p>
                         </div>
                         <h3>
@@ -53,32 +54,37 @@
             </p>
             <div class="flexslider prod-items fr-pop-tab" id="{{ $item->category_slug }}">
                 @php
-                    $product = App\Models\Product::where('id_category', $item->id)->get();
+                    $product = App\Models\Product::with('category')
+                        ->where('id_category', $item->id)
+                        ->orderByDesc('id')
+                        ->get();
                 @endphp
                 <ul class="slides">
                     @foreach ($product as $p)
                         <li class="prod-i">
                             <div class="prod-i-top">
                                 <a href="product.html" class="prod-i-img"><!-- NO SPACE --><img
-                                        src="http://placehold.it/250x350"
-                                        alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
-                                <p class="prod-i-info">
-                                    <a href="#" class="prod-i-favorites"><span>Wishlist</span><i
-                                            class="fa fa-heart"></i></a>
-                                    <a href="#" class="qview-btn prod-i-qview"><span>Quick View</span><i
-                                            class="fa fa-search"></i></a>
-                                    <a class="prod-i-compare" href="#"><span>Compare</span><i
-                                            class="fa fa-bar-chart"></i></a>
-                                </p>
+                                        src="{{ $p->images() }}" alt="Aspernatur excepturi rem" width="250"
+                                        height="350"><!-- NO SPACE --></a>
+                                {{-- <p class="prod-i-info text-center">
+                                <a href="#" class="prod-i-favorites"><span>Wishlist</span><i
+                                        class="fa fa-heart"></i></a>
+                            </p> --}}
                                 <p class="prod-i-addwrap">
-                                    <a href="#" class="prod-i-add">Go to detail</a>
+                                    <a href="#" class="prod-i-add qview-btn btnDetails"
+                                        data-id="{{ $p->id }}" data-name="{{ $p->product_name }}"
+                                        data-price="{{ $p->price }}" data-slug="{{ $p->product_slug }}"
+                                        data-category="{{ $p->category->category_name }}"
+                                        data-id_category="{{ $p->id_category }}" data-tags="{{ $p->tags() }}"
+                                        data-desc="{{ $p->description }}">Go to
+                                        detail</a>
                                 </p>
                             </div>
                             <h3>
-                                <a href="product.html">{{ $p->product_name }}</a>
+                                <a href="product.html">{{ $pal->product_name }}</a>
                             </h3>
                             <p class="prod-i-price">
-                                <b class="text-success">{{ 'Rp ' . number_format($p->price, 0, '.', ',') }}</b>
+                                <b class="text-success">{{ 'Rp ' . number_format($pal->price, 0, '.', ',') }}</b>
                             </p>
                         </li>
                     @endforeach
@@ -99,167 +105,90 @@
 <div class="qview-modal">
     <div class="prod-wrap">
         <a href="product.html">
-            <h1 class="main-ttl">
-                <span>Reprehenderit adipisci</span>
-            </h1>
+            <h3 class="main-ttl">
+                <span id="categoryText">Template Details</span>
+            </h3>
         </a>
         <div class="prod-slider-wrap">
-            <div class="prod-slider">
-                <ul class="prod-slider-car">
-                    <li>
-                        <a data-fancybox-group="popup-product" class="fancy-img" href="http://placehold.it/500x525">
-                            <img src="http://placehold.it/500x525" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-fancybox-group="popup-product" class="fancy-img" href="http://placehold.it/500x591">
-                            <img src="http://placehold.it/500x591" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-fancybox-group="popup-product" class="fancy-img" href="http://placehold.it/500x525">
-                            <img src="http://placehold.it/500x525" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-fancybox-group="popup-product" class="fancy-img" href="http://placehold.it/500x722">
-                            <img src="http://placehold.it/500x722" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-fancybox-group="popup-product" class="fancy-img" href="http://placehold.it/500x722">
-                            <img src="http://placehold.it/500x722" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-fancybox-group="popup-product" class="fancy-img" href="http://placehold.it/500x722">
-                            <img src="http://placehold.it/500x722" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-fancybox-group="popup-product" class="fancy-img" href="http://placehold.it/500x722">
-                            <img src="http://placehold.it/500x722" alt="">
-                        </a>
-                    </li>
-                </ul>
+            <div class="prod-slider" id="imgSlider">
             </div>
-            <div class="prod-thumbs">
-                <ul class="prod-thumbs-car">
-                    <li>
-                        <a data-slide-index="0" href="#">
-                            <img src="http://placehold.it/500x525" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-slide-index="1" href="#">
-                            <img src="http://placehold.it/500x591" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-slide-index="2" href="#">
-                            <img src="http://placehold.it/500x525" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-slide-index="3" href="#">
-                            <img src="http://placehold.it/500x722" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-slide-index="4" href="#">
-                            <img src="http://placehold.it/500x722" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-slide-index="5" href="#">
-                            <img src="http://placehold.it/500x722" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-slide-index="6" href="#">
-                            <img src="http://placehold.it/500x722" alt="">
-                        </a>
-                    </li>
-                </ul>
-            </div>
+
         </div>
 
         <div class="prod-cont">
-            <p class="prod-actions">
-                <a href="#" class="prod-favorites"><i class="fa fa-heart"></i> Add to Wishlist</a>
-                <a href="#" class="prod-compare"><i class="fa fa-bar-chart"></i> Compare</a>
-            </p>
+            <h1 class="mt-n5">
+                <h2 id="productName"></h2>
+            </h1>
+
             <div class="prod-skuwrap">
-                <p class="prod-skuttl">Color</p>
+                <p class="prod-skuttl">Tags</p>
                 <ul class="prod-skucolor">
-                    <li class="active">
-                        <img src="img/color/blue.jpg" alt="">
-                    </li>
-                    <li>
-                        <img src="img/color/red.jpg" alt="">
-                    </li>
-                    <li>
-                        <img src="img/color/green.jpg" alt="">
-                    </li>
-                    <li>
-                        <img src="img/color/yellow.jpg" alt="">
-                    </li>
-                    <li>
-                        <img src="img/color/purple.jpg" alt="">
-                    </li>
+                    <div class="showTags"></div>
+
                 </ul>
-                <p class="prod-skuttl">Sizes</p>
-                <div class="offer-props-select">
-                    <p>XL</p>
-                    <ul>
-                        <li><a href="#">XS</a></li>
-                        <li><a href="#">S</a></li>
-                        <li><a href="#">M</a></li>
-                        <li class="active"><a href="#">XL</a></li>
-                        <li><a href="#">L</a></li>
-                        <li><a href="#">4XL</a></li>
-                        <li><a href="#">XXL</a></li>
-                    </ul>
-                </div>
             </div>
             <div class="prod-info">
                 <p class="prod-price">
-                    <b class="item_current_price">$238</b>
-                </p>
-                <p class="prod-qnt">
-                    <input type="text" value="1">
-                    <a href="#" class="prod-plus"><i class="fa fa-angle-up"></i></a>
-                    <a href="#" class="prod-minus"><i class="fa fa-angle-down"></i></a>
+                    <b class="item_current_price" id="price">$238</b>
                 </p>
                 <p class="prod-addwrap">
-                    <a href="#" class="prod-add">Add to cart</a>
+                    <a href="#" class="prod-add"><i class="fa fa-shopping-cart  mr-2"></i> Add to cart</a>
                 </p>
             </div>
             <ul class="prod-i-props">
                 <li>
-                    <b>SKU</b> 05464207
+                    <b>Details</b>
+                    <p class="detailsHire"></p>
                 </li>
-                <li>
-                    <b>Manufacturer</b> Mayoral
-                </li>
-                <li>
-                    <b>Material</b> Cotton
-                </li>
-                <li>
-                    <b>Pattern Type</b> Print
-                </li>
-                <li>
-                    <b>Wash</b> Colored
-                </li>
-                <li>
-                    <b>Style</b> Cute
-                </li>
-                <li>
-                    <b>Color</b> Blue, Red
-                </li>
-                <li><a href="#" class="prod-showprops">All Features</a></li>
             </ul>
         </div>
     </div>
 </div>
 <!-- Quick View Product - end -->
+@push('script')
+    <script>
+        $('.btnDetails').on('click', function(e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const price = $(this).data('price');
+            const slug = $(this).data('slug');
+            const category = $(this).data('category');
+            const id_category = $(this).data('id_category');
+            const tags = $(this).data('tags');
+            const desc = $(this).data('desc');
+            $('#productName').html(name);
+            $('.showTags').html(tags);
+            $('#price').html(number_format(price));
+            $('.detailsHire').html(desc.replace(/\n/g, '<br>'))
+            // $('#categoryText').html(category + ' Templates')
+
+            $.ajax({
+                url: `/api/media/${id}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(rs) {
+                    // Update the content on the webpage with the data from the server
+                    let slide = ' <ul class="prod-slider-car">';
+                    rs.data.media.forEach(function(url, index) {
+                        slide += `<li class="float: left; list-style: none; position: relative; width: 464px;"><a data-fancybox-group="popup-product" class="fancy-img" href="${url}"  target="_blank">
+                                                <img src="${url}" alt="">
+                                            </a>
+                                        </li>`
+                    });
+                    slide += '</ul>';
+                    console.log(slide);
+                    $('#imgSlider').html(slide)
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        })
+
+        function number_format(number) {
+            return 'Rp ' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+@endpush

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->string('file');
             $table->timestamps();
         });

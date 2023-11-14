@@ -72,10 +72,9 @@
     <script src="{{ asset('assets') }}/js/jQuery.Brazzers-Carousel.js"></script>
     <script src="{{ asset('assets') }}/js/plugins.js"></script>
     <script src="{{ asset('assets') }}/js/main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhAYvx0GmLyN5hlf6Uv_e9pPvUT3YpozE"></script>
     <script src="{{ asset('assets') }}/js/gmap.js"></script>
     <!-- jQuery plugins/scripts - end -->
-
+    @stack('script')
 </body>
 
 </html>

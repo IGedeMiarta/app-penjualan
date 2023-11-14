@@ -20,8 +20,7 @@ return new class extends Migration
             $table->float('price');
             $table->text('description');
             $table->string('tags')->nullable();
-            $table->unsignedBigInteger('images')->nullable();
-            $table->foreign('images')->references('id')->on('media')->onDelete('cascade');
+            $table->string('images')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
 

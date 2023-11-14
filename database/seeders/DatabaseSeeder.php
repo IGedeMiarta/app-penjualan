@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'category_slug' => Str::slug('Portofolio')
         ]);
 
-        Product::factory(25)->create();
+        // Product::factory(25)->create();
 
     }
 }
