@@ -137,7 +137,7 @@
             </div>
             <ul class="prod-i-props">
                 <li>
-                    <b>Details</b>
+
                     <p class="detailsHire"></p>
                 </li>
             </ul>
@@ -157,10 +157,14 @@
             const id_category = $(this).data('id_category');
             const tags = $(this).data('tags');
             const desc = $(this).data('desc');
+            var details = $(this).data('desc');
             $('#productName').html(name);
             $('.showTags').html(tags);
             $('#price').html(number_format(price));
-            $('.detailsHire').html(desc.replace(/\n/g, '<br>'))
+            details = details.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            details = details.replace(/\n/g, '<br>');
+            // $('.detailsHire').html(desc.replace(/\n/g, '<br>'))
+            $('.detailsHire').html(details);
             // $('#categoryText').html(category + ' Templates')
 
             $.ajax({

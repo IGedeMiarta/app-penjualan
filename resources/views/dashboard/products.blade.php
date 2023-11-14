@@ -44,8 +44,15 @@
                                         <form action="/tags/{{ $t->id }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-info btn-sm mb-2"><i
-                                                    class="anticon anticon-eye  mr-2"></i>See</button>
+                                            <button type="button" class="btn btn-info btn-sm mb-2 btnSee"
+                                                data-toggle="modal" data-target="#modalSee" data-id="{{ $t->id }}"
+                                                data-details="{{ $t->description }}" data-slug="{{ $t->product_slug }}"
+                                                data-name="{{ $t->product_name }}"
+                                                data-price="{{ number_format($t->price, 0, '.', ',') }}"
+                                                data-tag="{{ $t->tags() }}">
+                                                <i class="anticon anticon-eye  mr-2"></i>
+                                                See
+                                            </button>
                                             <button class="btn btn-warning btn-sm btnEdit mb-2"
                                                 data-id="{{ $t->id }}" data-name="{{ $t->tag_name }}"><i
                                                     class="anticon anticon-edit mr-2"></i>
@@ -119,7 +126,8 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-2 col-form-label">Tags</label>
                             <div class="col-sm-10">
-                                <select class="select2-tags form-select" id="tags" name="tags[]" multiple="multiple">
+                                <select class="select2-tags form-select" id="tags" name="tags[]"
+                                    multiple="multiple">
                                     @foreach ($tags as $tag)
                                         <option value="{{ $tag->id }}">{{ $tag->tag_name }}</option>
                                     @endforeach
@@ -163,6 +171,45 @@
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalSee">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Details Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-md-6">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner" id="imageCarousel">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 id="productName">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, cum.</h3>
+                        <div class="tags" id="Tags">
+                            <h5 class="text-info">Tags</h5>
+                        </div>
+                        <div class="tags mt-2">
+                            <h3 class="text-secondary text-end " id="price">Rp 50.000</h3>
+                        </div>
+                        <div class="tags mt-2">
+                            <span id="details">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa laudantium
+                                officiis ea. Eius
+                                omnis recusandae provident dolore! Adipisci at, quaerat temporibus aspernatur numquam
+                                necessitatibus consequuntur saepe voluptates, enim quo qui recusandae doloribus quas beatae,
+                                officiis assumenda. Deleniti ipsum veritatis, sapiente impedit deserunt id! Enim commodi
+                                officiis ducimus fugit non vel!</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -240,6 +287,48 @@
                 // ` <div class="col-md-4">${newDropifyInput}</div>`;
                 $('#dropImage').append(newDropifyInput);
             newDropifyInput.dropify();
+        })
+        $('.btnSee').on('click', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const slug = $(this).data('slug');
+            const price = $(this).data('price');
+            const tag = $(this).data('tag');
+            var details = $(this).data('details');
+            details = details.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            details = details.replace(/\n/g, '<br>');
+
+            $('#productName').html(name);
+            $('#Tags').append(tag);
+            $('#price').html('Rp ' + price);
+            $('#details').html(details);
+
+            $.ajax({
+                url: `/api/media/${id}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(rs) {
+                    // Update the content on the webpage with the data from the server
+                    let slide = ''
+                    let active = '';
+                    rs.data.media.forEach(function(url, index) {
+                        if (index == 0) {
+                            active = 'active';
+                        } else {
+                            active = '';
+                        }
+                        slide += `<div class="carousel-item ${active}">`;
+                        slide += `<img src="${url}" class="d-block w-100" alt="image">`
+                        slide += '</div>';
+                    });
+                    console.log(slide);
+                    $('#imageCarousel').html(slide)
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         })
     </script>
 @endpush
