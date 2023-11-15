@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use App\Models\Categories;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\Tags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -19,9 +21,10 @@ class ProductController extends Controller
     public function index()
     {
         $data['title'] = 'Produdcts';
-        $data['table'] = Product::with(['category'])->orderByDesc('id')->get();
+        $data['table'] = Product::with(['category','author'])->orderByDesc('id')->get();
         $data['category'] = Categories::all();
         $data['tags'] = Tags::all();
+        $data['author'] = Author::all();
         return view('dashboard.products',$data);
     }
 
@@ -38,8 +41,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         DB::beginTransaction();
         try {
+//author
+            $auhor = Author::where('name',$request->author)->first();
+            if(!$auhor){
+                $auhor = Author::create(['name'=>$request->author]);
+            }
+            $foto = $request->file('foto');
+            $name = Str::slug($request->product_name);
+            $fotoImg= strtolower($name).'.'.$foto->getClientOriginalExtension();
+            $path = 'images/product/';
+            $foto->move(public_path($path), $fotoImg);
+            $imagesMain = $path.$fotoImg;
+
             $tags = $request->tags;
             $tagList = [];
             foreach($tags as $t){
@@ -57,8 +73,6 @@ class ProductController extends Controller
                     $tagList[] = (int)$t;
                 }
             }
-
-            $imagesMain  = '';
             // images
             $images = $request->file('images');
             foreach($images as $i => $image){
@@ -69,15 +83,13 @@ class ProductController extends Controller
                 $path = 'images/product/';
                 $image->move(public_path($path), $filename);
                 $imgSave = $path.$filename;
-               
-               
+            
                 Media::create([
                     'slug' => Str::slug($request->product_name),
                     'file'  => $imgSave,
                 ]);
-                $imagesMain = $imgSave;
             }
-            
+           
 
             Product::create([
                 'product_name'  => $request->product_name,
@@ -86,7 +98,8 @@ class ProductController extends Controller
                 'price'         => intval(preg_replace('/[^\d.]/', '', $request->price)),
                 'description'   => $request->description,
                 'tags'          => json_encode($tagList),
-                'images'        => $imagesMain
+                'images'        => $imagesMain,
+                'author_id'     => $auhor->id
             ]);
             DB::commit();
             return redirect()->back()->with('success','Product Created');

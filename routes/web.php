@@ -20,8 +20,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',[HomeController::class,'index']);
-Route::get('/dashboard',[DashboardController::class,'index']);
-Route::resource('/categories', CategoriesController::class);
-Route::resource('/tags', TagController::class);
-Route::resource('products',ProductController::class);
-Route::resource('special-products',SpecialProductController::class);
+Route::get('/product/{slug}',[HomeController::class,'product']);
+Route::get('/author/{id}',[HomeController::class,'author']);
+Route::get('/catalog',[HomeController::class,'catalog']);
+
+Route::prefix('admin')->group(function(){
+    Route::get('/dashboard',[DashboardController::class,'index']);
+    Route::resource('/categories', CategoriesController::class);
+    Route::resource('/tags', TagController::class);
+    Route::resource('products',ProductController::class);
+    Route::resource('special-products',SpecialProductController::class);
+});

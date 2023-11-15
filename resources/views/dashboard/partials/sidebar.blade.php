@@ -3,7 +3,7 @@
      <div class="side-nav-inner">
          <ul class="side-nav-menu scrollable">
              <li class="nav-item dropdown">
-                 <a href="{{ url('dashboard') }}">
+                 <a href="{{ url('admin/dashboard') }}">
                      <span class="icon-holder">
                          <i class="anticon anticon-home"></i>
                      </span>
@@ -22,10 +22,10 @@
                  </a>
                  <ul class="dropdown-menu">
                      <li>
-                         <a href="{{ url('categories') }}">Categories</a>
+                         <a href="{{ url('admin/categories') }}">Categories</a>
                      </li>
                      <li>
-                         <a href="{{ url('tags') }}">Tags</a>
+                         <a href="{{ url('admin/tags') }}">Tags</a>
                      </li>
                  </ul>
              </li>
@@ -41,10 +41,10 @@
                  </a>
                  <ul class="dropdown-menu">
                      <li>
-                         <a href="{{ url('products') }}">Products</a>
+                         <a href="{{ url('admin/products') }}">Products</a>
                      </li>
                      <li>
-                         <a href="{{ url('special-products') }}">Special Product</a>
+                         <a href="{{ url('admin/special-products') }}">Special Product</a>
                      </li>
                  </ul>
              </li>

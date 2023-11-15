@@ -23,11 +23,12 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Image</th>
                                 <th>Name</th>
+                                <th>Author</th>
                                 <th>Category</th>
                                 <th>Price</th>
                                 <th>Tags</th>
-                                <th>Created At</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
@@ -35,11 +36,13 @@
                             @foreach ($table as $t)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td><img src="{{ asset($t->images) }}" alt="{{ $t->product_slug }}" width="100%"></td>
                                     <td>{{ $t->product_name }}</td>
+                                    <td>{{ $t->author->name }}</td>
                                     <td>{{ $t->category->category_name }}</td>
                                     <td>{{ number_format($t->price, 0, '.', ',') }}</td>
                                     <td>{!! $t->tags() !!}</td>
-                                    <td>{{ $t->created_at->diffForHumans() }}</td>
+
                                     <td class="text-end">
                                         <form action="/tags/{{ $t->id }}" method="POST">
                                             @csrf
@@ -86,7 +89,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="product_name" placeholder="tags name">
+                                <input type="text" class="form-control" name="product_name" placeholder="name">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -96,6 +99,16 @@
                                     <option selected disabled>- Select Category</option>
                                     @foreach ($category as $c)
                                         <option value="{{ $c->id }}">{{ $c->category_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-2 col-form-label">Author</label>
+                            <div class="col-sm-10">
+                                <select class="select2-tags form-select" id="author" name="author" multiple="multiple">
+                                    @foreach ($author as $au)
+                                        <option value="{{ $au->id }}">{{ $au->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -113,13 +126,28 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Images
+                            <label for="name" class="col-sm-2 col-form-label">Images Cover
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="file" class="dropify" name="foto" data-height="100" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-2 col-form-label">Images Detail
                                 <button type="button"
                                     class="btn btn-info d-flex justify-content-center mt-2 btnAddDropify"><i
                                         class="anticon anticon-plus-square"></i></button>
                             </label>
-                            <div class="col-sm-10" id="dropImage">
-                                <input type="file" class="dropify" name="images[]" data-height="100" />
+                            <div class="col-sm-10 row" id="dropImage">
+                                <div class="col-md-4">
+                                    <input type="file" class="dropify" name="images[]" data-height="100" />
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="file" class="dropify" name="images[]" data-height="100" />
+                                </div>
+                                <div class="col-md-4 ">
+                                    <input type="file" class="dropify" name="images[]" data-height="100" />
+                                </div>
                             </div>
                         </div>
 
@@ -134,6 +162,7 @@
                                 </select>
                             </div>
                         </div>
+
 
                     </div>
                     <div class="modal-footer">
@@ -231,10 +260,15 @@
             $('.select2').select2({
                 theme: 'bootstrap-5'
             });
+            $('#author').select2({
+                tags: true,
+                theme: 'bootstrap-5'
+            });
             $('#tags').select2({
                 tags: true,
                 theme: 'bootstrap-5'
             });
+
 
         });
     </script>
@@ -252,17 +286,17 @@
         })
         $('.btnAddDropify').on('click', function(e) {
             e.preventDefault();
-            var newDropifyInput = $('<input>', {
-                type: 'file',
-                class: 'dropify',
-                name: 'images[]',
-                'data-height': 100
-            });
+            // var newDropifyInput = $('<input>', {
+            //     type: 'file',
+            //     class: 'dropify',
+            //     name: 'images[]',
+            //     'data-height': 100
+            // });
 
-            const html =
-                // ` <div class="col-md-4">${newDropifyInput}</div>`;
-                $('#dropImage').append(newDropifyInput);
-            newDropifyInput.dropify();
+            var newDropifyInput =
+                `<div class="col-md-4 mt-2"> <input type="file" class="dropify" name="images[]" data-height="100" /></div>`;
+            $('#dropImage').append(newDropifyInput);
+            $('.dropify').dropify();
         })
         $('.btnSee').on('click', function() {
             const id = $(this).data('id');

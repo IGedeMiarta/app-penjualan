@@ -21,7 +21,8 @@
                 @foreach ($product_all as $pal)
                     <li class="prod-i">
                         <div class="prod-i-top">
-                            <a href="product.html" class="prod-i-img"><!-- NO SPACE --><img src="{{ $pal->images() }}"
+                            <a href="{{ url('product/' . $pal->product_slug) }}"
+                                class="prod-i-img"><!-- NO SPACE --><img src="{{ $pal->images() }}"
                                     alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
 
                             <p class="prod-i-addwrap">
@@ -35,7 +36,7 @@
                             </p>
                         </div>
                         <h3>
-                            <a href="product.html">{{ $pal->product_name }}</a>
+                            <a href="{{ url('product/' . $pal->product_slug) }}">{{ $pal->product_name }}</a>
                         </h3>
                         <p class="prod-i-price">
                             <b class="text-primary">{{ 'Rp ' . number_format($pal->price, 0, '.', ',') }}</b>
@@ -60,13 +61,14 @@
                     @foreach ($product as $p)
                         <li class="prod-i">
                             <div class="prod-i-top">
-                                <a href="product.html" class="prod-i-img"><!-- NO SPACE --><img
-                                        src="{{ $p->images() }}" alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
+                                <a href="{{ url('product/' . $p->product_slug) }}"
+                                    class="prod-i-img"><!-- NO SPACE --><img src="{{ $p->images() }}"
+                                        alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
                                 {{-- <p class="prod-i-info text-center">
                                 <a href="#" class="prod-i-favorites"><span>Wishlist</span><i
                                         class="fa fa-heart"></i></a>
                             </p> --}}
-                                <p class="prod-i-addwrap">
+                                {{-- <p class="prod-i-addwrap">
                                     <a href="#" class="prod-i-add qview-btn btnDetails"
                                         data-id="{{ $p->id }}" data-name="{{ $p->product_name }}"
                                         data-price="{{ $p->price }}" data-slug="{{ $p->product_slug }}"
@@ -74,13 +76,13 @@
                                         data-id_category="{{ $p->id_category }}" data-tags="{{ $p->tags() }}"
                                         data-desc="{{ $p->description }}">Go to
                                         detail</a>
-                                </p>
+                                </p> --}}
                             </div>
                             <h3>
-                                <a href="product.html">{{ $pal->product_name }}</a>
+                                <a href="{{ url('product/' . $p->product_slug) }}">{{ $p->product_name }}</a>
                             </h3>
                             <p class="prod-i-price">
-                                <b class="text-primary">{{ 'Rp ' . number_format($pal->price, 0, '.', ',') }}</b>
+                                <b class="text-primary">{{ 'Rp ' . number_format($p->price, 0, '.', ',') }}</b>
                             </p>
                         </li>
                     @endforeach
@@ -108,8 +110,17 @@
         <div class="prod-slider-wrap">
             <div class="prod-slider" id="imgSlider">
             </div>
-
+            <div class="prod-thumbs">
+                <ul class="prod-thumbs-car" id="imgSliderMini">
+                    <li>
+                        <a data-slide-index="0" href="#">
+                            <img src="#" alt="">
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+
 
         <div class="prod-cont">
             <h1 class="mt-n5">
@@ -177,8 +188,17 @@
                                         </li>`
                     });
                     slide += '</ul>';
-                    console.log(slide);
+                    let mini = '';
+                    rs.data.media.forEach(function(url, index) {
+                        mini += '<li>';
+                        mini += ` <a data-slide-index="${index}" href="#">
+                                    <img src="${url}" alt="">
+                                </a>`;
+                        mini += '</li>';
+                    });
+                    console.log(mini);
                     $('#imgSlider').html(slide)
+                    $('#imgSliderMini').html(mini)
 
                 },
                 error: function(xhr, status, error) {

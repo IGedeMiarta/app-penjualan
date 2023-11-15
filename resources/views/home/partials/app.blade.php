@@ -29,7 +29,7 @@
     <!-- Header - start -->
     <header class="header">
 
-        @include('home.topbar')
+        @include('home.partials.topbar')
 
     </header>
     <!-- Header - end -->
@@ -37,25 +37,12 @@
 
     <!-- Main Content - start -->
     <main>
-        <section class="container">
-            @include('home.slider')
-
-            @include('home.populars')
-
-
-            {{-- @include('home.banner') --}}
-
-
-            @include('home.special')
-
-            @include('home.testimoni')
-
-        </section>
+        @yield('content')
     </main>
     <!-- Main Content - end -->
 
 
-    @include('partials.footer')
+    @include('home.partials.footer')
 
 
     <!-- jQuery plugins/scripts - start -->

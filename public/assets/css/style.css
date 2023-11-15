@@ -4111,6 +4111,11 @@ ul.b-crumbs {
 	width: 75%;
 	padding: 0 0 50px 30px;
 }
+.section-catalog {
+	float: left;
+	width: 100%;
+	padding: 0 0 50px 30px;
+}
 .section-cont .section-top {
 	margin: 0 0 6px;
 }

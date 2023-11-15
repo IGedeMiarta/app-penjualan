@@ -37,4 +37,7 @@ class Product extends Model
     public function special(){
         return $this->hasMany(SpecialProduct::class);
     }
+    public function author(){
+        return $this->belongsTo(Author::class,'author_id');
+    }
 }

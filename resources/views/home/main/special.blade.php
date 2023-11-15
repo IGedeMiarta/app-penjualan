@@ -13,8 +13,8 @@
                          <a href="product.html">{{ $s->product->product_name }}</a>
                      </h3>
                      <p class="discounts-i-price">
-                         <b class="text-primary">Rp {{ number_format($s->final_amount, 0, '.', ',') }}</b>
                          <del>Rp {{ number_format($s->product->price, 0, '.', ',') }}</del>
+                         <b class="text-primary">Rp {{ number_format($s->final_amount, 0, '.', ',') }}</b>
                      </p>
                  </li>
              @endforeach

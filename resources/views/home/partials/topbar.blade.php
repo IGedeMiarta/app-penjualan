@@ -44,7 +44,7 @@
 <div class="header-middle">
     <div class="container header-middle-cont">
         <div class="toplogo">
-            <a href="index.html">
+            <a href="{{ url('/') }}">
                 <img src="{{ asset('assets') }}/img/logo.png" alt="AllStore - MultiConcept eCommerce Template">
             </a>
         </div>
@@ -81,7 +81,9 @@
 <div class="header-bottom">
     <div class="container">
         <nav class="topmenu">
-
+            @php
+                $category_all = App\Models\Categories::all();
+            @endphp
             <!-- Catalog menu - start -->
             <div class="topcatalog">
                 <a class="topcatalog-btn" href="catalog-list.html"><span>All</span> catalog</a>
@@ -149,8 +151,9 @@
             <!-- Search - start -->
             <div class="topsearch">
                 <a id="topsearch-btn" class="topsearch-btn" href="#"><i class="fa fa-search"></i></a>
-                <form class="topsearch-form" action="#">
-                    <input type="text" placeholder="Search products">
+                <form class="topsearch-form" action="{{ url('catalog') }}" method="GET">
+                    <input type="text" placeholder="Search products" name="search"
+                        value="{{ $_GET['search'] ?? '' }}">
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div>
