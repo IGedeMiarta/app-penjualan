@@ -43,12 +43,23 @@ class HomeController extends Controller
         return view('home.product',$data);
     }
     public function catalog(Request $request){
+        $data['title'] = 'Catalog';
+        $data['catalog'] = Product::with('category')->paginate(4);
         if($request->search){
             $data['catalog'] = Product::with('category')->where('product_name','LIKE','%'.$request->search.'%')->paginate(4);
-        }else{
-            $data['catalog'] = Product::with('category')->paginate(4);
         }
-        $data['title'] = 'Catalog';
+        if($request->category){
+            $catagory = Categories::where('category_slug',$request->category)->first();
+            $data['catalog'] = Product::with('category')->where('id_category',$catagory->id)->paginate(4);
+        }
+        if($request->search && $request->category){
+            $catagory = Categories::where('category_slug',$request->category)->first();
+            $data['catalog'] = Product::with('category')
+            ->where('id_category',$catagory->id)
+            ->where('product_name','LIKE','%'.$request->search.'%')
+            ->paginate(4);
+        }
+
         $data['related'] = Product::limit(5)->orderByDesc('id')->paginate(5);
         return view('home.catalog',$data);
     }

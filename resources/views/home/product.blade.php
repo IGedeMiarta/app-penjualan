@@ -94,7 +94,7 @@
             </div>
 
             {{-- related product here --}}
-            @include('home.product.related')
+            @include('home.partials.related')
             {{-- end product related --}}
 
 

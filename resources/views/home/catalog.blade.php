@@ -10,31 +10,48 @@
 @endpush
 @section('content')
     <section class="container">
-
         <h1 class="main-ttl"><span>{{ $title ?? '' }}</span></h1>
         <div class="prod-wrap">
             <div class="section-catalog">
+                @php
+                    $category = isset($_GET['category']) ? $_GET['category'] : false;
+                    $search = isset($_GET['search']) ? $_GET['search'] : false;
+                    $query = '';
+                    if ($category) {
+                        $query .= '&category=' . $category;
+                    }
+                    if ($search) {
+                        $query .= '&search=' . $search;
+                    }
+                @endphp
+                <!-- Pagination - start -->
                 <div style="display:flex;justify-content:center">
-                    <ul class="pagi">
+                    <ul class="pagi ">
                         @if ($catalog->currentPage() != 1)
                             <li class="pagi-next">
-                                <a href="{{ $catalog->previousPageUrl() }}"><i class="fa fa-angle-double-left"></i></a>
+                                <a href="{{ $catalog->previousPageUrl() . $query }}"><i
+                                        class="fa fa-angle-double-left"></i></a>
                             </li>
                         @endif
                         @for ($i = 1; $i <= $catalog->lastPage(); $i++)
                             <li class="@if ($catalog->currentPage() == $i) active @endif"><a
-                                    href="{{ url('catalog?page=' . $i) }}">{{ $i }}</a></li>
+                                    href="{{ url('catalog?page=' . $i . $query) }}">{{ $i }}</a>
+                            </li>
                         @endfor
-                        <li class="pagi-next">
-                            <a href="{{ $catalog->nextPageUrl() }}"><i class="fa fa-angle-double-right"></i></a>
-                        </li>
+                        @if ($catalog->currentPage() != $catalog->lastPage())
+                            <li class="pagi-next">
+                                <a href="{{ $catalog->nextPageUrl() . $query }}"><i
+                                        class="fa fa-angle-double-right"></i></a>
+                            </li>
+                        @endif
+
                     </ul>
                 </div>
                 <div class="prod-items section-items prod-items-galimg">
                     @foreach ($catalog as $cal)
                         <div class="prod-i" style="margin-bottom: 5px">
                             <div class="prod-i-top">
-                                <a href="product.html" class="prod-i-img">
+                                <a href="{{ url('product/' . $cal->product_slug) }}" class="prod-i-img">
                                     <!-- NO SPACE -->
                                     <img src="http://placehold.it/300x366" alt="Nulla numquam obcaecati">
                                     <img src="http://placehold.it/300x433" alt="Nulla numquam obcaecati">
@@ -44,7 +61,7 @@
                                 </a>
                             </div>
                             <h3>
-                                <a href="product.html">{{ $cal->product_name }}</a>
+                                <a href="{{ url('product/' . $cal->product_slug) }}">{{ $cal->product_name }}</a>
                             </h3>
                             <div class="prod-i-action">
                                 <p class="prod-i-info">
@@ -65,29 +82,34 @@
                     @endforeach
 
                 </div>
-
                 <!-- Pagination - start -->
                 <div style="display:flex;justify-content:center">
                     <ul class="pagi ">
                         @if ($catalog->currentPage() != 1)
                             <li class="pagi-next">
-                                <a href="{{ $catalog->previousPageUrl() }}"><i class="fa fa-angle-double-left"></i></a>
+                                <a href="{{ $catalog->previousPageUrl() . $query }}"><i
+                                        class="fa fa-angle-double-left"></i></a>
                             </li>
                         @endif
                         @for ($i = 1; $i <= $catalog->lastPage(); $i++)
                             <li class="@if ($catalog->currentPage() == $i) active @endif"><a
-                                    href="{{ url('catalog?page=' . $i) }}">{{ $i }}</a></li>
+                                    href="{{ url('catalog?page=' . $i . $query) }}">{{ $i }}</a>
+                            </li>
                         @endfor
-                        <li class="pagi-next">
-                            <a href="{{ $catalog->nextPageUrl() }}"><i class="fa fa-angle-double-right"></i></a>
-                        </li>
+                        @if ($catalog->currentPage() != $catalog->lastPage())
+                            <li class="pagi-next">
+                                <a href="{{ $catalog->nextPageUrl() . $query }}"><i
+                                        class="fa fa-angle-double-right"></i></a>
+                            </li>
+                        @endif
+
                     </ul>
                 </div>
 
                 <!-- Pagination - end -->
             </div>
         </div>
-        @include('home.catalog.related')
+        @include('home.partials.related')
         <!-- Catalog Items | Gallery V2 - start -->
 
         @include('home.catalog.modal')

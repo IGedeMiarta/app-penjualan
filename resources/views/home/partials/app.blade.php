@@ -28,7 +28,17 @@
 <body>
     <!-- Header - start -->
     <header class="header">
-
+        @php
+            $category = isset($_GET['category']) ? $_GET['category'] : false;
+            $search = isset($_GET['search']) ? $_GET['search'] : false;
+            $query = '';
+            if ($category) {
+                $query .= '&category=' . $category;
+            }
+            if ($search) {
+                $query .= '&search=' . $search;
+            }
+        @endphp
         @include('home.partials.topbar')
 
     </header>

@@ -76,7 +76,6 @@
     </div>
 </div>
 <!-- Logo, Shop-menu - end -->
-
 <!-- Topmenu - start -->
 <div class="header-bottom">
     <div class="container">
@@ -86,11 +85,11 @@
             @endphp
             <!-- Catalog menu - start -->
             <div class="topcatalog">
-                <a class="topcatalog-btn" href="catalog-list.html"><span>All</span> catalog</a>
+                <a class="topcatalog-btn" href="{{ url('catalog') }}"><span>All</span> catalog</a>
                 <ul class="topcatalog-list">
                     @foreach ($category_all as $i)
                         <li>
-                            <a href="catalog-list.html">
+                            <a href="{{ url('catalog?category=' . $i->category_slug) }}">
                                 {{ $i->category_name }}
                             </a>
                         </li>
@@ -152,6 +151,9 @@
             <div class="topsearch">
                 <a id="topsearch-btn" class="topsearch-btn" href="#"><i class="fa fa-search"></i></a>
                 <form class="topsearch-form" action="{{ url('catalog') }}" method="GET">
+                    @if ($category)
+                        <input type="hidden" name="category" value="{{ $category }}">
+                    @endif
                     <input type="text" placeholder="Search products" name="search"
                         value="{{ $_GET['search'] ?? '' }}">
                     <button type="submit"><i class="fa fa-search"></i></button>
