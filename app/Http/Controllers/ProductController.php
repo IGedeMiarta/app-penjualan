@@ -18,8 +18,9 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+       
         $data['title'] = 'Produdcts';
         $data['table'] = Product::with(['category','author'])->orderByDesc('id')->get();
         $data['category'] = Categories::all();

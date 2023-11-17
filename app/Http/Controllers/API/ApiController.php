@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Media;
 use App\Models\Product;
+use App\Models\UserChart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
@@ -30,6 +32,15 @@ class ApiController extends Controller
             ]
         ]);
 
+    }
+    public function chart($id){
+        $chart = UserChart::where('user_id',$id)->count();
+        return response()->json([
+            'status'    => 200,
+            'message'   => 'Product By Id',
+            'count'     => $chart??0,
+            'data'      => []
+        ]);
     }
     
 }

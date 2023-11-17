@@ -6,21 +6,39 @@ use App\Models\Categories;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\SpecialProduct;
+use App\Models\Testimony;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index(){
         $data['title'] = '';
-        $data['category_all'] = Categories::all();
-        $data['product_all'] = Product::with(['category'])->orderByDesc('id')->get();
-        $data['special'] = SpecialProduct::with('product')->orderByDesc('id')->get();
+        $data['category_all'] = Categories::limit(10)->get();
+        $data['product_all'] = Product::with(['category'])->orderByDesc('id')->limit(20)->get();
+        $data['special'] = SpecialProduct::with('product')->orderByDesc('id')->limit(10)->get();
+        $data['testi']  =Testimony::with('user')->orderByDesc('id')->limit(3)->get();
         return view('home.main',$data);
     }
 
-    public function product($slug){
+    public function product(Request $request,$slug){
         $data['title'] = 'Product';
+        // dd($request->all());
         $product = Product::with('author')->where('product_slug',$slug)->first();
+        if($request->special){
+            $special = SpecialProduct::where('id_product',$product->id)->first();
+            if(!$special){
+                $data['price'] = $product->price;
+                $data['disc'] = false;
+            }else{
+                $data['price'] = $special->final_amount;
+                $data['disc'] = $product->price;
+            }
+           
+        }else{
+            $data['price'] = $product->price;
+            $data['disc'] = false;
+        }
         $details = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $product->description);
         $details = nl2br($details);
         $data['product'] = $product;
@@ -47,10 +65,12 @@ class HomeController extends Controller
         $data['catalog'] = Product::with('category')->paginate(4);
         if($request->search){
             $data['catalog'] = Product::with('category')->where('product_name','LIKE','%'.$request->search.'%')->paginate(4);
+            $data['title'] = 'Catalog Search : '. $request->search;
         }
         if($request->category){
             $catagory = Categories::where('category_slug',$request->category)->first();
             $data['catalog'] = Product::with('category')->where('id_category',$catagory->id)->paginate(4);
+            $data['title'] = 'Catalog : '. $catagory->category_name;
         }
         if($request->search && $request->category){
             $catagory = Categories::where('category_slug',$request->category)->first();
@@ -58,9 +78,16 @@ class HomeController extends Controller
             ->where('id_category',$catagory->id)
             ->where('product_name','LIKE','%'.$request->search.'%')
             ->paginate(4);
+            $data['title'] = 'Catalog : '. $catagory->category_name;
         }
 
         $data['related'] = Product::limit(5)->orderByDesc('id')->paginate(5);
         return view('home.catalog',$data);
+    }
+    public function specialCatalog(Request $request){
+        $data['title'] = 'Special Catalog';
+        $data['catalog'] = SpecialProduct::with('product','product.category')->paginate(4);
+        $data['related'] = Product::limit(5)->orderByDesc('id')->paginate(5);
+        return view('home.special-catalog',$data);
     }
 }

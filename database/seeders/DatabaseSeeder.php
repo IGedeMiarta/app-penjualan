@@ -7,6 +7,9 @@ namespace Database\Seeders;
 use App\Models\Author;
 use App\Models\Categories;
 use App\Models\Product;
+use App\Models\SpecialProduct;
+use App\Models\Tags;
+use App\Models\Testimony;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
       
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -35,18 +38,29 @@ class DatabaseSeeder extends Seeder
             'category_slug' => Str::slug('Landing Page')
         ]);
         Categories::create([
-            'category_name' => 'Wordpress',
-            'category_slug' => Str::slug('Wordpress')
+            'category_name' => 'Wordpress  Templates',
+            'category_slug' => Str::slug('Wordpress Templates')
         ]);
         Categories::create([
-            'category_name' => 'Portofolio',
-            'category_slug' => Str::slug('Portofolio')
+            'category_name' => 'Portofolio Templates',
+            'category_slug' => Str::slug('Portofolio  Templates')
+        ]);
+        Categories::create([
+            'category_name' => 'Presentation Templates',
+            'category_slug' => Str::slug('Presentation Templates')
+        ]);
+        Categories::create([
+            'category_name' => 'Graphic Design Templates',
+            'category_slug' => Str::slug('Graphic Design Templates')
         ]);
         Author::create([
             'name' => 'test'
         ]);
 
-        Product::factory(25)->create();
+        Product::factory(100)->create();
+        Tags::factory(150)->create();
+        SpecialProduct::factory(20)->create();
+        Testimony::factory(20)->create();
 
     }
 }

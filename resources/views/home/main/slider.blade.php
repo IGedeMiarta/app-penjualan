@@ -3,8 +3,7 @@
      <div class="fr-slider">
          <ul class="slides">
              <li>
-                 <img src="{{ asset('images/product/protem-product-landing-page-template-1.avif') }}" alt="slider-img"
-                     width="40%">
+                 <img src="{{ asset('assets') }}/img/slider/slide1.jpg" alt="">
                  <div class="fr-slider-cont">
                      <h3>MEGA SALE -30%</h3>
                      <p>Winter collection for women's. <br>We all have choices for you. Check it out!</p>
@@ -27,7 +26,7 @@
              <li>
                  <img src="{{ asset('assets') }}/img/slider/slide1.jpg" alt="">
                  <div class="fr-slider-cont">
-                     <h3>SUMMER TRENDS</h3>
+                     <h3>SPECIAL OFFER</h3>
                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br>Aliquam consequuntur
                          dolorem doloribus fuga harum</p>
                      <p class="fr-slider-more-wrap">

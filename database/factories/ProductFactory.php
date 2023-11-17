@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Categories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Faker\Factory as Faker;
@@ -22,10 +23,12 @@ class ProductFactory extends Factory
 
         $name = $faker->words;
         $nameString = implode(' ', $name);
+        $category = rand(1,4);
+        $names = Categories::find($category);
         return [
-            'product_name'  => $nameString,
+            'product_name'  => $names->category_name.' '.$nameString,
             'product_slug'  => Str::slug($nameString),
-            'id_category' => rand(1,4),
+            'id_category'   => $category,
             'price'         => rand(10000,1000000),
             'description'   => fake()->paragraph(),
             'tags'          => '',

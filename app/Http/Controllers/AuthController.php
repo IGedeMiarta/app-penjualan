@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class AuthController extends Controller
+{
+    public function login(){
+        return view('home.login');
+    }
+    public function register(){
+        return view('home.register');
+    }
+    public function registered(Request $request){
+       $request->validate([
+            'name' => 'required|min:3|max:50',
+            'email' => 'email|unique:users',
+            'password' => 'required|confirmed|min:6',
+        ]);
+        DB::beginTransaction();
+        try {
+            $user = User::create($request->all());
+            DB::commit();
+            if (Auth::attempt(['email'=>$user->email,'password'=>$user->password])) {
+                $request->session()->regenerate();
+                return redirect()->intended('/');
+            }
+            
+            return redirect()->intended('/');
+        } catch (\Throwable $th) {
+           DB::rollBack();
+           dd($th->getMessage());
+        }
+    }
+    public function authecicate(Request $request){
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+ 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+ 
+            return redirect()->intended('/');
+        }
+ 
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+}

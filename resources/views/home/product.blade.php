@@ -75,11 +75,15 @@
                     <div class="prod-info">
 
                         <p class="prod-price">
-                            <b class="item_current_price text-info">Rp.
-                                {{ number_format($product->price, 0, ',', '.') }}</b>
+                            @if ($disc)
+                                <del>{{ nb($disc) }}</del>
+                            @endif
+                            <b class="item_current_price text-info">
+                                {{ nb($price) }}</b>
                         </p>
                         <p class="prod-addwrap">
-                            <a href="#" class="prod-add" rel="nofollow">Add to cart</a>
+                            <a href="{{ url('chart-add?_xcode=' . $price * 111111 . '&product=' . $product->product_slug) }}"
+                                class="prod-add" rel="nofollow">Add to cart</a>
                         </p>
                     </div>
                     <ul class="prod-info">

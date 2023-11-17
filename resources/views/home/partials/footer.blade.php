@@ -5,38 +5,14 @@
         <div class="row">
             <div class="f-menu">
                 <h3>
-                    About us
+                    Categories
                 </h3>
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li><a href="catalog-list.html">Catalog</a></li>
-                    <li><a href="elements.html">Elements</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="contacts.html">Contacts</a></li>
-                </ul>
-            </div>
-            <div class="f-menu">
-                <h3>
-                    Shop
-                </h3>
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="catalog-list.html">Women</a></li>
-                    <li><a href="catalog-list.html">Men</a></li>
-                    <li><a href="catalog-list.html">Kids</a></li>
-                    <li><a href="catalog-list.html">Shoes</a></li>
-                    <li><a href="catalog-list.html">Accessories</a></li>
-                </ul>
-            </div>
-            <div class="f-menu">
-                <h3>
-                    Information
-                </h3>
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="blog.html">News</a></li>
-                    <li><a href="reviews.html">Reviews</a></li>
-                    <li><a href="blog.html">Articles</a></li>
-                    <li><a href="contacts.html">Contacts</a></li>
+                    @foreach ($category_all as $item)
+                        <li><a
+                                href="{{ url('catalog?category=' . $item->category_slug) }}">{{ ucwords(str_replace('templates', '', strtolower($item->category_name))) }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
             <div class="f-menu">
@@ -44,11 +20,32 @@
                     Pages
                 </h3>
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="contacts.html">About us</a></li>
-                    <li><a href="contacts.html">Delivery</a></li>
-                    <li><a href="contacts.html">Guarantees</a></li>
-                    <li><a href="contacts.html">Contacts</a></li>
-                    <li><a href="404.html">Page 404</a></li>
+                    <li><a href="{{ url('login') }}">Login</a></li>
+                    <li><a href="{{ url('register') }}">Register</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
+            <div class="f-menu">
+                <h3>
+                    Home
+                </h3>
+                <ul class="nav nav-pills nav-stacked">
+                    <li @if (request()->is('/')) class="active" @endif>
+                        <a href="{{ url('/') }}">Home</a>
+                    </li>
+                    <li @if (request()->is('catalog')) class="active" @endif>
+                        <a href="{{ url('/catalog') }}">Catalog</a>
+                    </li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
+            <div class="f-menu">
+                <h3>
+                    Information
+                </h3>
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#">Carrier</a></li>
                 </ul>
             </div>
             <div class="f-subscribe">
@@ -72,18 +69,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="http://google.com/" rel="nofollow" target="_blank">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </li>
-                    <li>
                         <a href="http://twitter.com/" rel="nofollow" target="_blank">
                             <i class="fa fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://vk.com/" rel="nofollow" target="_blank">
-                            <i class="fa fa-vk"></i>
                         </a>
                     </li>
                     <li>
@@ -93,7 +80,7 @@
                     </li>
                 </ul>
                 <div class="footer-copyright">
-                    <i><a href="https://themeforest.net/user/real-web?ref=real-web">Real-Web</a></i> © Copyright 2017
+                    <i><a href="{{ url('/') }}">{{ env('APP_NAME') }}</a></i> © Copyright 2023
                 </div>
             </div>
         </div>

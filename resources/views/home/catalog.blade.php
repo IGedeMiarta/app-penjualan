@@ -27,13 +27,19 @@
                 <!-- Pagination - start -->
                 <div style="display:flex;justify-content:center">
                     <ul class="pagi ">
+                        {{-- @dd(); --}}
+                        @php
+                            $totalPages = $catalog->lastPage();
+                            $currentPage = $catalog->currentPage();
+                            $result = calculatePages($currentPage, $totalPages);
+                        @endphp
                         @if ($catalog->currentPage() != 1)
                             <li class="pagi-next">
                                 <a href="{{ $catalog->previousPageUrl() . $query }}"><i
                                         class="fa fa-angle-double-left"></i></a>
                             </li>
                         @endif
-                        @for ($i = 1; $i <= $catalog->lastPage(); $i++)
+                        @for ($i = $result['startPage'] - 1 != 0 ? $result['startPage'] - 1 : $result['startPage']; $i <= $result['lastPage']; $i++)
                             <li class="@if ($catalog->currentPage() == $i) active @endif"><a
                                     href="{{ url('catalog?page=' . $i . $query) }}">{{ $i }}</a>
                             </li>
@@ -85,13 +91,14 @@
                 <!-- Pagination - start -->
                 <div style="display:flex;justify-content:center">
                     <ul class="pagi ">
+
                         @if ($catalog->currentPage() != 1)
                             <li class="pagi-next">
                                 <a href="{{ $catalog->previousPageUrl() . $query }}"><i
                                         class="fa fa-angle-double-left"></i></a>
                             </li>
                         @endif
-                        @for ($i = 1; $i <= $catalog->lastPage(); $i++)
+                        @for ($i = $result['startPage'] - 1 != 0 ? $result['startPage'] - 1 : $result['startPage']; $i <= $result['lastPage']; $i++)
                             <li class="@if ($catalog->currentPage() == $i) active @endif"><a
                                     href="{{ url('catalog?page=' . $i . $query) }}">{{ $i }}</a>
                             </li>
@@ -118,3 +125,4 @@
         <!-- Quick View Product - end -->
     </section>
 @endsection
+{{-- @include('home.partials.modal') --}}

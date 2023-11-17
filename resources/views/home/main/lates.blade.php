@@ -9,7 +9,7 @@
                  <div class="content content-shadow-product">
                      <a href="/product-details/">
                          <div class="image">
-                             <img src="images/product3.png" alt="product">
+                             <img src="{{ asset('app') }}/assets/images/others/product-1.jpg" alt="product">
                          </div>
                          <div class="text">
                              <p class="title-product title-product-center">Elegant Blue t-Shirt
@@ -23,7 +23,7 @@
                  <div class="content content-shadow-product">
                      <a href="/product-details/">
                          <div class="image">
-                             <img src="images/product4.png" alt="product">
+                             <img src="{{ asset('app') }}/assets/images/others/produc-2.jpg" alt="product">
                          </div>
                          <div class="text">
                              <p class="title-product title-product-center">Elegant Blue t-Shirt
