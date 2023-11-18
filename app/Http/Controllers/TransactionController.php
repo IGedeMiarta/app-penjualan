@@ -21,6 +21,10 @@ class TransactionController extends Controller
         if(!$product){
             return redirect()->back()->with('error','Product Not Found');
         }
+        $checkAlredry = UserChart::where(['product_id'=>$product->id,'user_id'=>auth()->user()->id])->first();
+        if($checkAlredry){
+            return redirect()->back()->with('success','Product alredy on chart');
+        }
         DB::beginTransaction();
         try {
             UserChart::create([
@@ -31,7 +35,7 @@ class TransactionController extends Controller
                 'sum'           => $price
             ]);
             DB::commit();
-            return redirect()->back()->with('success','Product Add to chart');
+            return redirect()->back()->with('success','Product added to chart');
         } catch (\Throwable $th) {
             DB::rollBack();
             dd($th->getMessage());

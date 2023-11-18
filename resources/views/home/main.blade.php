@@ -5,7 +5,9 @@
 
         @include('home.main.populars')
 
+
         @include('home.main.banner')
+
 
         @include('home.main.special')
 

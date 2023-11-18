@@ -30,7 +30,8 @@
                             <p class="prod-i-addwrap">
                                 <a href="#" class="prod-i-add qview-btn btnDetails" data-id="{{ $pal->id }}"
                                     data-name="{{ $pal->product_name }}" data-price="{{ $pal->price }}"
-                                    data-slug="{{ $pal->product_slug }}"
+                                    data-slug="{{ $pal->product_slug }}" data-authorid="{{ $pal->author->id }}"
+                                    data-authorname="{{ $pal->author->name }}"
                                     data-category="{{ $pal->category->category_name }}"
                                     data-id_category="{{ $pal->id_category }}" data-tags="{{ $pal->tags() }}"
                                     data-desc="{{ $pal->description }}">Go to
@@ -66,19 +67,17 @@
                                 <a href="{{ url('product/' . $p->product_slug) }}"
                                     class="prod-i-img"><!-- NO SPACE --><img src="{{ $p->images() }}"
                                         alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
-                                {{-- <p class="prod-i-info text-center">
-                                <a href="#" class="prod-i-favorites"><span>Wishlist</span><i
-                                        class="fa fa-heart"></i></a>
-                            </p> --}}
-                                {{-- <p class="prod-i-addwrap">
+
+                                <p class="prod-i-addwrap">
                                     <a href="#" class="prod-i-add qview-btn btnDetails"
                                         data-id="{{ $p->id }}" data-name="{{ $p->product_name }}"
                                         data-price="{{ $p->price }}" data-slug="{{ $p->product_slug }}"
+                                        data-authorid="{{ $p->author->id }}" data-authorname="{{ $p->author->name }}"
                                         data-category="{{ $p->category->category_name }}"
                                         data-id_category="{{ $p->id_category }}" data-tags="{{ $p->tags() }}"
                                         data-desc="{{ $p->description }}">Go to
                                         detail</a>
-                                </p> --}}
+                                </p>
                             </div>
                             <h3>
                                 <a href="{{ url('product/' . $p->product_slug) }}">{{ $p->product_name }}</a>

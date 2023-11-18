@@ -16,12 +16,16 @@
                 @php
                     $category = isset($_GET['category']) ? $_GET['category'] : false;
                     $search = isset($_GET['search']) ? $_GET['search'] : false;
+                    $author = isset($_GET['author']) ? $_GET['author'] : false;
                     $query = '';
                     if ($category) {
                         $query .= '&category=' . $category;
                     }
                     if ($search) {
                         $query .= '&search=' . $search;
+                    }
+                    if ($author) {
+                        $query .= '&author=' . $author;
                     }
                 @endphp
                 <!-- Pagination - start -->
@@ -74,8 +78,9 @@
                                     <a href="#" class="prod-i-add qview-btn btnDetails"
                                         style="background-color: #A6CF98" data-id="{{ $cal->id }}"
                                         data-name="{{ $cal->product_name }}" data-price="{{ $cal->price }}"
-                                        data-slug="{{ $cal->product_slug }}"
+                                        data-disc="0" data-slug="{{ $cal->product_slug }}"
                                         data-category="{{ $cal->category->category_name }}"
+                                        data-authorid="{{ $cal->author->id }}" data-authorname="{{ $cal->author->name }}"
                                         data-id_category="{{ $cal->id_category }}" data-tags="{{ $cal->tags() }}"
                                         data-desc="{{ $cal->description }}"><i class="fa fa-search"></i> Go to
                                         detail</a>

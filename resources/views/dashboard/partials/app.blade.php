@@ -4,17 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ $title ?? '' }} - {{ env('APP_NAME') }}</title>
-
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('app') }}/assets/images/logo/favicon.png">
-
+    <link rel="shortcut icon" href="{{ asset('fav.png') }}">
+    <title>{{ $title ?? '' }} - {{ env('APP_NAME') }}</title>
     <!-- page css -->
 
     <!-- Core css -->
     <link href="{{ asset('app') }}/assets/css/app.min.css" rel="stylesheet">
 
-    @stack('style');
+    @stack('style')
 
 </head>
 
@@ -95,7 +93,7 @@
             });
         });
     </script>
-    @stack('script');
+    @stack('script')
 
 </body>
 

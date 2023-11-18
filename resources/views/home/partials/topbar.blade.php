@@ -35,7 +35,7 @@
     <div class="container header-middle-cont">
         <div class="toplogo">
             <a href="{{ url('/') }}">
-                <img src="{{ asset('assets') }}/img/logo.png" alt="AllStore - MultiConcept eCommerce Template">
+                <img src="{{ asset('logo.png') }}" alt="AllStore - MultiConcept eCommerce Template">
             </a>
         </div>
         <div class="shop-menu">
@@ -74,15 +74,11 @@
 <div class="header-bottom">
     <div class="container">
         <nav class="topmenu">
-
-            @php
-                $category_all = App\Models\Categories::all();
-            @endphp
             <!-- Catalog menu - start -->
             <div class="topcatalog">
                 <a class="topcatalog-btn" href="{{ url('catalog') }}"><span>All</span> catalog</a>
                 <ul class="topcatalog-list">
-                    @foreach ($category_all as $i)
+                    @foreach (App\Models\Categories::all() as $i)
                         <li>
                             <a href="{{ url('catalog?category=' . $i->category_slug) }}">
                                 {{ str_replace('TEMPLATES', '', strtoupper($i->category_name)) }}
@@ -99,46 +95,16 @@
 
             <ul class="mainmenu">
                 {{-- <li>
-                    <a href="index.html" class="active">
-                        Home
+                    <a href="#" class="active">
+                        Login
                     </a>
                 </li>
-                <li class="menu-item-has-children">
-                    <a href="catalog-list.html">
-                        Catalog <i class="fa fa-angle-down"></i>
+                <li>
+                    <a href="#" class="active">
+                        Regiter
                     </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="catalog-list.html">
-                                Catalog List - Style 1
-                            </a>
-                        </li>
-                        <li>
-                            <a href="catalog-list-2.html">
-                                Catalog List - Style 2
-                            </a>
-                        </li>
-                        <li>
-                            <a href="catalog-gallery.html">
-                                Catalog Gallery - Style 1
-                            </a>
-                        </li>
-                        <li>
-                            <a href="catalog-gallery-2.html">
-                                Catalog Gallery - Style 2
-                            </a>
-                        </li>
-                        <li>
-                            <a href="catalog-table.html">
-                                Catalog Table
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="mainmenu-more">
-                    <span>...</span>
-                    <ul class="mainmenu-sub"></ul>
                 </li> --}}
+
             </ul>
             <!-- Main menu - end -->
 
@@ -168,7 +134,6 @@
             method: 'GET',
             dataType: 'json',
             success: function(rs) {
-                console.log(rs);
                 $('.userID').html(rs.count);
             },
             error: function(xhr, status, error) {

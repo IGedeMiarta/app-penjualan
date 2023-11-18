@@ -59,11 +59,10 @@
                     <h1 class="main-ttl"><span>{{ $product->product_name }}</span></h1>
                     <div class="prod-info">
                         <p class="prod-skuttl">Author</p>
-                        <a href="{{ url('author/' . $product->author_id) }}">
+                        <a href="{{ url('catalog?author=' . $product->author_id) }}">
                             <h3 class="item_current_price text-info">
                                 {{ $product->author->name }}</h3>
                         </a>
-
                     </div>
                     <div class="prod-skuwrap">
                         <p class="prod-skuttl">Tags</p>

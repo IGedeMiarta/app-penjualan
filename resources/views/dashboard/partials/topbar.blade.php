@@ -1,14 +1,14 @@
  <div class="header">
-     <div class="logo logo-dark">
-         <a href="index.html">
-             <img src="{{ asset('app') }}/assets/images/logo/logo.png" alt="Logo">
-             <img class="logo-fold" src="{{ asset('app') }}/assets/images/logo/logo-fold.png" alt="Logo">
+     <div class="logo logo-dark ">
+         <a href="{{ url('admin/dashboard') }}">
+             <img src="{{ asset('logo.png') }}" alt="Logo" width="90%">
+             <img class="logo-fold ml-2" src="{{ asset('logo-2.png') }}" alt="Logo" width="80%">
          </a>
      </div>
      <div class="logo logo-white">
-         <a href="index.html">
-             <img src="{{ asset('app') }}/assets/images/logo/logo-white.png" alt="Logo">
-             <img class="logo-fold" src="{{ asset('app') }}/assets/images/logo/logo-fold-white.png" alt="Logo">
+         <a href="{{ url('admin/dashboard') }}">
+             <img src="{{ asset('logo.png') }}" alt="Logo">
+             <img class="logo-fold" src="{{ asset('logo.png') }}" alt="Logo">
          </a>
      </div>
      <div class="nav-wrap">

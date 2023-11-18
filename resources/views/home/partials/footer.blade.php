@@ -8,7 +8,7 @@
                     Categories
                 </h3>
                 <ul class="nav nav-pills nav-stacked">
-                    @foreach ($category_all as $item)
+                    @foreach (App\Models\Categories::all() as $item)
                         <li><a
                                 href="{{ url('catalog?category=' . $item->category_slug) }}">{{ ucwords(str_replace('templates', '', strtolower($item->category_name))) }}</a>
                         </li>

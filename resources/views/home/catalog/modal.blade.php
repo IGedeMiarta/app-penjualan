@@ -25,7 +25,13 @@
              <h1 class="mt-n5">
                  <h2 id="productName"></h2>
              </h1>
+             <div class="prod-info">
+                 <p class="prod-skuttl">Author</p>
+                 <a href="" id="authorUrl">
+                     <h3 class="item_current_price text-info" id="authorName"></h3>
+                 </a>
 
+             </div>
              <div class="prod-skuwrap">
                  <p class="prod-skuttl">Tags</p>
                  <ul class="prod-skucolor">
@@ -67,15 +73,23 @@
              const disc = $(this).data('disc');
              const desc = $(this).data('desc');
              var details = $(this).data('desc');
+             const authorid = $(this).data('authorid');
+             const authorname = $(this).data('authorname');
+             $('.disc').html(number_format(disc));
+
+             $('#authorUrl').attr('href', `catalog?author=${authorid}`);
+             $('#authorName').html(authorname);
+
              $('#productName').html(name);
              $('.showTags').html(tags);
              $('#price').html(number_format(price));
              details = details.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
              details = details.replace(/\n/g, '<br>');
-             // $('.detailsHire').html(desc.replace(/\n/g, '<br>'))
              $('.detailsHire').html(details);
-             $('.disc').html(number_format(disc));
-             // $('#categoryText').html(category + ' Templates')
+             if (disc == 0) {
+                 $('.disc').css('display', 'none');
+             }
+
              $('.prod-add').attr('href', `chart-add?_xcode=${price*111111}&product=${slug}`);
 
              $.ajax({
@@ -100,7 +114,6 @@
                                 </a>`;
                          mini += '</li>';
                      });
-                     console.log(mini);
                      $('#imgSlider').html(slide)
                      $('#imgSliderMini').html(mini)
 

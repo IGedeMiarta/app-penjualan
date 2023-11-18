@@ -7,11 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     <title>{{ $title ?? '' }} {{ env('APP_NAME') }}</title>
+    <link rel="shortcut icon" href="{{ asset('fav.png') }}">
 
     <link
         href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700ii%7CRoboto:300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic"
         rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/ion.rangeSlider.css">
@@ -69,8 +70,39 @@
     <script src="{{ asset('assets') }}/js/jQuery.Brazzers-Carousel.js"></script>
     <script src="{{ asset('assets') }}/js/plugins.js"></script>
     <script src="{{ asset('assets') }}/js/main.js"></script>
-    <script src="{{ asset('assets') }}/js/gmap.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
     <!-- jQuery plugins/scripts - end -->
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "bottom-start",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+    </script>
+    @if (session('success'))
+        <script>
+            Toast.fire({
+                icon: "success",
+                title: '{{ session('success') }}'
+            });
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            Toast.fire({
+                icon: "error",
+                title: '{{ session('error') }}'
+            });
+        </script>
+    @endif
+
     @stack('script')
 </body>
 

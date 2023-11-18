@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index']);
 Route::get('/product/{slug}',[HomeController::class,'product']);
-Route::get('/author/{id}',[HomeController::class,'author']);
 Route::get('/catalog',[HomeController::class,'catalog']);
 Route::get('/special-catalog',[HomeController::class,'specialCatalog']);
 
