@@ -36,6 +36,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/chart-add',[TransactionController::class,'chartAdd']);
     Route::get('/chart-del/{id}',[TransactionController::class,'chartDel']);
     Route::get('/chart-del-all',[TransactionController::class,'chartDelAll']);
+    Route::post('/trasaction',[TransactionController::class,'trasaction']);
+
+    Route::get('/invoice/{inv}',[TransactionController::class,'invoice']);
+    Route::get('/invoice',[TransactionController::class,'invoiceAll']);
 });
 
 Route::prefix('admin')->group(function(){

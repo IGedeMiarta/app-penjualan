@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\UserChart;
 use Illuminate\Http\Request;
@@ -49,5 +51,51 @@ class TransactionController extends Controller
     public function chartDelAll(){
         UserChart::where('user_id',auth()->user()->id)->delete();
         return redirect()->back()->with('success','All chart deleted');
+    }
+
+    public function trasaction(Request $request){
+        $products = $request->input('product');
+        $prices = $request->input('price');
+        $qtys = $request->input('qty');
+        $totals = $request->input('total');
+        DB::beginTransaction();
+        $inv = Inv();
+        try {
+            $createOrder = new Order();
+            $createOrder->Invoice = $inv;
+            $createOrder->customer = auth()->user()->id;
+            $createOrder->amount = $request->amount;
+            $createOrder->status = 1;
+            $createOrder->save();
+
+            foreach ($products as $key => $product) {
+                $orderDetail = new OrderDetail();
+                $orderDetail->order_id = $createOrder->id;
+                $orderDetail->product_id = $product;
+                $orderDetail->qty = $qtys[$key];
+                $orderDetail->price = $prices[$key];
+                $orderDetail->total = $totals[$key];
+                $orderDetail->save();
+            }
+            DB::commit();
+            UserChart::where('user_id',auth()->user()->id)->delete();
+            return redirect()->back()->with('success','Trasaction Create, check email for details');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th->getMessage());
+        }
+    }
+    public function invoiceAll(){
+        $data['title'] = 'Invoice';
+        $data['table'] = Order::with('details','details.product')->where('customer',auth()->user()->id)->get();
+        // dd($data);
+        return view('home.invoice',$data);
+    }
+
+    public function invoice($inv){
+        $order = Order::with('details','details.product')->where('customer',auth()->user()->id)->where('Invoice',$inv)->first();
+        $data['title'] = 'Invoice: #'.$order->Invoice;
+        $data['order'] = $order;
+        return view('home.invoice-detail',$data);
     }
 }

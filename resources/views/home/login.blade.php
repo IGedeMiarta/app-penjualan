@@ -2,17 +2,8 @@
 @section('content')
     <section class="container stylization maincont">
 
+        @include('home.partials.breadcubs')
 
-        <ul class="b-crumbs">
-            <li>
-                <a href="{{ url('/') }}">
-                    Home
-                </a>
-            </li>
-            <li>
-                <span>Login</span>
-            </li>
-        </ul>
         <h1 class="main-ttl"><span>Login</span></h1>
         <div class="auth-wrap" style="display: flex;justify-content: center">
             <div class="auth-col">

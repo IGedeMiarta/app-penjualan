@@ -1,16 +1,8 @@
 @extends('home.partials.app')
 @section('content')
     <section class="container stylization maincont">
-        <ul class="b-crumbs">
-            <li>
-                <a href="{{ url('/') }}">
-                    Home
-                </a>
-            </li>
-            <li>
-                <span>Registration</span>
-            </li>
-        </ul>
+        @include('home.partials.breadcubs')
+
         <h1 class="main-ttl"><span>Registration</span></h1>
         <div class="row"style="display: flex;justify-content: center">
 
@@ -18,8 +10,7 @@
                 <form method="POST" action="{{ route('register.post') }}">
                     @csrf
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">Name<span
-                                class="text-danger">*</span></label>
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Name<span class="text-danger">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="inputEmail3" placeholder="Enter Name"
                                 name="name" value="{{ old('name') }}">

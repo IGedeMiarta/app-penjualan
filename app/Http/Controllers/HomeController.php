@@ -79,7 +79,7 @@ class HomeController extends Controller
         return view('home.catalog',$data);
     }
     public function specialCatalog(Request $request){
-        $data['title'] = 'Special Catalog';
+        $data['title'] = 'Special OFFER';
         $data['catalog'] = SpecialProduct::with('product','product.category','product.author')->paginate(4);
         $data['related'] = Product::limit(5)->orderByDesc('id')->paginate(5);
         return view('home.special-catalog',$data);

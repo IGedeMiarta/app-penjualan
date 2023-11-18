@@ -9,7 +9,9 @@
     </style>
 @endpush
 @section('content')
-    <section class="container">
+    <section class="container">'
+        @include('home.partials.breadcubs')
+
         <h1 class="main-ttl"><span>{{ $title ?? '' }}</span></h1>
         <div class="prod-wrap">
             <div class="section-catalog">

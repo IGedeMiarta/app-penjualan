@@ -3,26 +3,8 @@
     <!-- Main Content - start -->
     <main>
         <section class="container">
-            {{-- <ul class="b-crumbs">
-                <li>
-                    <a href="index.html">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a href="catalog-list.html">
-                        Catalog
-                    </a>
-                </li>
-                <li>
-                    <a href="catalog-list.html">
-                        Women
-                    </a>
-                </li>
-                <li>
-                    <span>{{ $product->product_name }}</span>
-                </li>
-            </ul> --}}
+            @include('home.partials.breadcubs')
+
             <!-- Single Product - start -->
             <div class="prod-wrap">
 

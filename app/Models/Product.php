@@ -43,4 +43,7 @@ class Product extends Model
     public function chart(){
         return $this->hasMany(UserChart::class);
     }
+    public function orderDetail(){
+        return $this->hasMany(orderDetail::class);
+    }
 }
