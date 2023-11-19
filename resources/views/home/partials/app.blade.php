@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/css/swiper.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/media.css">
-
+    @stack('style')
 </head>
 
 <body>
@@ -76,7 +76,7 @@
     <script>
         const Toast = Swal.mixin({
             toast: true,
-            position: "bottom-start",
+            position: "top-end",
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,

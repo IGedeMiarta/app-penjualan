@@ -30,7 +30,8 @@
                         <tr>
 
                             <td class="cart-ttl">
-                                <a href="{{ url('invoice/' . $item->Invoice) }}">#{{ $item->Invoice }}</a>
+                                <a href="{{ url('invoice/' . $item->Invoice) }}" target="_blank"
+                                    style="color: #7071E8">#{{ $item->Invoice }}</a>
 
                                 @foreach ($item->details as $i => $d)
                                     <p>{{ $i + 1 . '. ' . $d->product->product_name }}</p>
@@ -45,7 +46,7 @@
                             </td>
 
                             <td class="cart-summ">
-                                <b>{{ $item->status() }}</b>
+                                <b>{!! $item->status() !!}</b>
                             </td>
                         </tr>
                     @endforeach

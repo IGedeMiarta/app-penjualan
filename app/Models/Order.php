@@ -20,11 +20,11 @@ class Order extends Model
 
     public function status(){
         if($this->status == 1){
-            return "WAIT FOR PAYMENT";
+            return "<span style='color:#2D9596'>WAIT FOR PAYMENT</span>";
         }else if($this->status == 2){
-            return "PAYMENT APPROVE";
+            return "<span style='color:#1640D6'>PAYMENT APPROVE</span>";
         }else{
-            return "PAYMENT REJECTED";
+            return "<span style='color:#FF8F8F'>PAYMENT REJECT</span>";
         }
     }
 }

@@ -61,11 +61,11 @@ function due($date){
 function app_data($arr){
     $data['bank_account'] = [
         ['bank'=>'BANK BRI','no'=>'469601006057537','detail'=>'a/n I Gede Miarta Yasa'],
-        ['bank'=>'CIMB Niaga','no'=>'706968169000','detail'=>'a/n I Gede Miarta Yasa'],
+        // ['bank'=>'CIMB Niaga','no'=>'706968169000','detail'=>'a/n I Gede Miarta Yasa'],
         ['bank'=>'GOPAY/DANA','no'=>'081529963914','detail'=>'a/n I Gede Miarta Yasa']
     ];
     $data['invoice_note'] = " All payments should be made in rupiah <small>(Rp.)</small>. <br> If payment is not received within 3 days after invoice create, the invoice will be automatically canceled. <br> Please include the invoice number in the reference when making the payment. <br>Themes will be delivered/performed upon receipt of payment. <br>";
     $data['address'] = " Ruko Mulyosari Tengah, Blok 95 J No.5 Jl. Mulyosari tengah, <br> Kalisari, Kec. Mulyorejo Kota Surabaya, Jawa Timur";
-    $data['phone'] = "(+62) 815 29996 3914";
-    return $data[$arr];
+    $data['phone'] = "(+62) 815 2996 3914";
+    return $data[$arr] ?? 'UNDECLARED';
 }

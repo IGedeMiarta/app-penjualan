@@ -13,9 +13,10 @@
            </div>
            <div class="swiper-container reviewscar-thumbs">
                <div class="swiper-wrapper">
-                   @foreach ($testi as $tst)
+                   @foreach ($testi as $i => $tst)
                        <div class="swiper-slide">
-                           <img src="http://placehold.it/120x120" alt="{{ $tst->user->name }}">
+                           <img src="{{ asset('ava/' . $i % 10 . '.jpg') }}" class="prod-i-img"
+                               alt="{{ $tst->user->name }}">
                            <h3 class="reviewscar-ttl"><a href="reviews.html">{{ $tst->user->name }}</a></h3>
                            <p class="reviewscar-post">{{ $tst->roles }}</p>
                        </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Categories;
 use App\Models\Media;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\SpecialProduct;
 use App\Models\Testimony;
@@ -18,7 +19,7 @@ class HomeController extends Controller
         $data['category_all'] = Categories::limit(10)->get();
         $data['product_all'] = Product::with(['category'])->orderByDesc('id')->limit(20)->get();
         $data['special'] = SpecialProduct::with('product')->orderByDesc('id')->limit(10)->get();
-        $data['testi']  =Testimony::with('user')->orderByDesc('id')->limit(3)->get();
+        $data['testi']  =Testimony::with('user')->orderByDesc('id')->limit(10)->get();
         return view('home.main',$data);
     }
 
@@ -83,5 +84,13 @@ class HomeController extends Controller
         $data['catalog'] = SpecialProduct::with('product','product.category','product.author')->paginate(4);
         $data['related'] = Product::limit(5)->orderByDesc('id')->paginate(5);
         return view('home.special-catalog',$data);
+    }
+    public function profile(){
+        $data['title'] = 'Profile';
+        $data['user']   = Auth::user();
+        $data['table'] = Order::with('details','details.product')->where('customer',auth()->user()->id)->orderBy('status','ASC')->orderBy('id','desc')->limit(5)->get();
+
+
+        return view('home.profile',$data);
     }
 }

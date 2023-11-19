@@ -6,7 +6,9 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\UserChart;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -87,15 +89,33 @@ class TransactionController extends Controller
     }
     public function invoiceAll(){
         $data['title'] = 'Invoice';
-        $data['table'] = Order::with('details','details.product')->where('customer',auth()->user()->id)->get();
+        $data['table'] = Order::with('details','details.product')->where('customer',auth()->user()->id)->orderBy('status','ASC')->orderBy('id','desc')->limit(5)->get();
+
+
         // dd($data);
         return view('home.invoice',$data);
     }
 
     public function invoice($inv){
         $order = Order::with('details','details.product')->where('customer',auth()->user()->id)->where('Invoice',$inv)->first();
+        
+        if(!$order){
+            return redirect()->back()->with('error','Inoice not found');
+        }
         $data['title'] = 'Invoice: #'.$order->Invoice;
         $data['order'] = $order;
+        $view = view('home.invoice-detail',$data)->render();
+        // $view = view('test-inv',$data)->render();
+        return $view;
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream();
+
+        // return Pdf::loadFile(public_path().'/myfile.html')->save('/path-to/my_stored_file.pdf')->stream('download.pdf');
+        return Pdf::loadHTML($view)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')->stream('download.pdf');
+        // $pdf = Pdf::loadView('home.invoice-detail',$data);
+        // return $pdf->download('laporan-pegawai-pdf');
+
         return view('home.invoice-detail',$data);
     }
 }

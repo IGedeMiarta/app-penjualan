@@ -3,7 +3,7 @@
     <div class="container">
         <ul class="contactinfo nav nav-pills">
             <li>
-                <i class='fa fa-phone'></i> +62 815 2996 3914
+                <i class='fa fa-phone'></i> {{ app_data('phone') }}
             </li>
             <li>
                 <i class="fa fa-envelope"></i> {{ env('MAIL_FROM_ADDRESS') }}
@@ -54,7 +54,7 @@
                 @else
                     <li class="topauth">
 
-                        <a href="#">
+                        <a href="{{ url('profile') }}">
                             <span class="shop-menu-ttl">{{ auth()->user()->email }}</span>
                         </a>
                         <a href="{{ url('chart') }}">

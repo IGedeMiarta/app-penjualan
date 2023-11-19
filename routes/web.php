@@ -40,6 +40,10 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/invoice/{inv}',[TransactionController::class,'invoice']);
     Route::get('/invoice',[TransactionController::class,'invoiceAll']);
+
+    Route::get('/profile',[HomeController::class,'profile']);
+
+    Route::post('/logout',[AuthController::class,'logout']);
 });
 
 Route::prefix('admin')->group(function(){

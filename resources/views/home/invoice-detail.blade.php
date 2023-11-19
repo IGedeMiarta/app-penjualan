@@ -114,16 +114,16 @@
 
 <body>
     <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
+        <table cellpadding="0" cellspacing="0" style="width: 100%;">
             <tr class="top">
-                <td colspan="2">
-                    <table>
+                <td colspan="2" style="width: 50%;">
+                    <table style="width: 100%;">
                         <tr>
-                            <td class="title">
+                            <td class="title" style="width: 50%;">
                                 <img src="{{ asset('logo.png') }}" style="width: 100%; max-width: 300px" />
                             </td>
 
-                            <td>
+                            <td style="width: 50%;">
                                 <strong> Invoice #{{ $order->Invoice }}<br /></strong>
 
                             </td>
@@ -134,15 +134,15 @@
 
             <tr class="information">
                 <td colspan="2">
-                    <table>
+                    <table style="width: 100%;">
                         <tr>
-                            <td>
+                            <td style="width: 50%;">
                                 <strong> Invoice To: </strong><br>
                                 <span>{{ auth()->user()->name }}</span><br />
                                 {{ auth()->user()->email }}
                             </td>
 
-                            <td>
+                            <td style="width: 50%;">
                                 Created: <strong>{{ df($order->created_at) }}</strong><br />
                                 Due: <strong>{{ due($order->created_at) }}</strong>
                             </td>
@@ -151,43 +151,40 @@
                 </td>
             </tr>
 
-            <tr class="heading">
-                <td>Bank Transfer</td>
+            <small>
+                <tr class="heading">
+                    <td style="width: 50%;">Bank Transfer</td>
 
-                <td>Rek.</td>
-            </tr>
-            @foreach (app_data('bank_account') as $bank)
-                <tr class="details">
-                    <td>{{ $bank['bank'] }}</td>
-
-                    <td>{{ $bank['no'] }} <br><small>{{ $bank['detail'] }}</small></td>
+                    <td style="width: 50%;">Rek.</td>
                 </tr>
-            @endforeach
+                @foreach (app_data('bank_account') as $bank)
+                    <tr class="details">
+                        <td style="width: 50%;">{{ $bank['bank'] }}</td>
 
-            <tr class="heading">
-                <td>Item</td>
+                        <td style="width: 50%;">{{ $bank['no'] }} <br><small>{{ $bank['detail'] }}</small></td>
+                    </tr>
+                @endforeach
 
-                <td>Price</td>
-            </tr>
-            @foreach ($order->details as $item)
-                <tr class="item">
-                    <td>{{ $item->product->product_name }}</td>
+                <tr class="heading">
+                    <td style="width: 50%;">Item</td>
 
-                    <td>{{ nb($item->price) }}</td>
+                    <td style="width: 50%;">Price</td>
                 </tr>
-            @endforeach
+                @foreach ($order->details as $item)
+                    <tr class="item">
+                        <td style="width: 50%;">{{ $item->product->product_name }}</td>
 
-
-
-            <tr class="total">
-                <td></td>
-
-                <td>Total: {{ nb($order->amount) }}</td>
-            </tr>
+                        <td style="width: 50%;">{{ nb($item->price) }}</td>
+                    </tr>
+                @endforeach
+                <tr class="total">
+                    <td style="width: 50%;"></td>
+                    <td style="width: 50%;">Total: {{ nb($order->amount) }}</td>
+                </tr>
         </table>
+        </small>
 
         {{-- <hr> --}}
-        <br><br>
         Notes: <br>
 
         <small>
@@ -205,7 +202,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
