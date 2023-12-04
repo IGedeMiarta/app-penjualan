@@ -43,7 +43,7 @@
                                     <a
                                         href="{{ url('product/' . $crt->product->product_slug) }}">{{ $crt->product->product_name }}</a>
                                     <p><b>Category: </b>{{ $crt->product->category->category_name }}</p>
-                                    <p><b>Auhtor: </b>{{ $crt->product->author->name }}</p>
+                                    <p><b>Brand: </b>{{ $crt->product->brand->name }}</p>
                                     <input type="hidden" name="product[]" value="{{ $crt->product->id }}">
                                 </td>
                                 <td class="cart-price">
