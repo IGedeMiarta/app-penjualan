@@ -30,22 +30,22 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Categories::create([
-            'category_name' => 'Brankas',
-            'category_slug' => Str::slug('Brankas')
-        ]);
-        Categories::create([
-            'category_name' => 'Alat Kantor',
-            'category_slug' => Str::slug('Alat Kantor')
-        ]);
-        Brand::create([
-            'name' => 'test'
-        ]);
+        // Categories::create([
+        //     'category_name' => 'Brankas',
+        //     'category_slug' => Str::slug('Brankas')
+        // ]);
+        // Categories::create([
+        //     'category_name' => 'Alat Kantor',
+        //     'category_slug' => Str::slug('Alat Kantor')
+        // ]);
+        // Brand::create([
+        //     'name' => 'test'
+        // ]);
 
-        Product::factory(100)->create();
-        Tags::factory(150)->create();
-        SpecialProduct::factory(20)->create();
-        Testimony::factory(20)->create();
+        // Product::factory(100)->create();
+        // Tags::factory(150)->create();
+        // SpecialProduct::factory(20)->create();
+        // Testimony::factory(20)->create();
 
     }
 }

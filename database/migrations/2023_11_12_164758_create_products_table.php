@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('tags')->nullable();
             $table->string('images')->nullable();
-            $table->string('url')->nullable();
+            $table->string('url')->nullable(); //
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->boolean('status')->default(1);
