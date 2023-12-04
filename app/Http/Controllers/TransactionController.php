@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class TransactionController extends Controller
 {
     public function chart(){
-        $data['chart'] = UserChart::with('product','product.author','product.category')->where('user_id',Auth::id())->get();
+        $data['chart'] = UserChart::with('product','product.brand','product.category')->where('user_id',Auth::id())->get();
         // dd($data);
         return view('home.chart',$data);
     }
