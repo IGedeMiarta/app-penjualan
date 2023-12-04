@@ -23,7 +23,7 @@ class ProductFactory extends Factory
 
         $name = $faker->words;
         $nameString = implode(' ', $name);
-        $category = rand(1,4);
+        $category = rand(1,2);
         $names = Categories::find($category);
         return [
             'product_name'  => $names->category_name.' '.$nameString,
@@ -33,7 +33,7 @@ class ProductFactory extends Factory
             'description'   => fake()->paragraph(),
             'tags'          => '',
             'images'        => 'http://placehold.it/250x350',
-            'author_id'     => 1
+            'brand_id'     => 1
         ];
     }
 }

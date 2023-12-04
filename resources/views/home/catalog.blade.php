@@ -33,7 +33,7 @@
                 <!-- Pagination - start -->
                 <div style="display:flex;justify-content:center">
                     <ul class="pagi ">
-                        {{-- @dd(); --}}
+                        {{-- @dd($catalog->links()); --}}
                         @php
                             $totalPages = $catalog->lastPage();
                             $currentPage = $catalog->currentPage();
@@ -82,7 +82,7 @@
                                         data-name="{{ $cal->product_name }}" data-price="{{ $cal->price }}"
                                         data-disc="0" data-slug="{{ $cal->product_slug }}"
                                         data-category="{{ $cal->category->category_name }}"
-                                        data-authorid="{{ $cal->author->id }}" data-authorname="{{ $cal->author->name }}"
+                                        data-brandid="{{ $cal->brand->id }}" data-brandname="{{ $cal->brand->name }}"
                                         data-id_category="{{ $cal->id_category }}" data-tags="{{ $cal->tags() }}"
                                         data-desc="{{ $cal->description }}"><i class="fa fa-search"></i> Go to
                                         detail</a>

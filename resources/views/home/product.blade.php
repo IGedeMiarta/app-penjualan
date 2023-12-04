@@ -40,10 +40,10 @@
                 <div class="prod-cont">
                     <h1 class="main-ttl"><span>{{ $product->product_name }}</span></h1>
                     <div class="prod-info">
-                        <p class="prod-skuttl">Author</p>
-                        <a href="{{ url('catalog?author=' . $product->author_id) }}">
+                        <p class="prod-skuttl">Brand</p>
+                        <a href="{{ url('catalog?brand=' . $product->brand_id) }}">
                             <h3 class="item_current_price text-info">
-                                {{ $product->author->name }}</h3>
+                                {{ $product->brand->name }}</h3>
                         </a>
                     </div>
                     <div class="prod-skuwrap">

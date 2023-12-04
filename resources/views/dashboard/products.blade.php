@@ -25,7 +25,7 @@
                                 <th>No</th>
                                 <th>Image</th>
                                 <th>Name</th>
-                                <th>Author</th>
+                                <th>Brand</th>
                                 <th>Category</th>
                                 <th>Price</th>
                                 <th>Tags</th>
@@ -38,7 +38,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td><img src="{{ asset($t->images) }}" alt="{{ $t->product_slug }}" width="100%"></td>
                                     <td>{{ $t->product_name }}</td>
-                                    <td>{{ $t->author->name }}</td>
+                                    <td>{{ $t->brand->name }}</td>
                                     <td>{{ $t->category->category_name }}</td>
                                     <td>{{ number_format($t->price, 0, '.', ',') }}</td>
                                     <td>{!! $t->tags() !!}</td>
@@ -104,10 +104,10 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Author</label>
+                            <label for="name" class="col-sm-2 col-form-label">brand</label>
                             <div class="col-sm-10">
-                                <select class="select2-tags form-select" id="author" name="author" multiple="multiple">
-                                    @foreach ($author as $au)
+                                <select class="select2-tags form-select" id="brand" name="brand" multiple="multiple">
+                                    @foreach ($brand as $au)
                                         <option value="{{ $au->id }}">{{ $au->name }}</option>
                                     @endforeach
                                 </select>
@@ -260,7 +260,7 @@
             $('.select2').select2({
                 theme: 'bootstrap-5'
             });
-            $('#author').select2({
+            $('#brand').select2({
                 tags: true,
                 theme: 'bootstrap-5'
             });

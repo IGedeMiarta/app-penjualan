@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use App\Models\Brand;
 use App\Models\Categories;
 use App\Models\Media;
 use App\Models\Product;
@@ -22,10 +23,10 @@ class ProductController extends Controller
     {
        
         $data['title'] = 'Produdcts';
-        $data['table'] = Product::with(['category','author'])->orderByDesc('id')->get();
+        $data['table'] = Product::with(['category','brand'])->orderByDesc('id')->get();
         $data['category'] = Categories::all();
         $data['tags'] = Tags::all();
-        $data['author'] = Author::all();
+        $data['brand'] = Brand::all();
         return view('dashboard.products',$data);
     }
 
@@ -46,9 +47,9 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
 //author
-            $auhor = Author::where('name',$request->author)->first();
-            if(!$auhor){
-                $auhor = Author::create(['name'=>$request->author]);
+            $brand = Brand::where('name',$request->brand)->first();
+            if(!$brand){
+                $brand = Brand::create(['name'=>$request->brand]);
             }
             $foto = $request->file('foto');
             $name = Str::slug($request->product_name);
@@ -100,7 +101,7 @@ class ProductController extends Controller
                 'description'   => $request->description,
                 'tags'          => json_encode($tagList),
                 'images'        => $imagesMain,
-                'author_id'     => $auhor->id
+                'brand_id'      => $brand->id
             ]);
             DB::commit();
             return redirect()->back()->with('success','Product Created');

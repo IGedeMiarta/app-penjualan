@@ -26,7 +26,7 @@
                  <h2 id="productName"></h2>
              </h1>
              <div class="prod-info">
-                 <p class="prod-skuttl">Author</p>
+                 <p class="prod-skuttl">Brand</p>
                  <a href="" id="authorUrl">
                      <h3 class="item_current_price text-info" id="authorName"></h3>
                  </a>
@@ -73,11 +73,11 @@
              const disc = $(this).data('disc');
              const desc = $(this).data('desc');
              var details = $(this).data('desc');
-             const authorid = $(this).data('authorid');
-             const authorname = $(this).data('authorname');
+             const authorid = $(this).data('brandid');
+             const authorname = $(this).data('brandname');
              $('.disc').html(number_format(disc));
 
-             $('#authorUrl').attr('href', `catalog?author=${authorid}`);
+             $('#authorUrl').attr('href', `catalog?brand=${authorid}`);
              $('#authorName').html(authorname);
 
              $('#productName').html(name);

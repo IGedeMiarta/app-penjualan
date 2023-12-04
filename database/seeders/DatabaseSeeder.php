@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Author;
+use App\Models\Brand;
 use App\Models\Categories;
 use App\Models\Product;
 use App\Models\SpecialProduct;
@@ -30,30 +31,14 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         Categories::create([
-            'category_name' => 'Dashboard Admin',
-            'category_slug' => Str::slug('Dashboard Admin')
+            'category_name' => 'Brankas',
+            'category_slug' => Str::slug('Brankas')
         ]);
         Categories::create([
-            'category_name' => 'Landing Page',
-            'category_slug' => Str::slug('Landing Page')
+            'category_name' => 'Alat Kantor',
+            'category_slug' => Str::slug('Alat Kantor')
         ]);
-        Categories::create([
-            'category_name' => 'Wordpress  Templates',
-            'category_slug' => Str::slug('Wordpress Templates')
-        ]);
-        Categories::create([
-            'category_name' => 'Portofolio Templates',
-            'category_slug' => Str::slug('Portofolio  Templates')
-        ]);
-        Categories::create([
-            'category_name' => 'Presentation Templates',
-            'category_slug' => Str::slug('Presentation Templates')
-        ]);
-        Categories::create([
-            'category_name' => 'Graphic Design Templates',
-            'category_slug' => Str::slug('Graphic Design Templates')
-        ]);
-        Author::create([
+        Brand::create([
             'name' => 'test'
         ]);
 

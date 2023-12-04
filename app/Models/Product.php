@@ -37,8 +37,8 @@ class Product extends Model
     public function special(){
         return $this->hasMany(SpecialProduct::class);
     }
-    public function author(){
-        return $this->belongsTo(Author::class,'author_id');
+    public function brand(){
+        return $this->belongsTo(Brand::class,'brand_id');
     }
     public function chart(){
         return $this->hasMany(UserChart::class);

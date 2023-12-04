@@ -79,8 +79,8 @@
                                         data-disc="{{ $cal->product->price }}"
                                         data-slug="{{ $cal->product->product_slug }}"
                                         data-category="{{ $cal->product->category->category_name }}"
-                                        data-authorid="{{ $cal->product->author->id }}"
-                                        data-authorname="{{ $cal->product->author->name }}"
+                                        data-brandid="{{ $cal->product->brand->id }}"
+                                        data-brandname="{{ $cal->product->brand->name }}"
                                         data-id_category="{{ $cal->product->id_category }}"
                                         data-tags="{{ $cal->product->tags() }}"
                                         data-desc="{{ $cal->product->description }}"><i class="fa fa-search"></i> Go to

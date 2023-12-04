@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use App\Models\Brand;
 use App\Models\Categories;
 use App\Models\Media;
 use App\Models\Order;
@@ -17,7 +18,7 @@ class HomeController extends Controller
     public function index(){
         $data['title'] = '';
         $data['category_all'] = Categories::limit(10)->get();
-        $data['product_all'] = Product::with(['category'])->orderByDesc('id')->limit(20)->get();
+        $data['product_all'] = Product::with(['category','brand'])->orderByDesc('id')->limit(20)->get();
         $data['special'] = SpecialProduct::with('product')->orderByDesc('id')->limit(10)->get();
         $data['testi']  =Testimony::with('user')->orderByDesc('id')->limit(10)->get();
         return view('home.main',$data);
@@ -26,7 +27,7 @@ class HomeController extends Controller
     public function product(Request $request,$slug){
         $data['title'] = 'Product';
         // dd($request->all());
-        $product = Product::with('author')->where('product_slug',$slug)->first();
+        $product = Product::with('brand')->where('product_slug',$slug)->first();
         if($request->special){
             $special = SpecialProduct::where('id_product',$product->id)->first();
             if(!$special){
@@ -52,36 +53,37 @@ class HomeController extends Controller
     }
     public function catalog(Request $request){
         $data['title'] = 'Catalog';
-        $data['catalog'] = Product::with('category','author')->paginate(4);
+        $data['catalog'] = Product::with('category','brand')->paginate(4);
         if($request->search){
-            $data['catalog'] = Product::with('category','author')->where('product_name','LIKE','%'.$request->search.'%')->paginate(4);
+            $data['catalog'] = Product::with('category','brand')->where('product_name','LIKE','%'.$request->search.'%')->paginate(4);
             $data['title'] = 'Catalog Search : '. $request->search;
         }
         if($request->category){
             $catagory = Categories::where('category_slug',$request->category)->first();
-            $data['catalog'] = Product::with('category','author')->where('id_category',$catagory->id)->paginate(4);
+            $data['catalog'] = Product::with('category','brand')->where('id_category',$catagory->id)->paginate(4);
             $data['title'] = 'Catalog : '. $catagory->category_name;
         }
         if($request->search && $request->category){
             $catagory = Categories::where('category_slug',$request->category)->first();
-            $data['catalog'] = Product::with('category','author')
+            $data['catalog'] = Product::with('category','brand')
             ->where('id_category',$catagory->id)
             ->where('product_name','LIKE','%'.$request->search.'%')
             ->paginate(4);
             $data['title'] = 'Catalog : '. $catagory->category_name;
         }
-        if($request->author){
-            $author = Author::find($request->author);
-            $data['title'] = 'Author: '. $author->name;
-            $data['catalog'] = Product::with('category','author')->where('author_id',$request->author)->paginate(4);
+        if($request->brand){
+            $brand = Brand::find($request->brand);
+            $data['title'] = 'Brand: '. $brand->name;
+            $data['catalog'] = Product::with('category','brand')->where('brand_id',$request->brand)->paginate(4);
         }
-
         $data['related'] = Product::limit(5)->orderByDesc('id')->paginate(5);
         return view('home.catalog',$data);
     }
     public function specialCatalog(Request $request){
         $data['title'] = 'Special OFFER';
-        $data['catalog'] = SpecialProduct::with('product','product.category','product.author')->paginate(4);
+        $data['catalog'] = SpecialProduct::with('product','product.category','product.brand')->paginate(4);
+        // dd($data);
+        
         $data['related'] = Product::limit(5)->orderByDesc('id')->paginate(5);
         return view('home.special-catalog',$data);
     }
