@@ -1,4 +1,4 @@
-@extends('dashboard.partials.app');
+@extends('dashboard.partials.app')
 @push('style')
     <!-- page css -->
     <link href="{{ asset('app') }}/assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">

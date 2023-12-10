@@ -1,4 +1,4 @@
-@extends('dashboard.partials.app');
+@extends('dashboard.partials.app')
 @section('content')
     <div>
         <div class="row">
