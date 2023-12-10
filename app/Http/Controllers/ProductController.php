@@ -7,10 +7,10 @@ use App\Models\Brand;
 use App\Models\Categories;
 use App\Models\Media;
 use App\Models\Product;
-use App\Models\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 
@@ -24,8 +24,8 @@ class ProductController extends Controller
        
         $data['title'] = 'Produdcts';
         $data['table'] = Product::with(['category','brand'])->orderByDesc('id')->get();
+        // dd($data);
         $data['category'] = Categories::all();
-        $data['tags'] = Tags::all();
         $data['brand'] = Brand::all();
         return view('dashboard.products',$data);
     }
@@ -43,70 +43,49 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        $validator = Validator::make($request->all(),[
+            'product_name'  => 'required',
+            'product_slug'  => 'required',
+            'category'      => 'required',
+            'price'         => 'required',
+            'in_size'       => 'required',
+            'out_size'      => 'required',
+            'weight'        => 'required',
+            'description'   => 'required',
+            'image'        => 'required',
+            'brand'      => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            // dd($validator);
+            return redirect()->back()->withErrors($validator)->with('createFailed', true);
+        }
+      
         DB::beginTransaction();
         try {
-//author
-            $brand = Brand::where('name',$request->brand)->first();
-            if(!$brand){
-                $brand = Brand::create(['name'=>$request->brand]);
-            }
-            $foto = $request->file('foto');
+            $foto = $request->file('image');
             $name = Str::slug($request->product_name);
             $fotoImg= strtolower($name).'.'.$foto->getClientOriginalExtension();
             $path = 'images/product/';
             $foto->move(public_path($path), $fotoImg);
             $imagesMain = $path.$fotoImg;
 
-            $tags = $request->tags;
-            $tagList = [];
-            foreach($tags as $t){
-                // dd($t);
-                if(!is_numeric($t)){
-                    // find same;
-                    $findTag = Tags::where('tag_name','like','%'.strtolower($t).'%')->first();
-                    if(!$findTag){
-                        $newTag = Tags::create(['tag_name'=>$t]);
-                        $tagList[] = $newTag->id;
-                    }else{
-                        $tagList[] = $findTag->id;
-                    }
-                }else{
-                    $tagList[] = (int)$t;
-                }
-            }
-            // images
-            $images = $request->file('images');
-            foreach($images as $i => $image){
-
-            // Store the image in the storage folder
-                $name = Str::slug($request->product_name).'-'.$i+1;
-                $filename= strtolower($name).'.'.$image->getClientOriginalExtension();
-                $path = 'images/product/';
-                $image->move(public_path($path), $filename);
-                $imgSave = $path.$filename;
-            
-                Media::create([
-                    'slug' => Str::slug($request->product_name),
-                    'file'  => $imgSave,
-                ]);
-            }
-           
-
             Product::create([
                 'product_name'  => $request->product_name,
                 'product_slug'  => Str::slug($request->product_name),
                 'id_category'   => $request->category,
                 'price'         => intval(preg_replace('/[^\d.]/', '', $request->price)),
+                'in_size'       => $request->in_size,
+                'out_size'      => $request->out_size,
+                'weight'        => intval(preg_replace('/[^\d.]/', '', $request->weight)),
                 'description'   => $request->description,
-                'tags'          => json_encode($tagList),
                 'images'        => $imagesMain,
-                'brand_id'      => $brand->id
+                'brand_id'      => $request->brand
             ]);
             DB::commit();
             return redirect()->back()->with('success','Product Created');
         } catch (\Throwable $th) {
-            //throw $th;
+          
             DB::rollBack();
             dd($th->getMessage());
         }
@@ -132,9 +111,44 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+        if(!$product){
+            return redirect()->back()->with('error','Product Not Found');
+        }
+        DB::beginTransaction();
+        try {
+            $foto = $request->file('foto');
+            if($foto){
+                $name = Str::slug($request->product_name);
+                $fotoImg= strtolower($name).'.'.$foto->getClientOriginalExtension();
+                $path = 'images/product/';
+                $foto->move(public_path($path), $fotoImg);
+                $imagesMain = $path.$fotoImg;
+            }else{
+                $imagesMain = $product->images;
+            }
+
+            $product->update([
+                'product_name'  => $request->product_name,
+                'product_slug'  => Str::slug($request->product_name),
+                'id_category'   => $request->category,
+                'price'         => intval(preg_replace('/[^\d.]/', '', $request->price)),
+                'in_size'       => $request->in_size,
+                'out_size'      => $request->out_size,
+                'weight'        => intval(preg_replace('/[^\d.]/', '', $request->weight)),
+                'description'   => $request->description,
+                'images'        => $imagesMain,
+                'brand_id'      => $request->brand,
+                'status'        => $request->status
+            ]);
+            DB::commit();
+            return redirect()->back()->with('success','Product Updated');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th->getMessage());
+        }
     }
 
     /**

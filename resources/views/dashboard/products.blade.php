@@ -1,4 +1,4 @@
-@extends('dashboard.partials.app');
+@extends('dashboard.partials.app')
 @push('style')
     <!-- page css -->
     <link href="{{ asset('app') }}/assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -27,8 +27,11 @@
                                 <th>Name</th>
                                 <th>Brand</th>
                                 <th>Category</th>
+                                <th class="text-center">Outer Size <span class="small">(mm)</span></th>
+                                <th class="text-center">Inner Size <span class="small">(mm)</span></th>
+                                <th class="text-center">Weight <span class="small">(kg)</span></th>
                                 <th>Price</th>
-                                <th>Tags</th>
+                                <th>Status</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
@@ -36,13 +39,25 @@
                             @foreach ($table as $t)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td><img src="{{ asset($t->images) }}" alt="{{ $t->product_slug }}" width="100%"></td>
+                                    <td class="text-center">
+                                        <img src="{{ asset($t->images) }}" alt="{{ $t->product_slug }}"
+                                            style="max-width: 100px">
+
+                                    </td>
                                     <td>{{ $t->product_name }}</td>
                                     <td>{{ $t->brand->name }}</td>
                                     <td>{{ $t->category->category_name }}</td>
+                                    <td>{{ $t->in_size }}</td>
+                                    <td>{{ $t->out_size }}</td>
+                                    <td>{{ $t->weight }}</td>
                                     <td>{{ number_format($t->price, 0, '.', ',') }}</td>
-                                    <td>{!! $t->tags() !!}</td>
-
+                                    <td>
+                                        @if ($t->status)
+                                            <span class="badge badge-success">ACTIVE</span>
+                                        @else
+                                            <span class="badge badge-danger">NONACTIVE</span>
+                                        @endif
+                                    </td>
                                     <td class="text-end">
                                         <form action="/tags/{{ $t->id }}" method="POST">
                                             @csrf
@@ -50,15 +65,21 @@
                                             <button type="button" class="btn btn-info btn-sm mb-2 btnSee"
                                                 data-toggle="modal" data-target="#modalSee" data-id="{{ $t->id }}"
                                                 data-details="{{ $t->description }}" data-slug="{{ $t->product_slug }}"
-                                                data-name="{{ $t->product_name }}"
-                                                data-price="{{ number_format($t->price, 0, '.', ',') }}"
-                                                data-tag="{{ $t->tags() }}">
-                                                <i class="anticon anticon-eye  mr-2"></i>
+                                                data-name="{{ $t->product_name }}" data-image="{{ asset($t->images) }}"
+                                                data-brand="{{ $t->brand->name }}" data-in_size="{{ $t->in_size }}"
+                                                data-out_size="{{ $t->out_size }}" data-weight="{{ $t->weight }}"
+                                                data-price="{{ number_format($t->price, 0, '.', ',') }}" <i
+                                                class="anticon anticon-eye  mr-2"></i>
                                                 See
                                             </button>
-                                            <button class="btn btn-warning btn-sm btnEdit mb-2" disabled
-                                                data-id="{{ $t->id }}" data-name="{{ $t->tag_name }}"><i
-                                                    class="anticon anticon-edit mr-2"></i>
+                                            <button class="btn btn-warning btn-sm btnEdit mb-2"
+                                                data-id="{{ $t->id }}" data-details="{{ $t->description }}"
+                                                data-slug="{{ $t->product_slug }}" data-name="{{ $t->product_name }}"
+                                                data-image="{{ asset($t->images) }}" data-in_size="{{ $t->in_size }}"
+                                                data-brand="{{ $t->brand_id }}" data-out_size="{{ $t->out_size }}"
+                                                data-category="{{ $t->id_category }}" data-weight="{{ $t->weight }}"
+                                                data-price="{{ number_format($t->price, 0, '.', ',') }}"
+                                                data-status="{{ $t->status }}"><i class="anticon anticon-edit mr-2"></i>
                                                 Edit</button>
                                             <button type="submit" class="btn btn-danger btn-sm mb-2" disabled><i
                                                     class="anticon anticon-delete mr-2"></i>Delete</button>
@@ -87,82 +108,126 @@
                     @csrf
                     <div class="modal-body">
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="product_name" placeholder="name">
+                            <label for="name" class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control @error('product_name') is-invalid @enderror"
+                                    name="product_name" placeholder="Product Name" value="{{ old('product_name') }}">
+                                @error('product_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
+
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Category</label>
-                            <div class="col-sm-10">
-                                <select class="select2 form-select" name="category">
-                                    <option selected disabled>- Select Category</option>
+                            <label for="name" class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                                <select class="select2 form-select @error('category') is-invalid @enderror" name="category">
+                                    <option value="">- Select Category</option>
                                     @foreach ($category as $c)
-                                        <option value="{{ $c->id }}">{{ $c->category_name }}</option>
+                                        <option value="{{ $c->id }}"
+                                            @if (old('category')) selected @endif>
+                                            {{ $c->category_name }}</option>
                                     @endforeach
                                 </select>
+
+                                @error('category')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">brand</label>
-                            <div class="col-sm-10">
-                                <select class="select2-tags form-select" id="brand" name="brand" multiple="multiple">
+                            <label for="name" class="col-sm-3 col-form-label">Brand</label>
+                            <div class="col-sm-9">
+                                <select class="select2-tags form-select brand  @error('brand') is-invalid @enderror"
+                                    name="brand">
+                                    <option value="">- Select Brand</option>
                                     @foreach ($brand as $au)
                                         <option value="{{ $au->id }}">{{ $au->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('brand')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Price</label>
-                            <div class="col-sm-10">
-                                <input type="numbers" class="form-control inpNumber" name="price" placeholder="00,000">
+                            <label for="name" class="col-sm-3 col-form-label">Inner Size <span
+                                    class="small text-primary">(mm)</span></label>
+                            <div class="col-sm-9">
+                                <input type="string"
+                                    class="form-control @error('brand')
+                                    is-invalid
+                                @enderror"
+                                    name="in_size" placeholder="00 x 00 x 00">
+                                @error('brand')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Desciption</label>
-                            <div class="col-sm-10">
-                                <textarea name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                            <label for="name" class="col-sm-3 col-form-label">Outer Size <span
+                                    class="small text-primary">(mm)</span></label>
+                            <div class="col-sm-9">
+                                <input type="string"
+                                    class="form-control  @error('out_size')
+                                    is-invalid
+                                @enderror"
+                                    name="out_size" placeholder="00 x 00 x 00">
+                                @error('out_size')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Images Cover
+                            <label for="name" class="col-sm-3 col-form-label">Wight <span
+                                    class="small text-primary">(Kg)</span></label>
+                            <div class="col-sm-9">
+                                <input type="numbers"
+                                    class="form-control inpNumber @error('out_size')
+                                    is-invalid
+                                @enderror"
+                                    name="weight" placeholder="00">
+                                @error('weight')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Price</label>
+                            <div class="col-sm-9">
+                                <input type="numbers"
+                                    class="form-control inpNumber @error('price')
+                                    is-invalid
+                                @enderror"
+                                    name="price" placeholder="00,000">
+                                @error('weight')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Desciption</label>
+                            <div class="col-sm-9">
+                                <textarea name="description"
+                                    class="form-control @error('description')
+                                    is-invalid
+                                @enderror"
+                                    id="" cols="30" rows="5"></textarea>
+                                @error('description')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Images
                             </label>
-                            <div class="col-sm-10">
-                                <input type="file" class="dropify" name="foto" data-height="100" />
+                            <div class="col-sm-9">
+                                <input type="file" class="dropify is-invalid" name="image" data-height="100" />
+                                @error('image')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Images Detail
-                                <button type="button"
-                                    class="btn btn-info d-flex justify-content-center mt-2 btnAddDropify"><i
-                                        class="anticon anticon-plus-square"></i></button>
-                            </label>
-                            <div class="col-sm-10 row" id="dropImage">
-                                <div class="col-md-4">
-                                    <input type="file" class="dropify" name="images[]" data-height="100" />
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="file" class="dropify" name="images[]" data-height="100" />
-                                </div>
-                                <div class="col-md-4 ">
-                                    <input type="file" class="dropify" name="images[]" data-height="100" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Tags</label>
-                            <div class="col-sm-10">
-                                <select class="select2-tags form-select" id="tags" name="tags[]"
-                                    multiple="multiple">
-                                    @foreach ($tags as $tag)
-                                        <option value="{{ $tag->id }}">{{ $tag->tag_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
 
                     </div>
                     <div class="modal-footer">
@@ -175,7 +240,7 @@
     </div>
     <!-- Modal Edit-->
     <div class="modal fade" id="modalEdit">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit {{ $title }}</h5>
@@ -183,27 +248,106 @@
                         <i class="anticon anticon-close"></i>
                     </button>
                 </div>
-                <form action="" method="POST" id="updateForm">
+                <form action="" method="POST" id="updateForm" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="category name">
+                            <label for="name" class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="product_name" id="product_name"
+                                    placeholder="Product Name">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                                <select class="select2 form-select" name="category" id="category">
+                                    <option disabled>- Select Category</option>
+                                    @foreach ($category as $c)
+                                        <option value="{{ $c->id }}">{{ $c->category_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Brand</label>
+                            <div class="col-sm-9">
+                                <select class="select2-tags form-select form-control brand" id="brand"
+                                    name="brand">
+                                    <option disabled>- Select Brand</option>
+                                    @foreach ($brand as $au)
+                                        <option value="{{ $au->id }}">{{ $au->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Inner Size <span
+                                    class="small text-primary">(mm)</span></label>
+                            <div class="col-sm-9">
+                                <input type="string" class="form-control" name="in_size" id="in_size"
+                                    placeholder="00 x 00 x 00">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Outer Size <span
+                                    class="small text-primary">(mm)</span></label>
+                            <div class="col-sm-9">
+                                <input type="string" class="form-control" name="out_size" id="out_size"
+                                    placeholder="00 x 00 x 00">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Wight <span
+                                    class="small text-primary">(Kg)</span></label>
+                            <div class="col-sm-9">
+                                <input type="numbers" class="form-control inpNumber" name="weight" id="weight"
+                                    placeholder="00">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Price</label>
+                            <div class="col-sm-9">
+                                <input type="numbers" class="form-control inpNumber" name="price" id="price"
+                                    placeholder="00,000">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Desciption</label>
+                            <div class="col-sm-9">
+                                <textarea name="description" class="form-control" id="description" cols="30" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Status</label>
+                            <div class="col-sm-9">
+                                <select class="select2-tags form-select form-control" name="status" id="status">
+                                    <option disabled>- Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">NonActive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Images
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="file" class="dropify" name="foto" data-height="100"
+                                    id="images" />
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Modal See-->
     <div class="modal fade" id="modalSee">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -223,8 +367,34 @@
                     </div>
                     <div class="col-md-6">
                         <h3 id="productName">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, cum.</h3>
-                        <div class="tags" id="Tags">
-                            <h5 class="text-info">Tags</h5>
+                        <div class="prod-info row">
+                            <div class="col-md-12">
+                                <p class="prod-skuttl">Brand</p>
+                                <a href="#" id="authorUrl">
+                                    <h3 class="item_current_price badge badge-dark"
+                                        style="background-color: blue; border-radius: 0%" id="authorName">BrandName</h3>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="prod-info row mb-3">
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                <p class="prod-skuttl">Inner Size</p>
+                                <h3 class="item_current_price badge badge-primary "
+                                    style="background-color: gray; border-radius: 0%" id="in_size">
+                                    0x0x0 mm</h3>
+                            </div>
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                <p class="prod-skuttl">Outer Size</p>
+                                <h3 class="item_current_price badge badge-primary "
+                                    style="background-color: gray; border-radius: 0%" id="out_size">
+                                    0x0x0 mm</h3>
+                            </div>
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                <p class="prod-skuttl">Wight</p>
+                                <h3 class="item_current_price badge badge-primary "
+                                    style="background-color: gray; border-radius: 0%" id="weight">
+                                    00 Kg</h3>
+                            </div>
                         </div>
                         <div class="tags mt-2">
                             <h3 class="text-secondary text-end " id="price">Rp 50.000</h3>
@@ -260,7 +430,7 @@
             $('.select2').select2({
                 theme: 'bootstrap-5'
             });
-            $('#brand').select2({
+            $('.brand').select2({
                 tags: true,
                 theme: 'bootstrap-5'
             });
@@ -274,29 +444,37 @@
     </script>
 
     <script>
+        $('.close').on('click', function() {
+            $(this).modal('hide');
+        })
         $('#data-table').DataTable();
         $('.btnEdit').on('click', function(e) {
             e.preventDefault();
             const id = $(this).data('id');
             const name = $(this).data('name');
+            const slug = $(this).data('slug');
+            const price = $(this).data('price');
+            var details = $(this).data('details');
+            const image = $(this).data('image');
+            const brand = $(this).data('brand');
+            const in_size = $(this).data('in_size');
+            const out_size = $(this).data('out_size');
+            const weight = $(this).data('weight');
 
+            $('#product_name').val(name);
+            $('#category').val($(this).data('category'));
+            $('#brand').val(brand);
+            $('#in_size').val(in_size);
+            $('#out_size').val(out_size);
+            $('#weight').val(weight);
+            $('#price').val(price);
+            $('#description').val(details)
+            $('#status').val($(this).data('status'))
+            $('#images').attr('data-default-file', image);
+            $('.dropify').dropify();
             $('#modalEdit').modal('show');
             $('#name').val(name);
-            $('#updateForm').attr('action', `/tags/${id}`);
-        })
-        $('.btnAddDropify').on('click', function(e) {
-            e.preventDefault();
-            // var newDropifyInput = $('<input>', {
-            //     type: 'file',
-            //     class: 'dropify',
-            //     name: 'images[]',
-            //     'data-height': 100
-            // });
-
-            var newDropifyInput =
-                `<div class="col-md-4 mt-2"> <input type="file" class="dropify" name="images[]" data-height="100" /></div>`;
-            $('#dropImage').append(newDropifyInput);
-            $('.dropify').dropify();
+            $('#updateForm').attr('action', `/admin/products/${id}`);
         })
         $('.btnSee').on('click', function() {
             const id = $(this).data('id');
@@ -305,6 +483,11 @@
             const price = $(this).data('price');
             const tag = $(this).data('tag');
             var details = $(this).data('details');
+            const image = $(this).data('image');
+            const brand = $(this).data('brand');
+            const in_size = $(this).data('in_size');
+            const out_size = $(this).data('out_size');
+            const weight = $(this).data('weight');
             details = details.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             details = details.replace(/\n/g, '<br>');
 
@@ -312,33 +495,15 @@
             $('#Tags').append(tag);
             $('#price').html('Rp ' + price);
             $('#details').html(details);
-
-            $.ajax({
-                url: `/api/media/${id}`,
-                method: 'GET',
-                dataType: 'json',
-                success: function(rs) {
-                    // Update the content on the webpage with the data from the server
-                    let slide = ''
-                    let active = '';
-                    rs.data.media.forEach(function(url, index) {
-                        if (index == 0) {
-                            active = 'active';
-                        } else {
-                            active = '';
-                        }
-                        slide += `<div class="carousel-item ${active}">`;
-                        slide += `<img src="${url}" class="d-block w-100" alt="image">`
-                        slide += '</div>';
-                    });
-                    console.log(slide);
-                    $('#imageCarousel').html(slide)
-
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
+            $('#authorName').html(brand);
+            $('#in_size').html(in_size + ' mm');
+            $('#out_size').html(out_size + ' mm');
+            $('#weight').html(weight + ' kg');
+            let slide = ''
+            slide += `<div class="carousel-item active">`;
+            slide += `<img src="${image}" class="d-block w-100" alt="image">`
+            slide += '</div>';
+            $('#imageCarousel').html(slide)
         })
     </script>
 @endpush

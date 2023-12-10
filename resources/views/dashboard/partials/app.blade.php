@@ -11,7 +11,7 @@
 
     <!-- Core css -->
     <link href="{{ asset('app') }}/assets/css/app.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
     @stack('style')
 
 </head>
@@ -68,8 +68,10 @@
 
     <!-- Core JS -->
     <script src="{{ asset('app') }}/assets/js/app.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
     <script>
         $(document).ready(function() {
+
             // Function to add commas as a separator to the input value
             function addCommas(input) {
                 return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -93,6 +95,44 @@
             });
         });
     </script>
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+    </script>
+    @if (session('success'))
+        <script>
+            Toast.fire({
+                icon: "success",
+                title: '{{ session('success') }}'
+            });
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            Toast.fire({
+                icon: "error",
+                title: '{{ session('error') }}'
+            });
+        </script>
+    @endif
+    @if (session('createFailed'))
+        <script>
+            $(document).ready(function() {
+                $('#modalAdd').modal('show');
+            });
+        </script>
+    @endif
+
     @stack('script')
 
 </body>

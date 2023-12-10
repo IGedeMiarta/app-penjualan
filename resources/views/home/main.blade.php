@@ -8,8 +8,10 @@
 
         {{-- @include('home.main.banner') --}}
 
+        @if ($special->count() >= 1)
+            @include('home.main.special')
+        @endif
 
-        @include('home.main.special')
 
         {{-- @include('home.main.testimoni') --}}
 

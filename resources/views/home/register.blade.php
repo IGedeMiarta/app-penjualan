@@ -31,6 +31,28 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Phone Number<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number"
+                                name="phone" value="{{ old('phone') }}">
+                            @error('phone')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Address<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <textarea name="address" placeholder="Address.." id="" cols="30" rows="10">{{ old('address') }}</textarea>
+                            @error('address')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Password<span
                                 class="text-danger">*</span></label>
                         <div class="col-sm-10">

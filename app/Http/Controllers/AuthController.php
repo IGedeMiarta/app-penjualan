@@ -19,18 +19,15 @@ class AuthController extends Controller
        $request->validate([
             'name' => 'required|min:3|max:50',
             'email' => 'email|unique:users',
+            'phone' => 'required',
+            'address' => 'required',
             'password' => 'required|confirmed|min:6',
         ]);
         DB::beginTransaction();
         try {
-            $user = User::create($request->all());
+            User::create($request->all());
             DB::commit();
-            if (Auth::attempt(['email'=>$user->email,'password'=>$user->password])) {
-                $request->session()->regenerate();
-                return redirect()->intended('/');
-            }
-            
-            return redirect()->intended('/');
+            return redirect()->intended('/')->with('success','Register Success');
         } catch (\Throwable $th) {
            DB::rollBack();
            dd($th->getMessage());

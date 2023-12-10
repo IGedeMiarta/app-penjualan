@@ -60,16 +60,13 @@
                     </ul>
                 </div>
                 <div class="prod-items section-items prod-items-galimg">
-                    @foreach ($catalog as $cal)
+                    @forelse ($catalog as $cal)
                         <div class="prod-i" style="margin-bottom: 5px">
                             <div class="prod-i-top">
                                 <a href="{{ url('product/' . $cal->product_slug) }}" class="prod-i-img">
                                     <!-- NO SPACE -->
-                                    <img src="http://placehold.it/300x366" alt="Nulla numquam obcaecati">
-                                    <img src="http://placehold.it/300x433" alt="Nulla numquam obcaecati">
-                                    <img src="http://placehold.it/300x433" alt="Nulla numquam obcaecati">
-                                    <img src="http://placehold.it/300x433" alt="Nulla numquam obcaecati">
-                                    <!-- NO SPACE -->
+                                    <img src="{{ $cal->images }}" alt="Nulla numquam obcaecati">
+
                                 </a>
                             </div>
                             <h3>
@@ -78,13 +75,15 @@
                             <div class="prod-i-action">
                                 <p class="prod-i-info">
                                     <a href="#" class="prod-i-add qview-btn btnDetails"
-                                        style="background-color: #A6CF98" data-id="{{ $cal->id }}"
-                                        data-name="{{ $cal->product_name }}" data-price="{{ $cal->price }}"
-                                        data-disc="0" data-slug="{{ $cal->product_slug }}"
+                                        style="background-color: blue; color:white" data-id="{{ $cal->id }}"
+                                        data-image="{{ asset($cal->images) }}" data-name="{{ $cal->product_name }}"
+                                        data-in_size="{{ $cal->in_size }}" data-out_size="{{ $cal->out_size }}"
+                                        data-weight="{{ $cal->weight }}" data-price="{{ $cal->price }}" data-disc="0"
+                                        data-slug="{{ $cal->product_slug }}"
                                         data-category="{{ $cal->category->category_name }}"
                                         data-brandid="{{ $cal->brand->id }}" data-brandname="{{ $cal->brand->name }}"
-                                        data-id_category="{{ $cal->id_category }}" data-tags="{{ $cal->tags() }}"
-                                        data-desc="{{ $cal->description }}"><i class="fa fa-search"></i> Go to
+                                        data-id_category="{{ $cal->id_category }}" data-desc="{{ $cal->description }}"><i
+                                            class="fa fa-search"></i> Go to
                                         detail</a>
                                 </p>
                                 <p class="prod-i-price">
@@ -92,7 +91,11 @@
                                 </p>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="alert alert-warning" role="alert">
+                            No Product Available
+                        </div>
+                    @endforelse
 
                 </div>
                 <!-- Pagination - start -->
@@ -126,7 +129,8 @@
         @include('home.partials.related')
         <!-- Catalog Items | Gallery V2 - start -->
 
-        @include('home.catalog.modal')
+        @include('home.partials.modal')
+
 
 
         <!-- Quick View Product - end -->

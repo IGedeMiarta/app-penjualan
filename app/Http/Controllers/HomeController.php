@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function index(){
         $data['title'] = '';
         $data['category_all'] = Categories::limit(10)->get();
-        $data['product_all'] = Product::with(['category','brand'])->orderByDesc('id')->limit(20)->get();
+        $data['product_all'] = Product::with(['category','brand'])->where('status',1)->orderByDesc('id')->limit(20)->get();
         $data['special'] = SpecialProduct::with('product')->orderByDesc('id')->limit(10)->get();
         $data['testi']  =Testimony::with('user')->orderByDesc('id')->limit(10)->get();
         return view('home.main',$data);
@@ -46,7 +46,6 @@ class HomeController extends Controller
         $details = nl2br($details);
         $data['product'] = $product;
         $data['details'] = $details;
-        $data['images'] = Media::where('slug',$product->product_slug)->get();
         $data['related'] = Product::where('id_category',$product->id_category)->whereNot('id',$product->id)->limit(5)->orderByDesc('id')->get();
         // dd($data);
         return view('home.product',$data);

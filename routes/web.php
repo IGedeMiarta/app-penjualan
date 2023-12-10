@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function(){
 
 Route::prefix('admin')->group(function(){
     Route::get('/dashboard',[DashboardController::class,'index']);
+    Route::resource('/brand',BrandController::class);
     Route::resource('/categories', CategoriesController::class);
     Route::resource('/tags', TagController::class);
     Route::resource('products',ProductController::class);

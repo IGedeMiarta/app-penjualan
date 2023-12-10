@@ -20,7 +20,7 @@
             Categories</p>
         <div class="flexslider prod-items fr-pop-tab" id="all">
             <ul class="slides">
-                @foreach ($product_all as $pal)
+                @forelse ($product_all as $pal)
                     <li class="prod-i">
                         <div class="prod-i-top">
                             <a href="{{ url('product/' . $pal->product_slug) }}"
@@ -28,13 +28,16 @@
                                     alt="Aspernatur excepturi rem"><!-- NO SPACE --></a>
 
                             <p class="prod-i-addwrap">
-                                <a href="#" class="prod-i-add qview-btn btnDetails" data-id="{{ $pal->id }}"
-                                    data-name="{{ $pal->product_name }}" data-price="{{ $pal->price }}"
-                                    data-slug="{{ $pal->product_slug }}" data-brandid="{{ $pal->brand->id }}"
-                                    data-brandname="{{ $pal->brand->name }}"
+                                <a href="#" class="prod-i-add qview-btn btnDetails"
+                                    style="background-color: blue; color:white" data-id="{{ $pal->id }}"
+                                    data-image="{{ asset($pal->images) }}" data-name="{{ $pal->product_name }}"
+                                    data-in_size="{{ $pal->in_size }}" data-out_size="{{ $pal->out_size }}"
+                                    data-weight="{{ $pal->weight }}" data-price="{{ $pal->price }}" data-disc="0"
+                                    data-slug="{{ $pal->product_slug }}"
                                     data-category="{{ $pal->category->category_name }}"
-                                    data-id_category="{{ $pal->id_category }}" data-tags="{{ $pal->tags() }}"
-                                    data-desc="{{ $pal->description }}">Go to
+                                    data-brandid="{{ $pal->brand->id }}" data-brandname="{{ $pal->brand->name }}"
+                                    data-id_category="{{ $pal->id_category }}" data-desc="{{ $pal->description }}"><i
+                                        class="fa fa-search"></i> Go to
                                     detail</a>
                             </p>
                         </div>
@@ -45,7 +48,11 @@
                             <b class="text-primary">{{ 'Rp ' . number_format($pal->price, 0, '.', ',') }}</b>
                         </p>
                     </li>
-                @endforeach
+                @empty
+                    <div class="alert alert-warning" role="alert">
+                        No Product Available
+                    </div>
+                @endforelse
             </ul>
 
         </div>
@@ -61,7 +68,7 @@
                         ->get();
                 @endphp
                 <ul class="slides">
-                    @foreach ($product as $p)
+                    @forelse ($product as $p)
                         <li class="prod-i">
                             <div class="prod-i-top">
                                 <a href="{{ url('product/' . $p->product_slug) }}"
@@ -70,12 +77,15 @@
 
                                 <p class="prod-i-addwrap">
                                     <a href="#" class="prod-i-add qview-btn btnDetails"
-                                        data-id="{{ $p->id }}" data-name="{{ $p->product_name }}"
-                                        data-price="{{ $p->price }}" data-slug="{{ $p->product_slug }}"
-                                        data-brandid="{{ $p->brand->id }}" data-brandname="{{ $p->brand->name }}"
+                                        style="background-color: blue; color:white" data-id="{{ $p->id }}"
+                                        data-image="{{ asset($p->images) }}" data-name="{{ $p->product_name }}"
+                                        data-in_size="{{ $p->in_size }}" data-out_size="{{ $p->out_size }}"
+                                        data-weight="{{ $p->weight }}" data-price="{{ $p->price }}"
+                                        data-disc="0" data-slug="{{ $p->product_slug }}"
                                         data-category="{{ $p->category->category_name }}"
-                                        data-id_category="{{ $p->id_category }}" data-tags="{{ $p->tags() }}"
-                                        data-desc="{{ $p->description }}">Go to
+                                        data-brandid="{{ $p->brand->id }}" data-brandname="{{ $p->brand->name }}"
+                                        data-id_category="{{ $p->id_category }}" data-desc="{{ $p->description }}"><i
+                                            class="fa fa-search"></i> Go to
                                         detail</a>
                                 </p>
                             </div>
@@ -86,7 +96,11 @@
                                 <b class="text-primary">{{ 'Rp ' . number_format($p->price, 0, '.', ',') }}</b>
                             </p>
                         </li>
-                    @endforeach
+                    @empty
+                        <div class="alert alert-warning" role="alert">
+                            No Product Available
+                        </div>
+                    @endforelse
 
                 </ul>
             </div>

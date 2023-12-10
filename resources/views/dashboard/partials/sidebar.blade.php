@@ -2,7 +2,7 @@
  <div class="side-nav">
      <div class="side-nav-inner">
          <ul class="side-nav-menu scrollable">
-             <li class="nav-item dropdown">
+             <li class="nav-item dropdown {{ request()->is('admin/dashboard') ? 'active' : '' }}"">
                  <a href="{{ url('admin/dashboard') }}">
                      <span class="icon-holder">
                          <i class="anticon anticon-home"></i>
@@ -21,11 +21,11 @@
                      </span>
                  </a>
                  <ul class="dropdown-menu">
-                     <li>
+                     <li class="{{ request()->is('admin/categories') ? 'active' : '' }}">
                          <a href="{{ url('admin/categories') }}">Categories</a>
                      </li>
-                     <li>
-                         <a href="{{ url('admin/tags') }}">Tags</a>
+                     <li class="{{ request()->is('admin/brand') ? 'active' : '' }}">
+                         <a href="{{ url('admin/brand') }}">Brand</a>
                      </li>
                  </ul>
              </li>
@@ -40,10 +40,10 @@
                      </span>
                  </a>
                  <ul class="dropdown-menu">
-                     <li>
+                     <li class="{{ request()->is('admin/products') ? 'active' : '' }}">
                          <a href="{{ url('admin/products') }}">Products</a>
                      </li>
-                     <li>
+                     <li class="{{ request()->is('admin/special-products') ? 'active' : '' }}">
                          <a href="{{ url('admin/special-products') }}">Special Product</a>
                      </li>
                  </ul>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_product');
             $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
             $table->integer('disc');
-            $table->float('final_amount');
+            $table->float('final_amount',10);
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
