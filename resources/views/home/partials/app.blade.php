@@ -90,7 +90,7 @@
         <script>
             Toast.fire({
                 icon: "success",
-                title: '{{ session('success') }}'
+                title: '{!! session('success') !!}'
             });
         </script>
     @endif
@@ -98,7 +98,7 @@
         <script>
             Toast.fire({
                 icon: "error",
-                title: '{{ session('error') }}'
+                title: '{!! session('error') !!}'
             });
         </script>
     @endif

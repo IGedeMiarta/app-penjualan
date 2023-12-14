@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use App\Models\UserChart;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -63,7 +65,7 @@ class TransactionController extends Controller
         DB::beginTransaction();
         $inv = Inv();
         try {
-            $createOrder = new Order();
+            $createOrder = new Transaction();
             $createOrder->Invoice = $inv;
             $createOrder->customer = auth()->user()->id;
             $createOrder->amount = $request->amount;
@@ -71,7 +73,7 @@ class TransactionController extends Controller
             $createOrder->save();
 
             foreach ($products as $key => $product) {
-                $orderDetail = new OrderDetail();
+                $orderDetail = new TransactionDetail();
                 $orderDetail->order_id = $createOrder->id;
                 $orderDetail->product_id = $product;
                 $orderDetail->qty = $qtys[$key];
@@ -89,7 +91,7 @@ class TransactionController extends Controller
     }
     public function invoiceAll(){
         $data['title'] = 'Invoice';
-        $data['table'] = Order::with('details','details.product')->where('customer',auth()->user()->id)->orderBy('status','ASC')->orderBy('id','desc')->limit(5)->get();
+        $data['table'] = Transaction::with('details','details.product')->where('customer',auth()->user()->id)->orderBy('status','ASC')->orderBy('id','desc')->limit(5)->get();
 
 
         // dd($data);
@@ -97,7 +99,7 @@ class TransactionController extends Controller
     }
 
     public function invoice($inv){
-        $order = Order::with('details','details.product')->where('customer',auth()->user()->id)->where('Invoice',$inv)->first();
+        $order = Transaction::with('details','details.product')->where('customer',auth()->user()->id)->where('Invoice',$inv)->first();
         
         if(!$order){
             return redirect()->back()->with('error','Inoice not found');

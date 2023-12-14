@@ -5,27 +5,40 @@
         @include('home.partials.breadcubs')
 
         <h1 class="main-ttl"><span>Login</span></h1>
-        <div class="auth-wrap" style="display: flex;justify-content: center">
-            <div class="auth-col">
-                <form method="post" class="login" action="">
+        <div class="row"style="display: flex;justify-content: center">
+            <div class="col-md-6">
+                <form method="POST" action="{{ route('login.post') }}">
                     @csrf
-                    <p>
-                        <label for="email">E-mail <span class="required">*</span></label><input type="email"
-                            id="email" name="email">
-                    </p>
-                    <p>
-                        <label for="password">Password <span class="required">*</span></label><input type="password"
-                            id="password" name="password">
-                    </p>
-                    <p class="auth-submit">
-                        <input type="submit" value="Login">
-                        {{-- <input type="checkbox" id="rememberme" value="forever">
-                        <label for="rememberme">Remember me</label> --}}
-                    </p>
-                    <div class="register">
-                        <p class="auth-lost_password h5">Not have an account?
-                            <a href="{{ url('register') }}">Register</a>
-                        </p>
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Email<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail3" placeholder="Enter Email"
+                                name="email" value="{{ old('email') }}">
+                            @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label">Password<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword3" placeholder="Enter Password"
+                                name="password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10 " style="display: flex;justify-content: start;margin-top: 10px">
+                            <span class=""> Dont have account? <a href="{{ route('register') }}">Register</a></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                        </div>
                     </div>
                 </form>
             </div>

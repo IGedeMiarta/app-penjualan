@@ -8,8 +8,10 @@ use App\Models\Categories;
 use App\Models\Media;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductDiscount;
 use App\Models\SpecialProduct;
 use App\Models\Testimony;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +21,7 @@ class HomeController extends Controller
         $data['title'] = '';
         $data['category_all'] = Categories::limit(10)->get();
         $data['product_all'] = Product::with(['category','brand'])->where('status',1)->orderByDesc('id')->limit(20)->get();
-        $data['special'] = SpecialProduct::with('product')->orderByDesc('id')->limit(10)->get();
+        $data['special'] = ProductDiscount::with('product')->orderByDesc('id')->limit(10)->get();
         $data['testi']  =Testimony::with('user')->orderByDesc('id')->limit(10)->get();
         return view('home.main',$data);
     }
@@ -29,7 +31,7 @@ class HomeController extends Controller
         // dd($request->all());
         $product = Product::with('brand')->where('product_slug',$slug)->first();
         if($request->special){
-            $special = SpecialProduct::where('id_product',$product->id)->first();
+            $special = ProductDiscount::where('id_product',$product->id)->first();
             if(!$special){
                 $data['price'] = $product->price;
                 $data['disc'] = false;
@@ -80,7 +82,7 @@ class HomeController extends Controller
     }
     public function specialCatalog(Request $request){
         $data['title'] = 'Special OFFER';
-        $data['catalog'] = SpecialProduct::with('product','product.category','product.brand')->paginate(4);
+        $data['catalog'] = ProductDiscount::with('product','product.category','product.brand')->paginate(4);
         // dd($data);
         
         $data['related'] = Product::limit(5)->orderByDesc('id')->paginate(5);
@@ -89,7 +91,7 @@ class HomeController extends Controller
     public function profile(){
         $data['title'] = 'Profile';
         $data['user']   = Auth::user();
-        $data['table'] = Order::with('details','details.product')->where('customer',auth()->user()->id)->orderBy('status','ASC')->orderBy('id','desc')->limit(5)->get();
+        $data['table'] = Transaction::with('details','details.product')->where('customer',auth()->user()->id)->orderBy('status','ASC')->orderBy('id','desc')->limit(5)->get();
 
 
         return view('home.profile',$data);

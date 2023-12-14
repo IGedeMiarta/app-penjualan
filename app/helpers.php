@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Order;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 
@@ -37,7 +37,7 @@ function Inv()
     $currentYear = Carbon::now()->year;
 
     // Retrieve invoices for the current year using whereYear
-    $totalInvoices = Order::whereYear('created_at', $currentYear)->count();
+    $totalInvoices = Transaction::whereYear('created_at', $currentYear)->count();
 
     // Increment the total number of invoices by 1 and format it with leading zeros
     $formattedTotal = str_pad($totalInvoices + 1, 4, '0', STR_PAD_LEFT);

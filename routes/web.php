@@ -30,7 +30,7 @@ Route::get('/special-catalog',[HomeController::class,'specialCatalog']);
 Route::get('/login',[AuthController::class,'login'])->name('login');
 Route::get('/register',[AuthController::class,'register'])->name('register');
 Route::post('/register',[AuthController::class,'registered'])->name('register.post');
-Route::post('/login',[AuthController::class,'authecicate']);
+Route::post('/login',[AuthController::class,'authecicate'])->name('login.post');
 
 Route::middleware('auth')->group(function(){
     Route::get('/chart',[TransactionController::class,'chart']);

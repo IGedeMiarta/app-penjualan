@@ -38,11 +38,12 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
- 
+        
         if (Auth::attempt($credentials)) {
+            $user = User::where('email',$request->email)->first();
             $request->session()->regenerate();
  
-            return redirect()->intended('/');
+            return redirect()->intended('/')->with('success','Welcome Back </br>'. $user->name );
         }
  
         return back()->withErrors([

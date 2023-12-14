@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Transaction extends Model
 {
-    use HasFactory;
+   use HasFactory;
     protected $guarded = ['id'];
 
     public function customer(){
@@ -15,7 +15,7 @@ class Order extends Model
     }
     public function details()
     {
-        return $this->hasMany(OrderDetail::class, 'order_id');
+        return $this->hasMany(TransactionDetail::class, 'transaction_id');
     }
 
     public function status(){
@@ -27,4 +27,5 @@ class Order extends Model
             return "<span style='color:#FF8F8F'>PAYMENT REJECT</span>";
         }
     }
+
 }

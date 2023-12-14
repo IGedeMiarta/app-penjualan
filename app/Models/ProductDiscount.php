@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SpecialProduct extends Model
+class ProductDiscount extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
@@ -13,4 +13,5 @@ class SpecialProduct extends Model
     public function  product(){
         return $this->belongsTo(Product::class,'id_product');
     }
+
 }

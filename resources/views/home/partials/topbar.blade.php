@@ -54,13 +54,15 @@
                 @else
                     <li class="topauth">
 
-                        <a href="{{ url('profile') }}">
-                            <span class="shop-menu-ttl">{{ auth()->user()->email }}</span>
+                        <a href="{{ url('profile') }}" style="color: green">
+                            <i class="fa fa-user" style="color: green"></i>
+                            <span class="shop-menu-ttl">{{ auth()->user()->name }}</span>
                         </a>
-                        <a href="{{ url('chart') }}">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span class="shop-menu-ttl">Cart</span>
-                            (<b class="userID" data-user_id="{{ auth()->user()->id }}">0</b>)
+                        <a href="{{ url('chart') }}" style="color: blue">
+                            <i class="fa fa-shopping-cart" style="color: blue"></i>
+                            <span class="shop-menu-ttl">Cart</span> <span class="badge "
+                                style="color: white;background-color: blue"><b class="userID"
+                                    data-user_id="{{ auth()->user()->id }}">0</b></span>
                         </a>
                     </li>
                 @endif

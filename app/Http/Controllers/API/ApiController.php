@@ -14,21 +14,21 @@ class ApiController extends Controller
   
     public function media($id)
     {
-        $product = Product::with('category')->find($id);
-        if(!$product){
-            return response()->json(['status'=>404,'message'=>'Product Not Foound']);
-        }
-        $media = Media::where('slug',$product->product_slug)->orderByDesc('id')->get();
-        $medias=[];
-        foreach($media as $m){
-            $medias[] = url($m->file);
-        }
+        // $product = Product::with('category')->find($id);
+        // if(!$product){
+        //     return response()->json(['status'=>404,'message'=>'Product Not Foound']);
+        // }
+        // $media = Media::where('slug',$product->product_slug)->orderByDesc('id')->get();
+        // $medias=[];
+        // foreach($media as $m){
+        //     $medias[] = url($m->file);
+        // }
         return response()->json([
             'status'    => 200,
             'message'   => 'Product By Id',
             'data'      => [
-                'product'   => $product,
-                'media'     => $medias
+                'product'   => null,
+                'media'     => null
             ]
         ]);
 

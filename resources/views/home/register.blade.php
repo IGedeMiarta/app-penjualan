@@ -5,7 +5,6 @@
 
         <h1 class="main-ttl"><span>Registration</span></h1>
         <div class="row"style="display: flex;justify-content: center">
-
             <div class="col-md-6">
                 <form method="POST" action="{{ route('register.post') }}">
                     @csrf
@@ -73,8 +72,14 @@
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10 " style="display: flex;justify-content: start;margin-top: 10px">
+                            <span class=""> Alredy have account? <a href="{{ route('login') }}">Login</a></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label"></label>
                         <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Sign in</button>
+                            <button type="submit" class="btn btn-primary">Register</button>
                         </div>
                     </div>
                 </form>

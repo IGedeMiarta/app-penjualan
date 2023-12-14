@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductDiscount;
 use App\Models\SpecialProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,13 +15,13 @@ class SpecialProductController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Special Produk';
+        $data['title'] = 'Discount Produk';
         $data['products'] = DB::table('products')
-                ->leftJoin('special_products', 'products.id', '=', 'special_products.id_product')
-                ->whereNull('special_products.id_product')
+                ->leftJoin('product_discounts', 'products.id', '=', 'product_discounts.id_product')
+                ->whereNull('product_discounts.id_product')
                 ->select('products.*')
                 ->get();
-        $data['table'] = SpecialProduct::with('product')->orderByDesc('id')->get();
+        $data['table'] = ProductDiscount::with('product')->orderByDesc('id')->get();
         return view('dashboard.special',$data);
     }
 
@@ -43,7 +44,7 @@ class SpecialProductController extends Controller
             $disc =  intval(preg_replace('/[^\d.]/', '', $request->disc));
             $finn =  intval(preg_replace('/[^\d.]/', '', $request->final));
             dd($finn);
-            SpecialProduct::create([
+            ProductDiscount::create([
                 'id_product'    => $request->product,
                 'disc'          => $disc,
                 'final_amount'  => $finn
@@ -60,7 +61,7 @@ class SpecialProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SpecialProduct $specialProduct)
+    public function show(ProductDiscount $specialProduct)
     {
         //
     }
@@ -68,7 +69,7 @@ class SpecialProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SpecialProduct $specialProduct)
+    public function edit(ProductDiscount $specialProduct)
     {
         //
     }
@@ -76,7 +77,7 @@ class SpecialProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SpecialProduct $specialProduct)
+    public function update(Request $request, ProductDiscount $specialProduct)
     {
         $specialProduct->update([
             'disc'          => $request->disc,
@@ -89,7 +90,7 @@ class SpecialProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SpecialProduct $specialProduct)
+    public function destroy(ProductDiscount $specialProduct)
     {
         $specialProduct->delete();
         return redirect()->back()->with('success','Special Product Deleted');
