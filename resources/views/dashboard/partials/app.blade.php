@@ -12,6 +12,11 @@
     <!-- Core css -->
     <link href="{{ asset('app') }}/assets/css/app.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        .form-control {
+            background-color: #FAFBFD !important;
+        }
+    </style>
     @stack('style')
 
 </head>
@@ -113,7 +118,7 @@
         <script>
             Toast.fire({
                 icon: "success",
-                title: '{{ session('success') }}'
+                title: '{!! session('success') !!}'
             });
         </script>
     @endif
@@ -121,7 +126,7 @@
         <script>
             Toast.fire({
                 icon: "error",
-                title: '{{ session('error') }}'
+                title: '{!! session('error') !!}'
             });
         </script>
     @endif

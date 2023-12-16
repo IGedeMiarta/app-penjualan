@@ -12,7 +12,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Produdcts';
+        $data['title'] = 'Brands';
         $data['table'] = Brand::all();
         return view('dashboard.brand',$data);
     }

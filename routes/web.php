@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SpecialProductController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TransactionController;
@@ -47,11 +48,40 @@ Route::middleware('auth')->group(function(){
     Route::post('/logout',[AuthController::class,'logout']);
 });
 
-Route::prefix('admin')->group(function(){
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function(){
     Route::get('/dashboard',[DashboardController::class,'index']);
+    Route::get('/transaction',[TransactionController::class,'adminView']);
+    Route::put('/transaction/{id}',[TransactionController::class,'adminUpdate']);
     Route::resource('/brand',BrandController::class);
     Route::resource('/categories', CategoriesController::class);
     Route::resource('/tags', TagController::class);
     Route::resource('products',ProductController::class);
     Route::resource('special-products',SpecialProductController::class);
+    Route::prefix('report')->name('report.')->group(function(){
+        Route::get('/export-pdf/{type}',[ReportController::class,'exportPDF'])->name('pdf');
+        Route::get('/export-excel/{type}',[ReportController::class,'exportExcel'])->name('excel');
+
+        Route::get('/customer',[ReportController::class,'customer'])->name('customer');
+        Route::get('/selling',[ReportController::class,'sell'])->name('seller');
+        Route::get('/discount',[ReportController::class,'discount'])->name('disc');
+        Route::get('/product',[ReportController::class,'product'])->name('product');
+        Route::get('/category',[ReportController::class,'category'])->name('category');
+        Route::get('/brand',[ReportController::class,'brand'])->name('brand');
+        
+    });
+});
+Route::prefix('lead')->name('lead.')->middleware('auth')->group(function(){
+    Route::get('/dashboard',[DashboardController::class,'index']);
+
+    Route::prefix('report')->name('report.')->group(function(){
+        Route::get('/export-pdf/{type}',[ReportController::class,'exportPDF'])->name('pdf');
+        Route::get('/export-excel/{type}',[ReportController::class,'exportExcel'])->name('excel');
+        Route::get('/customer',[ReportController::class,'customer'])->name('customer');
+        Route::get('/selling',[ReportController::class,'sell'])->name('seller');
+        Route::get('/discount',[ReportController::class,'discount'])->name('disc');
+        Route::get('/product',[ReportController::class,'product'])->name('product');
+        Route::get('/category',[ReportController::class,'category'])->name('category');
+        Route::get('/brand',[ReportController::class,'brand'])->name('brand');
+        
+    });
 });

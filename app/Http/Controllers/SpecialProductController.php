@@ -43,7 +43,6 @@ class SpecialProductController extends Controller
         try {
             $disc =  intval(preg_replace('/[^\d.]/', '', $request->disc));
             $finn =  intval(preg_replace('/[^\d.]/', '', $request->final));
-            dd($finn);
             ProductDiscount::create([
                 'id_product'    => $request->product,
                 'disc'          => $disc,

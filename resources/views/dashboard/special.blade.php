@@ -27,12 +27,13 @@
                             <th>Name</th>
                             <th>Disc</th>
                             <th>Price</th>
+                            <th>Status</th>
                             <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($table as $t)
-                            <tr class="@if (!$t->status) bg-grey @endif">
+                            <tr style="@if (!$t->status) background-color:#F2F1EB @endif">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $t->product->product_name }}</td>
                                 <td>{{ $t->disc }}%</td>
@@ -42,6 +43,7 @@
                                     </small><br>
                                     {{ number_format($t->final_amount, 0, '.', ',') }}
                                 </td>
+                                <td>{!! status($t->status) !!}</td>
                                 <td class="text-center">
                                     <form action="/special-products/{{ $t->id }}" method="POST">
                                         @csrf
@@ -203,8 +205,8 @@
             $('#disc').val(disc);
             $('#finn').val(finn);
             $('#status').val(status);
-
-            $('#updateForm').attr('action', `/special-products/${id}`);
+            let url = "{{ url('admin/special-products') }}" + "/" + id;
+            $('#updateForm').attr('action', url);
         })
         $('#productSelected').on('change', function() {
             var selectedOption = $(this).find(':selected');

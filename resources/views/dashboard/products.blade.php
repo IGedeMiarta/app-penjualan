@@ -121,7 +121,8 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label">Category</label>
                             <div class="col-sm-9">
-                                <select class="select2 form-select @error('category') is-invalid @enderror" name="category">
+                                <select class="select2 form-control @error('category') is-invalid @enderror"
+                                    name="category">
                                     <option value="">- Select Category</option>
                                     @foreach ($category as $c)
                                         <option value="{{ $c->id }}"
@@ -138,7 +139,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label">Brand</label>
                             <div class="col-sm-9">
-                                <select class="select2-tags form-select brand  @error('brand') is-invalid @enderror"
+                                <select class="select2-tags form-control brand  @error('brand') is-invalid @enderror"
                                     name="brand">
                                     <option value="">- Select Brand</option>
                                     @foreach ($brand as $au)
@@ -262,7 +263,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label">Category</label>
                             <div class="col-sm-9">
-                                <select class="select2 form-select" name="category" id="category">
+                                <select class="select2 form-control" name="category" id="category">
                                     <option disabled>- Select Category</option>
                                     @foreach ($category as $c)
                                         <option value="{{ $c->id }}">{{ $c->category_name }}</option>
@@ -273,7 +274,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label">Brand</label>
                             <div class="col-sm-9">
-                                <select class="select2-tags form-select form-control brand" id="brand"
+                                <select class="select2-tags form-control form-control brand" id="brand"
                                     name="brand">
                                     <option disabled>- Select Brand</option>
                                     @foreach ($brand as $au)

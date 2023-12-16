@@ -51,6 +51,21 @@ function df($date)
 {
    return date(' D, d M Y',strtotime($date));
 }
+function dt($date)
+{
+   return date('d M Y H:i:s',strtotime($date));
+}
+function dates($date)
+{
+   return date('d M Y',strtotime($date));
+}
+function status($id){
+    if($id){
+        return "<span style='color:#2D9596'>ACTIVE</span>";
+    }else{
+        return "<span style='color:#FF8F8F'>NONACTIVE</span>";
+    }
+}
 function due($date){
     $threeDaysAfterNow = $date->addDays(3);
 
@@ -68,4 +83,20 @@ function app_data($arr){
     $data['address'] = " Ruko Mulyosari Tengah, Blok 95 J No.5 Jl. Mulyosari tengah, <br> Kalisari, Kec. Mulyorejo Kota Surabaya, Jawa Timur";
     $data['phone'] = "(+62) 815 2996 3914";
     return $data[$arr] ?? 'UNDECLARED';
+}
+function userIMG($user_id,$clasName=''){
+    $idStr = (string) $user_id;
+
+    // Get the length of the ID
+    $length = strlen($idStr);
+
+    // If the ID is not empty, return the last digit
+    if ($length > 0) {
+        $no =  (int) substr($idStr, -1);
+    } else {
+        // If the ID is empty, return 0
+        $no = 0;
+    }
+    $imagePath = asset('ava/'.$no.'.jpg');
+    return "<img src='$imagePath' alt='userImage' class='$clasName'>";
 }

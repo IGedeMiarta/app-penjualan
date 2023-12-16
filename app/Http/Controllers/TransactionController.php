@@ -9,10 +9,12 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\UserChart;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Svg\Tag\Rect;
 
 class TransactionController extends Controller
 {
@@ -74,7 +76,7 @@ class TransactionController extends Controller
 
             foreach ($products as $key => $product) {
                 $orderDetail = new TransactionDetail();
-                $orderDetail->order_id = $createOrder->id;
+                $orderDetail->transaction_id	 = $createOrder->id;
                 $orderDetail->product_id = $product;
                 $orderDetail->qty = $qtys[$key];
                 $orderDetail->price = $prices[$key];
@@ -119,5 +121,48 @@ class TransactionController extends Controller
         // return $pdf->download('laporan-pegawai-pdf');
 
         return view('home.invoice-detail',$data);
+    }
+    public function adminView(Request $request){
+        $trx = Transaction::with('customers','details','details.product');
+        if($request->filter){
+           
+            //switch case
+            switch ($request->filter) {
+                case 'daily':
+                    $title = 'Filter By '. $request->filter;
+                    $today = Carbon::now()->toDateString();
+                    $trx = $trx->whereDate('created_at', $today);
+                    break;
+                case 'weekly':
+                    $title = 'Filter By '. $request->filter;
+                    $startDate = Carbon::now()->subWeek()->startOfDay();
+                    $endDate = Carbon::now()->endOfDay();
+                    $trx = $trx->whereBetween('created_at', [$startDate, $endDate]);
+                    break;
+                case 'year':
+                    $title = 'Filter By '. $request->filter;
+                    $currentYear = Carbon::now()->year;
+                    $trx = $trx->whereYear('created_at', $currentYear);
+                    break;
+                default:
+                    $title = 'No Filter';
+                    break;
+            }
+        }else{
+            $title = 'List';
+        }
+        $trx = $trx->latest()->get();
+        $data['title'] = 'Transaction ' .$title;
+        $data['table']= $trx;
+        return view('dashboard.transaction',$data);
+    }
+    public function adminUpdate(Request $request, $id){
+        $trx = Transaction::find($id);
+        if(!$trx){
+            return redirect()->back()->with('error','Transaction not found');
+        }
+        $trx->update($request->all());
+        return redirect()->back()->with('success','Transaction updated');
+
     }
 }
