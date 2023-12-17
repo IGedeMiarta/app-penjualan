@@ -21,9 +21,11 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label">Password<span
+                        <label for="inputPassword3" class="col-sm-2 col-form-label" style="margin-top: 20px">Password<span
                                 class="text-danger">*</span></label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-10" style="text-align: start">
+                            {{-- <span class=""> <a href="{{ route('register') }}">Forgot My
+                                    Password</a></span> --}}
                             <input type="password" class="form-control" id="inputPassword3" placeholder="Enter Password"
                                 name="password">
                         </div>
@@ -32,6 +34,7 @@
                         <label for="inputPassword3" class="col-sm-2 col-form-label"></label>
                         <div class="col-sm-10 " style="display: flex;justify-content: start;margin-top: 10px">
                             <span class=""> Dont have account? <a href="{{ route('register') }}">Register</a></span>
+
                         </div>
                     </div>
                     <div class="form-group row">

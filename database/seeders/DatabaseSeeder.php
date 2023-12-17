@@ -8,6 +8,7 @@ use App\Models\Author;
 use App\Models\Brand;
 use App\Models\Categories;
 use App\Models\Product;
+use App\Models\Settings;
 use App\Models\SpecialProduct;
 use App\Models\Tags;
 use App\Models\Testimony;
@@ -38,24 +39,51 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Customer',
             'email' => 'customer@mail.com',
+            'role'  => 'cust'
         ]);
 
-        // Categories::create([
-        //     'category_name' => 'Brankas',
-        //     'category_slug' => Str::slug('Brankas')
-        // ]);
-        // Categories::create([
-        //     'category_name' => 'Alat Kantor',
-        //     'category_slug' => Str::slug('Alat Kantor')
-        // ]);
-        // Brand::create([
-        //     'name' => 'test'
-        // ]);
-
-        // Product::factory(100)->create();
-        // Tags::factory(150)->create();
-        // SpecialProduct::factory(20)->create();
-        // Testimony::factory(20)->create();
+        Settings::create([
+            'key' => 'APP_NAME',
+            'value' => 'Penjualan',
+            'group' =>'APP',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'APP_MOBILE',
+            'value' => '0000000000',
+            'group' =>'APP',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'APP_ADDRESS',
+            'value' => 'address',
+            'group' =>'APP',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'APP_MAIL',
+            'value' => 'info-email@mail.com',
+            'group' =>'APP',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'BANK_NAME',
+            'value' => 'BANK BCA',
+            'group' =>'BANK',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'BANK_NUM',
+            'value' => '000000',
+            'group' =>'BANK',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'BANK_ACC',
+            'value' => 'CV. Mitra Abadi',
+            'group' =>'BANK',
+            'type' => 1,
+        ]);
 
     }
 }

@@ -91,6 +91,25 @@
                      @endif
                  </ul>
              </li>
+             <li class="nav-item dropdown">
+                 <a class="dropdown-toggle" href="javascript:void(0);">
+                     <span class="icon-holder">
+                         <i class="anticon anticon-setting"></i>
+                     </span>
+                     <span class="title">Settings</span>
+                     <span class="arrow">
+                         <i class="arrow-icon"></i>
+                     </span>
+                 </a>
+                 <ul class="dropdown-menu">
+                     <li class="{{ request()->is($url . '/settings/app') ? 'active' : '' }}">
+                         <a href="{{ url($url . '/settings/app') }}">APP Settings</a>
+                     </li>
+                     <li class="{{ request()->is($url . '/settings/user') ? 'active' : '' }}">
+                         <a href="{{ url($url . '/settings/user') }}">User Settings</a>
+                     </li>
+                 </ul>
+             </li>
          </ul>
      </div>
  </div>

@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('media/{id}',[ApiController::class,'media']);
 Route::get('chart/{id}',[ApiController::class,'chart']);
+Route::get('chart-qty/{id}',[ApiController::class,'chartQty']);

@@ -4,6 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <title>{{ $title ?? '' }}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
         .invoice-box {
@@ -113,17 +116,28 @@
 </head>
 
 <body>
-    <div class="invoice-box">
+    <div class="invoice-box" id="print">
         <table cellpadding="0" cellspacing="0" style="width: 100%;">
+            <div class="row">
+                <div class="col">
+                    <img src="{{ asset('logo.png') }}" style="width: 100%; max-width: 200px" /><br>
+                </div>
+                <div class="col" style="text-align: end;">
+                    <strong>Phone: </strong> {{ app_data('phone') }}<br>
+                    <small>{!! app_data('address') !!}
+                    </small>
+                </div>
+            </div>
+            <hr>
             <tr class="top">
-                <td colspan="2" style="width: 50%;">
+                <td colspan="3" style="width: 100%; text-align: end">
                     <table style="width: 100%;">
                         <tr>
-                            <td class="title" style="width: 50%;">
-                                <img src="{{ asset('logo.png') }}" style="width: 100%; max-width: 300px" />
+                            <td class="title" style="width: 30%;">
+                                {{-- <img src="{{ asset('logo.png') }}" style="width: 100%; max-width: 300px" /> --}}
                             </td>
-
-                            <td style="width: 50%;">
+                            <td style="width: 30%;"></td>
+                            <td style="width: 40%; text-align: end">
                                 <strong> Invoice #{{ $order->Invoice }}<br /></strong>
 
                             </td>
@@ -133,16 +147,16 @@
             </tr>
 
             <tr class="information">
-                <td colspan="2">
+                <td colspan="3">
                     <table style="width: 100%;">
                         <tr>
-                            <td style="width: 50%;">
+                            <td style="width: 30%;">
                                 <strong> Invoice To: </strong><br>
                                 <span>{{ auth()->user()->name }}</span><br />
                                 {{ auth()->user()->email }}
                             </td>
-
-                            <td style="width: 50%;">
+                            <td style="width: 30%;"></td>
+                            <td style="width: 40%; text-align: end">
                                 Created: <strong>{{ df($order->created_at) }}</strong><br />
                                 Due: <strong>{{ due($order->created_at) }}</strong>
                             </td>
@@ -154,32 +168,33 @@
             <small>
                 <tr class="heading">
                     <td style="width: 50%;">Bank Transfer</td>
-
+                    <td style="width: 30%;"></td>
                     <td style="width: 50%;">Rek.</td>
                 </tr>
                 @foreach (app_data('bank_account') as $bank)
                     <tr class="details">
-                        <td style="width: 50%;">{{ $bank['bank'] }}</td>
-
-                        <td style="width: 50%;">{{ $bank['no'] }} <br><small>{{ $bank['detail'] }}</small></td>
+                        <td style="width: 30%;">{{ $bank['bank'] }}</td>
+                        <td style="width: 30%;"></td>
+                        <td style="width: 40%;">{{ $bank['no'] }} <br><small>{{ $bank['detail'] }}</small></td>
                     </tr>
                 @endforeach
 
                 <tr class="heading">
-                    <td style="width: 50%;">Item</td>
-
-                    <td style="width: 50%;">Price</td>
+                    <td style="width: 30%;">Item</td>
+                    <td style="width: 30%;text-align: start;">Qty</td>
+                    <td style="width: 40%;">Price</td>
                 </tr>
                 @foreach ($order->details as $item)
                     <tr class="item">
-                        <td style="width: 50%;">{{ $item->product->product_name }}</td>
-
-                        <td style="width: 50%;">{{ nb($item->price) }}</td>
+                        <td style="width: 30%;">{{ $item->product->product_name }}</td>
+                        <td style="width: 30%; text-align: start;">{{ $item->qty }}</td>
+                        <td style="width: 40%;">{{ nb($item->price) }}</td>
                     </tr>
                 @endforeach
                 <tr class="total">
-                    <td style="width: 50%;"></td>
-                    <td style="width: 50%;">Total: {{ nb($order->amount) }}</td>
+                    <td style="width: 30%;"></td>
+                    <td style="width: 30%;">Total: </td>
+                    <td style="width: 40%;">{{ nb($order->amount) }}</td>
                 </tr>
         </table>
         </small>
@@ -190,18 +205,53 @@
         <small>
             {!! app_data('invoice_note') !!}
         </small>
-        <hr>
-        <div class="row">
-            <div class="col">
-                <img src="{{ asset('logo.png') }}" style="width: 100%; max-width: 200px" /><br>
-            </div>
-            <div class="col" style="text-align: end;">
-                <strong>Phone: </strong> {{ app_data('phone') }}<br>
-                <small>{!! app_data('address') !!}
-                </small>
-            </div>
-        </div>
+
+
     </div>
+    <script>
+        const tile = addDashesIfSpace("Invoice#{{ $order->Invoice }}");
+        exportToPDF()
+
+        function exportToPDF() {
+            var element = document.getElementById('print');
+            var date = NowDate();
+            var opt = {
+                margin: 1,
+                filename: `${tile}.pdf`,
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 2
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'letter',
+                    orientation: 'portrait'
+                }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function addDashesIfSpace(str) {
+            // Use a regular expression to replace spaces with dashes
+            return str.replace(/\s+/g, '-');
+        }
+
+        function NowDate() {
+            var currentDate = new Date();
+
+            // Get the current day, month, and year
+            var day = currentDate.getDate();
+            var month = currentDate.getMonth() + 1; // Months are zero-based, so add 1
+            var year = currentDate.getFullYear();
+
+            // Format the date as a string in "DD/MM/YYYY" format
+            var formattedDate = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + year;
+            return formattedDate;
+        }
+    </script>
 </body>
 
 </html>

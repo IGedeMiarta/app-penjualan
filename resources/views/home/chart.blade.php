@@ -36,7 +36,7 @@
                             <tr>
                                 <td class="cart-image">
                                     <a href="{{ url('product/' . $crt->product->product_slug) }}">
-                                        <img src="http://placehold.it/61x80" alt="Similique delectus totam">
+                                        <img src="{{ asset($crt->product->images) }}" alt="Similique delectus totam">
                                     </a>
                                 </td>
                                 <td class="cart-ttl">
@@ -53,8 +53,9 @@
                                 </td>
                                 <td class="cart-quantity">
                                     <p class="cart-qnt">
-                                        <b>{{ $crt->qty }}</b>
-                                        <input type="hidden" name="qty[]" value="{{ $crt->qty }}">
+                                        {{-- <b>{{ $crt->qty }}</b> --}}
+                                        <input type="number" name="qty[]" value="{{ $crt->qty }}"
+                                            class="form-control qtyInp" data-id="{{ $crt->id }}">
 
                                     </p>
                                 </td>
@@ -76,14 +77,9 @@
             </div>
             <ul class="cart-total">
                 <li class="cart-summ">TOTAL: <b>{{ nb($total) }}</b></li>
-                <input type="hidden" name="amount" value="{{ $total }}">
+                <input type="hidden" name="amount" id="amount" value="{{ $total }}">
             </ul>
             <div class="cart-submit">
-                <div class="cart-coupon">
-                    <input placeholder="your coupon" type="text">
-                    <a class="cart-coupon-btn" href="#"><img src="{{ asset('assets') }}/img/ok.png"
-                            alt="your coupon"></a>
-                </div>
                 <a href="#" class="cart-submit-btn" onclick="submitForm()"
                     style="@if ($total <= 0) background-color: #9EB8D9; @else background-color: #2B3499; @endif">Checkout</a>
                 {{-- <button type="submit" class="cart-submit-btn" target="_blank"
@@ -100,8 +96,39 @@
 @push('script')
     <script>
         function submitForm() {
-            // Submit the form
-            document.getElementById('cartForm').submit();
+            var url = "{{ Request::url() }}";
+            var newTab = window.open(url, '_blank');
+
+            // Check if the new tab has been successfully opened
+            if (newTab) {
+                // Get the form HTML
+                var formHtml = $('#cartForm').prop('outerHTML');
+
+                // Append the form HTML to the new tab's document body
+                $(newTab.document.body).html(formHtml);
+
+                // Submit the form in the new tab
+                $(newTab.document.body).find('#cartForm').submit();
+            } else {
+                // Handle the case where the new tab couldn't be opened
+                alert('Unable to open a new tab. Please check your browser settings.');
+            }
         }
+        $('.qtyInp').on('change', function() {
+            let qty = $(this).val();
+            const id = $(this).data('id');
+            $.ajax({
+                url: `/api/chart-qty/${id}?qty=${qty}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(rs) {
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+
+        });
     </script>
 @endpush

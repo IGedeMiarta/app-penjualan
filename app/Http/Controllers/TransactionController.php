@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\Settings;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\UserChart;
@@ -31,7 +32,9 @@ class TransactionController extends Controller
         }
         $checkAlredry = UserChart::where(['product_id'=>$product->id,'user_id'=>auth()->user()->id])->first();
         if($checkAlredry){
-            return redirect()->back()->with('success','Product alredy on chart');
+            $checkAlredry->qty += 1;
+            $checkAlredry->save();
+            return redirect()->back()->with('success','Product added to chart');
         }
         DB::beginTransaction();
         try {
@@ -85,7 +88,7 @@ class TransactionController extends Controller
             }
             DB::commit();
             UserChart::where('user_id',auth()->user()->id)->delete();
-            return redirect()->back()->with('success','Trasaction Create, check email for details');
+            return redirect()->intended('invoice/'.$createOrder->Invoice);
         } catch (\Throwable $th) {
             DB::rollBack();
             dd($th->getMessage());
@@ -101,7 +104,7 @@ class TransactionController extends Controller
     }
 
     public function invoice($inv){
-        $order = Transaction::with('details','details.product')->where('customer',auth()->user()->id)->where('Invoice',$inv)->first();
+        $order = Transaction::with('details','details.product')->where('Invoice',$inv)->first();
         
         if(!$order){
             return redirect()->back()->with('error','Inoice not found');

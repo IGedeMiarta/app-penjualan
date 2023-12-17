@@ -80,7 +80,7 @@
                     </li>
                 </ul>
                 <div class="footer-copyright">
-                    <i><a href="{{ url('/') }}">{{ env('APP_NAME') }}</a></i> © Copyright 2023
+                    <i><a href="{{ url('/') }}">{{ app_data('app') }}</a></i> © Copyright 2023
                 </div>
             </div>
         </div>

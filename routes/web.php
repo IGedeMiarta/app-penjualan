@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SpecialProductController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TransactionController;
@@ -68,6 +69,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function(){
         Route::get('/category',[ReportController::class,'category'])->name('category');
         Route::get('/brand',[ReportController::class,'brand'])->name('brand');
         
+    });
+    Route::prefix('settings')->name('settings.')->group(function(){
+       Route::resource('/app',SettingController::class);
     });
 });
 Route::prefix('lead')->name('lead.')->middleware('auth')->group(function(){

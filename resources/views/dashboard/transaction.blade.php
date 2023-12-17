@@ -60,7 +60,7 @@
                                         data-toggle="modal" data-target="#modalEdit"><i class="fas fa-edit"></i></button>
                                 </td>
                                 <td>{!! $t->status() !!}</td>
-                                <td>{{ $t->Invoice }}
+                                <td><a href="{{ url('invoice/' . $t->Invoice) }}" target="_blank">{{ $t->Invoice }}</a>
                                     <br>
                                     <span style="color: gray"> {{ dt($t->created_at) }}</span>
                                 </td>

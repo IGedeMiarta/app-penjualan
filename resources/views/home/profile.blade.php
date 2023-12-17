@@ -63,7 +63,7 @@
                         <thead>
                             <tr>
                                 <td class="cart-ttl">Products</td>
-                                <td class="cart-quantity">Qty</td>
+                                <td class="cart-date">Date</td>
                                 <td class="cart-price">Price</td>
                                 <td class="cart-summ">Status</td>
                             </tr>
@@ -77,13 +77,13 @@
                                             style="color: #7071E8">#{{ $item->Invoice }}</a>
 
                                         @foreach ($item->details as $i => $d)
-                                            <p>{{ $i + 1 . '. ' . $d->product->product_name }}</p>
+                                            <p>{{ $d->qty . ' | ' . $d->product->product_name }}</p>
                                         @endforeach
 
                                     </td>
-                                    <td class="cart-quantity">
-                                        <p class="cart-qnt">{{ $item->details->count() }}</p>
-                                    </td>
+                                    <td class="cart-date" style="color:#7D7C7C">{{ dates($item->created_at) }}</td>
+
+
                                     <td class="cart-price">
                                         <b>{{ nb($item->amount) }}</b>
                                     </td>

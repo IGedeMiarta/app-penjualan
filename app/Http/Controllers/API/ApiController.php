@@ -8,10 +8,40 @@ use App\Models\Product;
 use App\Models\UserChart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
 {
   
+    public function chartQty(Request $request,$id){
+       
+        $chart  = UserChart::find($id);
+        if(!$chart){
+            return response()->json([
+                'status' => 404,
+                'message' => 'Infalid User Chart',
+            ]);
+        }
+        DB::beginTransaction();
+        try {
+           $chart->update(['qty'=>$request->qty]);
+           DB::commit();
+            return response()->json([
+                'status' => 201,
+                'message' => 'Chart Qty Updated',
+                'data'  => $chart
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error',
+                'errors'  => $th->getMessage()
+            ]);
+        }
+
+    }
+    
     public function media($id)
     {
         // $product = Product::with('category')->find($id);
@@ -42,5 +72,5 @@ class ApiController extends Controller
             'data'      => []
         ]);
     }
-    
+   
 }
