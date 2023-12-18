@@ -91,6 +91,7 @@ function app_data($arr){
     $data['invoice_note'] = " All payments should be made in rupiah <small>(Rp.)</small>. <br> If payment is not received within 3 days after invoice create, the invoice will be automatically canceled. <br> Please include the invoice number in the reference when making the payment. <br>Themes will be delivered/performed upon receipt of payment. <br>";
     $data['address'] = $app['APP_ADDRESS'];
     $data['phone'] = $app['APP_MOBILE'];
+    $data['email'] = $app['APP_MAIL'];
     return $data[$arr] ?? 'UNDECLARED';
 }
 function userIMG($user_id,$clasName=''){

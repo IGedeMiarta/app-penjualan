@@ -6,7 +6,7 @@
                 <i class='fa fa-phone'></i> {{ app_data('phone') }}
             </li>
             <li>
-                <i class="fa fa-envelope"></i> {{ env('MAIL_FROM_ADDRESS') }}
+                <i class="fa fa-envelope"></i> {{ app_data('email') }}
             </li>
         </ul>
         <!-- Social links -->

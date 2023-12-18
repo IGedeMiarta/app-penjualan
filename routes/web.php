@@ -88,4 +88,7 @@ Route::prefix('lead')->name('lead.')->middleware('auth')->group(function(){
         Route::get('/brand',[ReportController::class,'brand'])->name('brand');
         
     });
+    Route::prefix('settings')->name('settings.')->group(function(){
+       Route::resource('/app',SettingController::class);
+    });
 });

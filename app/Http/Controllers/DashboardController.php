@@ -42,17 +42,17 @@ class DashboardController extends Controller
     }
 
     function hitungPresentase($last, $now) {
-    // Pastikan tidak terjadi pembagian dengan nol
-    if ($last != 0) {
-        $percentageChange = (($now - $last) / abs($last)) * 100;
-        return $percentageChange;
-    } else {
-        // Jika nilai terakhir adalah 0, kembalikan 0%
-        if($now != 0){
-            return 100;
-        }else{
-            return 0;
+        // Pastikan tidak terjadi pembagian dengan nol
+        if ($last != 0) {
+            $percentageChange = (($now - $last) / abs($last)) * 100;
+            return $percentageChange;
+        } else {
+            // Jika nilai terakhir adalah 0, kembalikan 0%
+            if($now != 0){
+                return 100;
+            }else{
+                return 0;
+            }
         }
     }
-}
 }
