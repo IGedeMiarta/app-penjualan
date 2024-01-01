@@ -21,7 +21,9 @@ class SpecialProductController extends Controller
                 ->whereNull('product_discounts.id_product')
                 ->select('products.*')
                 ->get();
-        $data['table'] = ProductDiscount::with('product')->orderByDesc('id')->get();
+        $data['editproducts'] = DB::table('products')
+                ->get();
+        $data['table'] = ProductDiscount::with('product')->orderByDesc('status')->get();
         return view('dashboard.special',$data);
     }
 
@@ -91,6 +93,7 @@ class SpecialProductController extends Controller
      */
     public function destroy(ProductDiscount $specialProduct)
     {
+       
         $specialProduct->delete();
         return redirect()->back()->with('success','Special Product Deleted');
 

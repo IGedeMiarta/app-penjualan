@@ -29,7 +29,7 @@
                                 <td>{{ $t->category_slug }}</td>
                                 <td>{{ $t->created_at->diffForHumans() }}</td>
                                 <td class="text-center">
-                                    <form action="/categories/{{ $t->id }}" method="POST">
+                                    <form action="{{ url('admin/categories', $t->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-warning btn-sm mr-2 btnEdit" data-id="{{ $t->id }}"

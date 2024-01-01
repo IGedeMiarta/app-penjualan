@@ -11,6 +11,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SpecialProductController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserSettings;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,11 +72,13 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function(){
         
     });
     Route::prefix('settings')->name('settings.')->group(function(){
-       Route::resource('/app',SettingController::class);
+        Route::resource('/app',SettingController::class);
+        Route::get('/user',[UserSettings::class,'index']);
     });
 });
 Route::prefix('lead')->name('lead.')->middleware('auth')->group(function(){
     Route::get('/dashboard',[DashboardController::class,'index']);
+    Route::get('/settings/user',[UserSettings::class,'index']);
 
     Route::prefix('report')->name('report.')->group(function(){
         Route::get('/export-pdf/{type}',[ReportController::class,'exportPDF'])->name('pdf');
@@ -89,6 +92,8 @@ Route::prefix('lead')->name('lead.')->middleware('auth')->group(function(){
         
     });
     Route::prefix('settings')->name('settings.')->group(function(){
-       Route::resource('/app',SettingController::class);
+        Route::resource('/app',SettingController::class);
+        Route::get('/user',[UserSettings::class,'index']);
     });
 });
+ Route::put('/user-setings/{id}',[UserSettings::class,'update'])->name('user.update');

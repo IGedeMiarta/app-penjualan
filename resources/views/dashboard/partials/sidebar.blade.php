@@ -82,12 +82,12 @@
                          <li class="{{ request()->is($url . '/report/product') ? 'active' : '' }}">
                              <a href="{{ url($url . '/report/product') }}">Product</a>
                          </li>
-                         <li class="{{ request()->is($url . '/report/category') ? 'active' : '' }}">
+                         {{-- <li class="{{ request()->is($url . '/report/category') ? 'active' : '' }}">
                              <a href="{{ url($url . '/report/category') }}">Categories</a>
                          </li>
                          <li class="{{ request()->is($url . '/report/brand') ? 'active' : '' }}">
                              <a href="{{ url($url . '/report/brand') }}">Brands</a>
-                         </li>
+                         </li> --}}
                      @endif
                  </ul>
              </li>
@@ -102,9 +102,11 @@
                      </span>
                  </a>
                  <ul class="dropdown-menu">
-                     <li class="{{ request()->is($url . '/settings/app') ? 'active' : '' }}">
-                         <a href="{{ url($url . '/settings/app') }}">APP Settings</a>
-                     </li>
+                     @if ($url == 'admin')
+                         <li class="{{ request()->is($url . '/settings/app') ? 'active' : '' }}">
+                             <a href="{{ url($url . '/settings/app') }}">APP Settings</a>
+                         </li>
+                     @endif
                      <li class="{{ request()->is($url . '/settings/user') ? 'active' : '' }}">
                          <a href="{{ url($url . '/settings/user') }}">User Settings</a>
                      </li>

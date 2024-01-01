@@ -59,7 +59,7 @@
                                         @endif
                                     </td>
                                     <td class="text-end">
-                                        <form action="/tags/{{ $t->id }}" method="POST">
+                                        <form action="{{ url('admin/products', $t->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-info btn-sm mb-2 btnSee"
@@ -81,7 +81,7 @@
                                                 data-price="{{ number_format($t->price, 0, '.', ',') }}"
                                                 data-status="{{ $t->status }}"><i class="anticon anticon-edit mr-2"></i>
                                                 Edit</button>
-                                            <button type="submit" class="btn btn-danger btn-sm mb-2" disabled><i
+                                            <button type="submit" class="btn btn-danger btn-sm mb-2"><i
                                                     class="anticon anticon-delete mr-2"></i>Delete</button>
                                         </form>
                                     </td>
@@ -245,8 +245,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit {{ $title }}</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <i class="anticon anticon-close"></i>
+                    <button type="button" class="close" onclick="hideEditModal()" data-dismiss="modal">
+                        <i class="anticon anticon-close" class="close"></i>
                     </button>
                 </div>
                 <form action="" method="POST" id="updateForm" enctype="multipart/form-data">
@@ -448,6 +448,10 @@
         $('.close').on('click', function() {
             $(this).modal('hide');
         })
+
+        function hideEditModal() {
+            $('#modalEdit').modal('hide');
+        }
         $('#data-table').DataTable();
         $('.btnEdit').on('click', function(e) {
             e.preventDefault();

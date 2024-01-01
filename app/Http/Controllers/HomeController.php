@@ -21,7 +21,7 @@ class HomeController extends Controller
         $data['title'] = '';
         $data['category_all'] = Categories::limit(10)->get();
         $data['product_all'] = Product::with(['category','brand'])->where('status',1)->orderByDesc('id')->limit(20)->get();
-        $data['special'] = ProductDiscount::with('product')->orderByDesc('id')->limit(10)->get();
+        $data['special'] = ProductDiscount::with('product')->orderByDesc('id')->where('status',1)->limit(10)->get();
         $data['testi']  =Testimony::with('user')->orderByDesc('id')->limit(10)->get();
         return view('home.main',$data);
     }

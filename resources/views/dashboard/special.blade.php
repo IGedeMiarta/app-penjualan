@@ -45,7 +45,7 @@
                                 </td>
                                 <td>{!! status($t->status) !!}</td>
                                 <td class="text-center">
-                                    <form action="/special-products/{{ $t->id }}" method="POST">
+                                    <form action="/admin/special-products/{{ $t->id }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-warning btn-sm mr-2 btnEdit"
@@ -136,14 +136,21 @@
                             <label for="name" class="col-sm-2 col-form-label">Product</label>
                             <div class="col-sm-10">
                                 <select name="product" id="productSelected" class="form-control" disabled>
-                                    <option selected disabled>--Cant Edit this</option>
+                                    <option disabled>-Select</option>
+                                    @foreach ($editproducts as $item)
+                                        <option value="{{ $item->id }}" data-price="{{ $item->price }}">
+                                            {{ $item->product_name }}</option>
+                                    @endforeach
                                 </select>
+                                <span class="text-danger">cannot edit product</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="name" class="col-sm-2 col-form-label">Price</label>
                             <div class="col-sm-10">
-                                <input type="text" name="price" class="form-control" id="price" readonly>
+                                <input type="text" name="price" class="form-control" id="price" disabled>
+                                <span class="text-danger">cannot edit product default price</span>
+
                             </div>
                         </div>
                         <div class="form-group row">
