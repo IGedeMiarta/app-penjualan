@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
 
         Settings::create([
             'key' => 'APP_NAME',
-            'value' => 'Penjualan',
+            'value' => 'mitraabadicv.com',
             'group' =>'APP',
             'type' => 1,
         ]);
@@ -85,5 +85,47 @@ class DatabaseSeeder extends Seeder
             'type' => 1,
         ]);
 
+        Settings::create([
+            'key' => 'WA_TOKEN',
+            'value' => 'ySSpZtAVytnPH77IyFqotXYA76WLz8rosT8VFs788cnXSa4HD2dWXNq1rwLuHQNw',
+            'group' =>'WA',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'WA_ENDPOINT',
+            'value' => 'https://jogja.wablas.com/api',
+            'group' =>'WA',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'MAIL_MAILER',
+            'value' => 'smtp',
+            'group' =>'MAIL',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'MAIL_HOST',
+            'value' => 'sandbox.smtp.mailtrap.io',
+            'group' =>'MAIL',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'MAIL_PORT',
+            'value' => '2525',
+            'group' =>'MAIL',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'MAIL_USERNAME',
+            'value' => '53e13a60761268',
+            'group' =>'MAIL',
+            'type' => 1,
+        ]);
+        Settings::create([
+            'key' => 'MAIL_PASSWORD',
+            'value' => '********3a58',
+            'group' =>'MAIL',
+            'type' => 1,
+        ]);
     }
 }

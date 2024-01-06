@@ -63,6 +63,7 @@ class TransactionController extends Controller
     }
 
     public function trasaction(Request $request){
+        $user = auth()->user();
         $products = $request->input('product');
         $prices = $request->input('price');
         $qtys = $request->input('qty');
@@ -71,21 +72,35 @@ class TransactionController extends Controller
         $inv = Inv();
         try {
             $createOrder = new Transaction();
-            $createOrder->Invoice = $inv;
-            $createOrder->customer = auth()->user()->id;
-            $createOrder->amount = $request->amount;
-            $createOrder->status = 1;
-            $createOrder->save();
-
+            // $createOrder->Invoice = $inv;
+            // $createOrder->customer = auth()->user()->id;
+            // $createOrder->amount = $request->amount;
+            // $createOrder->status = 1;
+            // $createOrder->save();
+            $text = '_Automatic Text From *'.appSettings('APP','APP_NAME').'*_' .enter(2);
+            $text .= 'Hi *'.$user->name.'*'.enter();
+            $text .= 'Your have new transaction: *'.$inv.'*'.enter(2);
+            $text .= '------------------------------------------------------------' .enter();
             foreach ($products as $key => $product) {
-                $orderDetail = new TransactionDetail();
-                $orderDetail->transaction_id	 = $createOrder->id;
-                $orderDetail->product_id = $product;
-                $orderDetail->qty = $qtys[$key];
-                $orderDetail->price = $prices[$key];
-                $orderDetail->total = $totals[$key];
-                $orderDetail->save();
+                $products = Product::find($product);
+                $text  .='#'.$qtys[$key].'    -    '. $products->product_name .'    -       _*'.num($totals[$key]).'*_' .enter();
+
+                // $orderDetail = new TransactionDetail();
+                // $orderDetail->transaction_id	 = $createOrder->id;
+                // $orderDetail->product_id = $product;
+                // $orderDetail->qty = $qtys[$key];
+                // $orderDetail->price = $prices[$key];
+                // $orderDetail->total = $totals[$key];
+                // $orderDetail->save();
             }
+            $text .= '------------------------------------------------------------' .enter();
+            $text .= 'Total: *'.num($request->amount).'*' .enter(2);
+            $text .= '------------------------------------------------------------' .enter();
+
+            $text .= '_for more details, please check link below_'.enter();
+            $text .= '_'.url('invoice/'.$inv).'_';
+
+            sendWA($text,$user->phone);
             DB::commit();
             UserChart::where('user_id',auth()->user()->id)->delete();
             return redirect()->intended('invoice/'.$createOrder->Invoice);

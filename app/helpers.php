@@ -4,9 +4,13 @@ use App\Models\Settings;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
 
 function nb($num){
   return  'Rp '.number_format($num,0,'.',',');
+}
+function num($num){
+  return  number_format($num,0,'.',',');
 }
 function calculatePages($currentPage, $totalPages, $pagesToShow = 10){
     $startPage = max(1, floor(($currentPage - 1) / $pagesToShow) * $pagesToShow + 1);
@@ -94,6 +98,14 @@ function app_data($arr){
     $data['email'] = $app['APP_MAIL'];
     return $data[$arr] ?? 'UNDECLARED';
 }
+function appSettings($group,$key){
+    $settings = Settings::where('group',$group)->get();
+    $arr = [];
+    foreach ($settings as $val) {
+        $arr[$val->key] = $val->value;
+    }
+    return $arr[$key];
+}
 function userIMG($user_id,$clasName=''){
     $idStr = (string) $user_id;
 
@@ -109,4 +121,26 @@ function userIMG($user_id,$clasName=''){
     }
     $imagePath = asset('ava/'.$no.'.jpg');
     return "<img src='$imagePath' alt='userImage' class='$clasName'>";
+}
+
+function sendWA($msg,$to_number,$type = '/send-message'){
+    $token = appSettings('WA','WA_TOKEN');
+    $endPoint = appSettings('WA','WA_ENDPOINT');
+    $phone = $to_number;
+    $message = $msg;
+
+    $response = Http::get($endPoint.$type, [
+        'phone' => $phone,
+        'message' => $message,
+        'token' => $token,
+    ]);
+
+    return  $response->body();
+}
+function enter($loop =1){
+    $enter = '';
+    for ($i=1; $i <= $loop ; $i++) { 
+        $enter .= PHP_EOL;
+    }
+    return $enter;
 }

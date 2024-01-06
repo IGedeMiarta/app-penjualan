@@ -53,11 +53,18 @@
                     </li>
                 @else
                     <li class="topauth">
+                        @if (auth()->user()->role == 'cust')
+                            <a href="{{ url('profile') }}" style="color: green">
+                                <i class="fa fa-user" style="color: green"></i>
+                                <span class="shop-menu-ttl">{{ auth()->user()->name }}</span>
+                            </a>
+                        @else
+                            <a href="{{ url(auth()->user()->role . '/dashboard') }}" style="color: green">
+                                <i class="fa fa-user" style="color: green"></i>
+                                <span class="shop-menu-ttl">{{ auth()->user()->name }}</span>
+                            </a>
+                        @endif
 
-                        <a href="{{ url('profile') }}" style="color: green">
-                            <i class="fa fa-user" style="color: green"></i>
-                            <span class="shop-menu-ttl">{{ auth()->user()->name }}</span>
-                        </a>
                         <a href="{{ url('chart') }}" style="color: blue">
                             <i class="fa fa-shopping-cart" style="color: blue"></i>
                             <span class="shop-menu-ttl">Cart</span> <span class="badge "

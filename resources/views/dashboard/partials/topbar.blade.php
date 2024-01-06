@@ -3,7 +3,7 @@
   @endphp
   <div class="header">
       <div class="logo logo-dark ">
-          <a href="{{ url('admin/dashboard') }}">
+          <a href="{{ url('/') }}">
               <img src="{{ asset('logo.png') }}" alt="Logo" width="90%">
               <img class="logo-fold ml-2" src="{{ asset('logo-2.png') }}" alt="Logo" width="80%">
           </a>

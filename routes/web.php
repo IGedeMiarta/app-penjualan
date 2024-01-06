@@ -24,6 +24,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('send-wa',function(){
+    $send = sendWA('test send wa','081529963914');
+    return $send;
+});
 
 Route::get('/',[HomeController::class,'index']);
 Route::get('/product/{slug}',[HomeController::class,'product']);
@@ -32,6 +36,13 @@ Route::get('/special-catalog',[HomeController::class,'specialCatalog']);
 
 Route::get('/login',[AuthController::class,'login'])->name('login');
 Route::get('/register',[AuthController::class,'register'])->name('register');
+Route::get('/forgot-password',[AuthController::class,'forgot'])->name('forgot');
+Route::get('/reset-password',[AuthController::class,'resetPass'])->name('reset');
+Route::post('/reset-password',[AuthController::class,'resetPassPost'])->name('reset.post');
+Route::get('/otp',[AuthController::class,'otp'])->name('otp');
+Route::post('/otp',[AuthController::class,'checkOTP'])->name('otp.post');
+
+Route::post('/forgot-password',[AuthController::class,'forgotPost'])->name('forgot.post');
 Route::post('/register',[AuthController::class,'registered'])->name('register.post');
 Route::post('/login',[AuthController::class,'authecicate'])->name('login.post');
 

@@ -16,6 +16,8 @@ class SettingController extends Controller
         $data['title'] = 'APP Settings';
         $data['apps'] = Settings::where('group','APP')->get();
         $data['banks'] = Settings::where('group','BANK')->get();
+        $data['wa'] = Settings::where('group','WA')->get();
+        $data['mail'] = Settings::where('group','MAIL')->get();
         return view('dashboard.settings.app',$data);
     }
 
