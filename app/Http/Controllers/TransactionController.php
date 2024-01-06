@@ -72,26 +72,26 @@ class TransactionController extends Controller
         $inv = Inv();
         try {
             $createOrder = new Transaction();
-            // $createOrder->Invoice = $inv;
-            // $createOrder->customer = auth()->user()->id;
-            // $createOrder->amount = $request->amount;
-            // $createOrder->status = 1;
-            // $createOrder->save();
+            $createOrder->Invoice = $inv;
+            $createOrder->customer = auth()->user()->id;
+            $createOrder->amount = $request->amount;
+            $createOrder->status = 1;
+            $createOrder->save();
             $text = '_Automatic Text From *'.appSettings('APP','APP_NAME').'*_' .enter(2);
             $text .= 'Hi *'.$user->name.'*'.enter();
             $text .= 'Your have new transaction: *'.$inv.'*'.enter(2);
             $text .= '------------------------------------------------------------' .enter();
             foreach ($products as $key => $product) {
                 $products = Product::find($product);
-                $text  .='#'.$qtys[$key].'    -    '. $products->product_name .'    -       _*'.num($totals[$key]).'*_' .enter();
+                $text  .='#'.$qtys[$key].'    -    '. $products->product_name .'    _*'.num($totals[$key]).'*_' .enter();
 
-                // $orderDetail = new TransactionDetail();
-                // $orderDetail->transaction_id	 = $createOrder->id;
-                // $orderDetail->product_id = $product;
-                // $orderDetail->qty = $qtys[$key];
-                // $orderDetail->price = $prices[$key];
-                // $orderDetail->total = $totals[$key];
-                // $orderDetail->save();
+                $orderDetail = new TransactionDetail();
+                $orderDetail->transaction_id	 = $createOrder->id;
+                $orderDetail->product_id = $product;
+                $orderDetail->qty = $qtys[$key];
+                $orderDetail->price = $prices[$key];
+                $orderDetail->total = $totals[$key];
+                $orderDetail->save();
             }
             $text .= '------------------------------------------------------------' .enter();
             $text .= 'Total: *'.num($request->amount).'*' .enter(2);
